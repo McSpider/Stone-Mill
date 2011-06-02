@@ -23,6 +23,7 @@
 		AE824A1A1398526100A351F8 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE824A181398526100A351F8 /* Notes.rtf */; };
 		AE824A1B1398526100A351F8 /* TileMap.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE824A191398526100A351F8 /* TileMap.csv */; };
 		AE824A56139853D900A351F8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AE824A55139853D900A351F8 /* .gitignore */; };
+		AEAC6D24139855D100698915 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D23139855D100698915 /* GamePlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,8 @@
 		AE824A181398526100A351F8 /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE824A191398526100A351F8 /* TileMap.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TileMap.csv; sourceTree = "<group>"; };
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AEAC6D22139855D100698915 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayer.h; sourceTree = "<group>"; };
+		AEAC6D23139855D100698915 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 				AE824A0E1398525900A351F8 /* GameView.m */,
 				AE824A111398525900A351F8 /* TileManager.h */,
 				AE824A121398525900A351F8 /* TileManager.m */,
+				AEAC6D22139855D100698915 /* GamePlayer.h */,
+				AEAC6D23139855D100698915 /* GamePlayer.m */,
 				AE824A0B1398525900A351F8 /* GameTile.h */,
 				AE824A0C1398525900A351F8 /* GameTile.m */,
 			);
@@ -239,6 +244,7 @@
 				AE824A141398525900A351F8 /* GameView.m in Sources */,
 				AE824A151398525900A351F8 /* MainController.m in Sources */,
 				AE824A161398525900A351F8 /* TileManager.m in Sources */,
+				AEAC6D24139855D100698915 /* GamePlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

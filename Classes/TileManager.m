@@ -11,11 +11,26 @@
 
 @implementation TileManager
 
+- (id)init
+{
+  if (![super init]) {
+    return nil;
+  }
+  player1 = [[GamePlayer alloc] init];
+  player2 = [[GamePlayer alloc] init];
+  return self;
+}
 
 - (BOOL)tilesCanJump
 {
-  if (activeTiles == 3)
+  return YES;
+}
+
+- (BOOL)gameIsSetup
+{
+  if (player1.isSetup && player2.isSetup)
     return YES;
+  
   return NO;
 }
 

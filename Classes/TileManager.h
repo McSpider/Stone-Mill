@@ -7,15 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameTile.h"
+#import "GamePlayer.h"
 
-#define MaxTiles (9)
+#define TotalGamePositions (24)
+#define MaxPlayerTiles (9)
 
 @interface TileManager : NSObject {
-
-  int activeTiles;
-  int totalTiles;
+  BOOL gameIsSetup;
   BOOL tilesCanJump;
+  
+  GamePlayer *player1;
+  GamePlayer *player2;
 }
 
 @end
