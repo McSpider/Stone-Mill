@@ -1,0 +1,35 @@
+# osx noise
+.DS_Store
+profile
+
+# xcode noise
+build/*
+*.[oa]
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+
+# svn & cvs
+.hg
+.svn
+CVS
+
+# sparkle distribution Private Key (Don't check me in!)
+dsa_priv.pem
+
+# generated files
+VersionX-revision.h
+
+# automatic backup files
+*~.nib
+*.swp
+*~
+*(Autosaved).rtfd/
+Backup[ ]of[ ]*.pages/
+Backup[ ]of[ ]*.key/
+Backup[ ]of[ ]*.numbers/
