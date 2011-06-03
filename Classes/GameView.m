@@ -27,18 +27,28 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   [super dealloc];
 }
 
-- (void)initGameBoard
+- (NSArray *)validTilePositions
 {
   NSString *tiles = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TileMap" ofType:@"csv"]
-                                             encoding:NSUTF8StringEncoding
-                                                error:nil];
-
-  NSArray *tilePositionArray = [tiles componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                                              encoding:NSUTF8StringEncoding
+                                                 error:nil];
   
+  NSArray *tilePositions = [tiles componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+  NSMutableArray *tilePositionArray = [[NSMutableArray alloc] init];
+
+  for (NSString *position in tilePositions) {
+    if (![position isEqualToString:@""]) //ignore empty lines
+      [tilePositionArray addObject:position];
+  }
+  return tilePositionArray;
+}
+
+- (void)initGameBoard
+{  
   CALayer *layer = [CALayer layer];
 	layer.bounds = NSRectToCGRect(self.bounds);
 	layer.anchorPoint = CGPointZero;
-	layer.position = CGPointZero; //CGPointMake(NSMidX(self.bounds), NSMidY(self.bounds));
+	layer.position = CGPointZero;
   layer.contents = [NSImage imageNamed:@"Board"];
 	
 	[self setLayer:layer];
@@ -49,22 +59,23 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 		[layer removeFromSuperlayer];
 	}
 	
-  for (NSString *position in tilePositionArray) {
-    if ([position isEqualToString:@""])
-      continue;
+  NSArray *validTilePositions = [self validTilePositions];
+  for (NSString *position in validTilePositions) {
     NSArray *positionArray = [position componentsSeparatedByString:@","];
-    NSLog(@"%@",positionArray);
     int xPos = [[positionArray objectAtIndex:0] integerValue];
     int yPos = [[positionArray objectAtIndex:1] integerValue];
     
     CALayer *subLayer = [CALayer layer];
     subLayer.anchorPoint = CGPointZero;
     subLayer.position = CGPointMake(xPos,yPos);
-    subLayer.bounds = CGRectMake(0, 0, 29, 29);
-    subLayer.contents = [NSImage imageNamed:@"Ghost Stone"];
+    subLayer.bounds = CGRectMake(0, 0, 29, 29);    
+    //subLayer.contents = [NSImage imageNamed:@"Ghost Stone"];
+    //subLayer.opacity = 0.5;
     
     [self.layer addSublayer:subLayer];     
   }
+  
+  [validTilePositions release];
 }
 
 - (GameTile *)tileAtPoint:(NSPoint)point

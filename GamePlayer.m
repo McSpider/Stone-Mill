@@ -10,7 +10,8 @@
 
 
 @implementation GamePlayer
-@synthesize playerType;
+@synthesize type;
+@synthesize color;
 @synthesize placedTileCount;
 
 
@@ -27,6 +28,11 @@
 - (BOOL)isSetup
 {
   return placedTileCount == 9;
+}
+
+- (BOOL)tilesCanJump
+{
+  return [activeTiles count] == 3 && [self isSetup];
 }
 
 @end

@@ -24,6 +24,10 @@
 		AE824A1B1398526100A351F8 /* TileMap.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE824A191398526100A351F8 /* TileMap.csv */; };
 		AE824A56139853D900A351F8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AE824A55139853D900A351F8 /* .gitignore */; };
 		AEAC6D24139855D100698915 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D23139855D100698915 /* GamePlayer.m */; };
+		AEAC6D441398594600698915 /* Game.png in Resources */ = {isa = PBXBuildFile; fileRef = AEAC6D411398594600698915 /* Game.png */; };
+		AEAC6D451398594600698915 /* HighScores.png in Resources */ = {isa = PBXBuildFile; fileRef = AEAC6D421398594600698915 /* HighScores.png */; };
+		AEAC6D461398594600698915 /* Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AEAC6D431398594600698915 /* Settings.png */; };
+		AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D4F13985A0E00698915 /* KBLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +59,11 @@
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AEAC6D22139855D100698915 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayer.h; sourceTree = "<group>"; };
 		AEAC6D23139855D100698915 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayer.m; sourceTree = "<group>"; };
+		AEAC6D411398594600698915 /* Game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game.png; sourceTree = "<group>"; };
+		AEAC6D421398594600698915 /* HighScores.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HighScores.png; sourceTree = "<group>"; };
+		AEAC6D431398594600698915 /* Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Settings.png; sourceTree = "<group>"; };
+		AEAC6D4E13985A0E00698915 /* KBLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBLabel.h; sourceTree = "<group>"; };
+		AEAC6D4F13985A0E00698915 /* KBLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +92,7 @@
 				AEAC6D23139855D100698915 /* GamePlayer.m */,
 				AE824A0B1398525900A351F8 /* GameTile.h */,
 				AE824A0C1398525900A351F8 /* GameTile.m */,
+				AEAC6D4D13985A0E00698915 /* GUI */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -160,6 +170,9 @@
 		AE8246B7139834CA00A351F8 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				AEAC6D411398594600698915 /* Game.png */,
+				AEAC6D421398594600698915 /* HighScores.png */,
+				AEAC6D431398594600698915 /* Settings.png */,
 				AE824961139849F800A351F8 /* Ghost Stone.png */,
 				AE8248341398405300A351F8 /* Blue Stone.png */,
 				AE8248351398405300A351F8 /* Gold Stone.png */,
@@ -175,6 +188,16 @@
 				AE824A191398526100A351F8 /* TileMap.csv */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		AEAC6D4D13985A0E00698915 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				AEAC6D4E13985A0E00698915 /* KBLabel.h */,
+				AEAC6D4F13985A0E00698915 /* KBLabel.m */,
+			);
+			name = GUI;
+			path = Classes/GUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +252,9 @@
 				AE824A1A1398526100A351F8 /* Notes.rtf in Resources */,
 				AE824A1B1398526100A351F8 /* TileMap.csv in Resources */,
 				AE824A56139853D900A351F8 /* .gitignore in Resources */,
+				AEAC6D441398594600698915 /* Game.png in Resources */,
+				AEAC6D451398594600698915 /* HighScores.png in Resources */,
+				AEAC6D461398594600698915 /* Settings.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +271,7 @@
 				AE824A151398525900A351F8 /* MainController.m in Sources */,
 				AE824A161398525900A351F8 /* TileManager.m in Sources */,
 				AEAC6D24139855D100698915 /* GamePlayer.m in Sources */,
+				AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,7 +17,12 @@
     return nil;
   }
   player1 = [[GamePlayer alloc] init];
+  [player1 setType:HumanPlayer];
+  [player1 setColor:Blue];
+  
   player2 = [[GamePlayer alloc] init];
+  [player2 setType:RobotPlayer];
+  [player2 setColor:Gold];
   return self;
 }
 
