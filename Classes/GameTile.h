@@ -14,11 +14,14 @@
 
 
 @interface GameTile : NSObject {
-  int xPos, yPos;
-  int type;
+  NSPoint pos; // Tile position
+  int type;       // Tile type
+  int age;        // How old the tile is in turns
 }
 
+@property NSPoint pos;
 @property int type;
+@property int age;
 
 - (NSImage *)image;
 

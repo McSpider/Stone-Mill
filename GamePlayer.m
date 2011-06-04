@@ -13,6 +13,8 @@
 @synthesize type;
 @synthesize color;
 @synthesize placedTileCount;
+@synthesize moves;
+@synthesize activeTiles;
 
 
 - (id)init
@@ -21,6 +23,10 @@
     return nil;
   }
   
+  type = RobotPlayer;
+  color = Ghost;
+  placedTileCount = 0;
+  moves = 0;
   activeTiles = [[NSMutableArray alloc] init];
   return self;
 }

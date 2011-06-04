@@ -7,18 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameTile.h"
+#import "GameController.h"
 
 
 @interface GameView : NSView {
-
   NSEvent *mouseDownEvent;
+  GameTile *clickedTile;
 	BOOL dragging;
-
+  
+  IBOutlet GameController *game;
 }
 
+
 - (void)initGameBoard;
-- (GameTile *)tileAtPoint:(NSPoint)point;
 
 
 @end

@@ -25,12 +25,15 @@ typedef enum {
   int type;
   int color;
   int placedTileCount;
+  int moves;
   
   NSMutableArray *activeTiles;
 }
 @property int type;
 @property int color;
 @property int placedTileCount;
+@property int moves;
+@property (nonatomic, retain) NSMutableArray *activeTiles;
 
 
 // Player has placed all his tiles and can now move

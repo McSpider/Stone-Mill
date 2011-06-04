@@ -14,6 +14,7 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 
 @implementation GameView
 
+
 - (id)initWithFrame:(NSRect)frame {
   if (![super initWithFrame:frame]) {
     return nil;
@@ -25,22 +26,6 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 - (void)dealloc
 {
   [super dealloc];
-}
-
-- (NSArray *)validTilePositions
-{
-  NSString *tiles = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TileMap" ofType:@"csv"]
-                                              encoding:NSUTF8StringEncoding
-                                                 error:nil];
-  
-  NSArray *tilePositions = [tiles componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-  NSMutableArray *tilePositionArray = [[NSMutableArray alloc] init];
-
-  for (NSString *position in tilePositions) {
-    if (![position isEqualToString:@""]) //ignore empty lines
-      [tilePositionArray addObject:position];
-  }
-  return tilePositionArray;
 }
 
 - (void)initGameBoard
@@ -59,7 +44,7 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 		[layer removeFromSuperlayer];
 	}
 	
-  NSArray *validTilePositions = [self validTilePositions];
+  NSArray *validTilePositions = [game validTilePositions];
   for (NSString *position in validTilePositions) {
     NSArray *positionArray = [position componentsSeparatedByString:@","];
     int xPos = [[positionArray objectAtIndex:0] integerValue];
@@ -72,19 +57,28 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
     //subLayer.contents = [NSImage imageNamed:@"Ghost Stone"];
     //subLayer.opacity = 0.5;
     
-    [self.layer addSublayer:subLayer];     
+    [self.layer addSublayer:subLayer];
   }
+  
+  CALayer *subLayer = [CALayer layer];
+  subLayer.anchorPoint = CGPointZero;
+  subLayer.position = CGPointMake(236,236);
+  subLayer.bounds = CGRectMake(0, 0, 29, 29);    
+  subLayer.contents = [NSImage imageNamed:@"Blue Stone"];
+  [self.layer addSublayer:subLayer];
   
   [validTilePositions release];
 }
 
-- (GameTile *)tileAtPoint:(NSPoint)point
+- (void)mouseMoved:(NSEvent *)theEvent
 {
-  return nil;
+  NSPoint mouseMovePoint = [theEvent locationInWindow];
+  NSPoint pointInView = [self convertPoint:mouseMovePoint fromView:nil];
+  
+  GameTile *nearestTile = [game tileNearestToPoint:pointInView];
+  if (!nearestTile)
+    return;
 }
-
-
-
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
@@ -92,53 +86,66 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 	[mouseDownEvent release];
 	mouseDownEvent = theEvent;
 	dragging = NO;
+  
+  // Find the clicked tile
+	NSPoint pointInView = [self convertPoint:[mouseDownEvent locationInWindow] fromView:nil];
+  [clickedTile release];
+	clickedTile = [[game tileAtPoint:pointInView] retain];  
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
 	NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];
+  NSPoint pointInView = [self convertPoint:[mouseDownEvent locationInWindow] fromView:nil];
 	NSPoint mouseDragPoint = [theEvent locationInWindow];
 	float dragDistance = hypot(mouseDownPoint.x - mouseDragPoint.x, mouseDownPoint.y - mouseDragPoint.y);
-	if (dragDistance < 3)
+	if (dragDistance < 0)
 		return;
 	
 	dragging = YES;
 	
-	// Find the clicked tile
-	NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
-	GameTile *tile = [self tileAtPoint:pointInView];
-	if (!tile)
+	if (!clickedTile)
 		return;
-		
+  		
+  // Start dragging the tile
 	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
 	[pasteboard declareTypes:[NSArray arrayWithObjects:KBStoneMillPasteboardType, nil] owner:nil];
-	[pasteboard setData:[NSKeyedArchiver archivedDataWithRootObject:tile] forType:KBStoneMillPasteboardType];
+	[pasteboard setData:[NSKeyedArchiver archivedDataWithRootObject:clickedTile] forType:KBStoneMillPasteboardType];
 	
-	NSImage *image = tile.image;
+	NSImage *image = clickedTile.image;
 	
 	// Remove tile from playing board
 	
+  // Drag tile to different location
 	NSPoint dragPoint = NSMakePoint(pointInView.x - image.size.width*0.5, pointInView.y - image.size.height*0.5);
-	
 	[self dragImage:image
                at:dragPoint
            offset:NSZeroSize
             event:mouseDownEvent
        pasteboard:pasteboard
            source:self
-        slideBack:NO];
+        slideBack:YES];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-	if (!dragging) {
+	if (dragging) {
 		NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];
 		NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
 		
-    GameTile *tile = [self tileAtPoint:pointInView];
-		//[delegate inventoryView:self selectedItemAtIndex:itemIndex];
+    GameTile *tile = [game tileAtPoint:pointInView];
+    if (!tile)
+      return;
+    
+    // Drop the dragged tile
 	}
 }
+
+- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
+{
+
+}
+
 
 
 @end
