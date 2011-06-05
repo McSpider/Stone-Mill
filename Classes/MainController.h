@@ -12,7 +12,6 @@
 
 @interface MainController : NSObject {
   IBOutlet NSWindow *mainWindow;
-  IBOutlet GameView *gameView;
 }
 
 @end

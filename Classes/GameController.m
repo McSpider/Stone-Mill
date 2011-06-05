@@ -10,6 +10,8 @@
 
 
 @implementation GameController
+@synthesize humanPlayer;
+@synthesize robotPlayer;
 
 
 - (id)init
@@ -26,17 +28,32 @@
   [humanPlayer setType:HumanPlayer];
   [humanPlayer setColor:Blue];
   
-  ///
+  /// Temporary active tiles
   GameTile *tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(116,116)];
+  [tile setPos:NSMakePoint(130,130)];
+  [tile setType:SMPlayerTile];
+  [humanPlayer.activeTiles addObject:tile];
+  [tile release];
+  
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(250,310)];
   [tile setType:SMPlayerTile];
   [humanPlayer.activeTiles addObject:tile];
   [tile release];
   ///
-  
+    
   robotPlayer = [[GamePlayer alloc] init];
   [robotPlayer setType:RobotPlayer];
   [robotPlayer setColor:Gold];
+  
+  /// Temporary active tiles
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(130,250)];
+  [tile setType:SMComputerTile];
+  [robotPlayer.activeTiles addObject:tile];
+  [tile release];
+  ///
+  
   return self;
 }
 
@@ -79,14 +96,14 @@
   // Untested
   NSArray *activeTiles = [humanPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x, tile.pos.y, 29, 29);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2, TileSize, TileSize);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
   }
   activeTiles = [robotPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x, tile.pos.y, 29, 29);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2, TileSize, TileSize);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }

@@ -14,7 +14,7 @@
 
 - (void)awakeFromNib
 {
-  [gameView initGameBoard];
+
 }
 
 

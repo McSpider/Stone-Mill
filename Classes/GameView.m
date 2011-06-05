@@ -28,47 +28,46 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   [super dealloc];
 }
 
-- (void)initGameBoard
-{  
-  CALayer *layer = [CALayer layer];
-	layer.bounds = NSRectToCGRect(self.bounds);
-	layer.anchorPoint = CGPointZero;
-	layer.position = CGPointZero;
-  layer.contents = [NSImage imageNamed:@"Board"];
-	
-	[self setLayer:layer];
-	[self setWantsLayer:YES];
+
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+  // Drawing code here.
   
-	// reset the layers
-	for (CALayer *layer in self.layer.sublayers) {
-		[layer removeFromSuperlayer];
-	}
-	
-  NSArray *validTilePositions = [game validTilePositions];
-  for (NSString *position in validTilePositions) {
-    NSArray *positionArray = [position componentsSeparatedByString:@","];
-    int xPos = [[positionArray objectAtIndex:0] integerValue];
-    int yPos = [[positionArray objectAtIndex:1] integerValue];
-    
-    CALayer *subLayer = [CALayer layer];
-    subLayer.anchorPoint = CGPointZero;
-    subLayer.position = CGPointMake(xPos,yPos);
-    subLayer.bounds = CGRectMake(0, 0, 29, 29);    
-    //subLayer.contents = [NSImage imageNamed:@"Ghost Stone"];
-    //subLayer.opacity = 0.5;
-    
-    [self.layer addSublayer:subLayer];
+  //Draw board background
+  [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+  
+//  NSArray *validTilePositions = [game validTilePositions];
+//  for (NSString *position in validTilePositions) {
+//    NSArray *positionArray = [position componentsSeparatedByString:@","];
+//    int xPos = [[positionArray objectAtIndex:0] integerValue];
+//    int yPos = [[positionArray objectAtIndex:1] integerValue];
+//    
+//    NSPoint tilePos = NSMakePoint(xPos-TileSize/2, yPos-TileSize/2);
+//    [[NSImage imageNamed:@"Ghost Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+//  }
+//  [validTilePositions release];
+
+  
+  // Draw Active Tiles
+  NSArray *activeTiles = [game.humanPlayer activeTiles];
+  for (GameTile *tile in activeTiles) {
+    NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
+    [[NSImage imageNamed:@"Blue Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+  }
+  activeTiles = [game.robotPlayer activeTiles];
+  for (GameTile *tile in activeTiles) {
+    NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
+    [[NSImage imageNamed:@"Gold Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
   }
   
-  CALayer *subLayer = [CALayer layer];
-  subLayer.anchorPoint = CGPointZero;
-  subLayer.position = CGPointMake(236,236);
-  subLayer.bounds = CGRectMake(0, 0, 29, 29);    
-  subLayer.contents = [NSImage imageNamed:@"Blue Stone"];
-  [self.layer addSublayer:subLayer];
-  
-  [validTilePositions release];
+  // Draw Tile Pool - Only if the player hasn't placed all tiles yet
+  if (![game.humanPlayer placedTileCount] >= 9){
+    NSPoint tilePos = NSMakePoint(250-TileSize/2,250-TileSize/2);
+    [[NSImage imageNamed:@"Blue Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+  }  
 }
+
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {

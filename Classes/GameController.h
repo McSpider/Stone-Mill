@@ -11,6 +11,7 @@
 
 #define TotalGamePositions (24)
 #define MaxPlayerTiles (9)
+#define TileSize (29)
 
 @interface GameController : NSObject {
   IBOutlet NSButton *multipurposeButton;
@@ -28,6 +29,9 @@
   GamePlayer *humanPlayer;
   GamePlayer *robotPlayer;
 }
+
+@property (nonatomic, readonly) GamePlayer *humanPlayer;
+@property (nonatomic, readonly) GamePlayer *robotPlayer;
 
 - (BOOL)tilesCanJump;
 - (BOOL)gameIsSetup;

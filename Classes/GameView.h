@@ -19,7 +19,4 @@
 }
 
 
-- (void)initGameBoard;
-
-
 @end
