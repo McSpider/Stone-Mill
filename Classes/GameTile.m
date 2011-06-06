@@ -13,6 +13,7 @@
 @synthesize pos;
 @synthesize type;
 @synthesize age;
+@synthesize active;
 
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -22,6 +23,7 @@
 		pos = [decoder decodePointForKey:@"pos"];
 		type = [decoder decodeIntForKey:@"type"];
 		age = [decoder decodeIntForKey:@"age"];
+    active = [decoder decodeBoolForKey:@"active"];
 	}
 	return self;
 }
@@ -31,16 +33,27 @@
 	[coder encodePoint:pos forKey:@"pos"];
 	[coder encodeInt:type forKey:@"type"];
 	[coder encodeInt:age forKey:@"age"];
+  [coder encodeBool:active forKey:@"active"];
 }
 
 - (NSImage *)image
 {
-  if (self.type == SMComputerTile)
-    return [NSImage imageNamed:@"Gold Stone"];
-  if (self.type == SMPlayerTile)
-    return [NSImage imageNamed:@"Blue Stone"];
+  if (active) {
+    if (self.type == PlayerTile)
+      return [NSImage imageNamed:@"Blue_Active"];
+    else if (self.type == RobotTile)
+      return [NSImage imageNamed:@"Gold_Active"];
+  }
+  else {
+    if (self.type == PlayerTile)
+      return [NSImage imageNamed:@"Blue_Inactive"];
+    else if (self.type == RobotTile)
+      return [NSImage imageNamed:@"Gold_Inactive"];
+  }
   
-  return [NSImage imageNamed:@"Ghost Stone"];
+  if (self.type == GhostTile)
+    return [NSImage imageNamed:@"Ghost_Inactive"];
+  return [NSImage imageNamed:@"Unknown"];
 }
 
 @end

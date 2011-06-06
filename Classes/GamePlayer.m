@@ -11,7 +11,6 @@
 
 @implementation GamePlayer
 @synthesize type;
-@synthesize color;
 @synthesize placedTileCount;
 @synthesize moves;
 @synthesize activeTiles;
@@ -23,8 +22,7 @@
     return nil;
   }
   
-  type = RobotPlayer;
-  color = Ghost;
+  type = GhostPlayer;
   placedTileCount = 0;
   moves = 0;
   activeTiles = [[NSMutableArray alloc] init];
@@ -40,5 +38,11 @@
 {
   return [activeTiles count] == 3 && [self isSetup];
 }
+
+- (int)color
+{
+  return self.type;
+}
+
 
 @end

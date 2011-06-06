@@ -8,20 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define SMGhostTile (0)
-#define SMPlayerTile (1)
-#define SMComputerTile (2)
+typedef enum {
+  PlayerTile,
+  RobotTile,
+  GhostTile
+} StoneTypes;
 
 
 @interface GameTile : NSObject {
-  NSPoint pos; // Tile position
+  NSPoint pos;     // Tile position
   int type;       // Tile type
   int age;        // How old the tile is in turns
+  BOOL active;    // Tile is being dragged or is selected
 }
 
 @property NSPoint pos;
 @property int type;
 @property int age;
+@property BOOL active;
 
 - (NSImage *)image;
 

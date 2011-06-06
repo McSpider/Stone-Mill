@@ -10,15 +10,16 @@
 #import "GameTile.h"
 
 typedef enum {
+  HumanPlayer,
   RobotPlayer,
-  HumanPlayer
+  GhostPlayer
 } PlayerTypes;
 
 typedef enum {
   Blue,
   Gold,
   Ghost
-} StoneTypes;
+} StoneColors;
 
 
 @interface GamePlayer : NSObject {
@@ -30,7 +31,6 @@ typedef enum {
   NSMutableArray *activeTiles;
 }
 @property int type;
-@property int color;
 @property int placedTileCount;
 @property int moves;
 @property (nonatomic, retain) NSMutableArray *activeTiles;
@@ -41,6 +41,8 @@ typedef enum {
 
 // Player has less than 3 active tiles then he can jump it the game permits it
 - (BOOL)tilesCanJump;
+
+- (int)color;
 
 
 @end

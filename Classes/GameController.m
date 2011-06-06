@@ -26,30 +26,28 @@
   
   humanPlayer = [[GamePlayer alloc] init];
   [humanPlayer setType:HumanPlayer];
-  [humanPlayer setColor:Blue];
   
   /// Temporary active tiles
   GameTile *tile = [[GameTile alloc] init];
   [tile setPos:NSMakePoint(130,130)];
-  [tile setType:SMPlayerTile];
+  [tile setType:PlayerTile];
   [humanPlayer.activeTiles addObject:tile];
   [tile release];
   
   tile = [[GameTile alloc] init];
   [tile setPos:NSMakePoint(250,310)];
-  [tile setType:SMPlayerTile];
+  [tile setType:PlayerTile];
   [humanPlayer.activeTiles addObject:tile];
   [tile release];
   ///
     
   robotPlayer = [[GamePlayer alloc] init];
   [robotPlayer setType:RobotPlayer];
-  [robotPlayer setColor:Gold];
   
   /// Temporary active tiles
   tile = [[GameTile alloc] init];
   [tile setPos:NSMakePoint(130,250)];
-  [tile setType:SMComputerTile];
+  [tile setType:RobotTile];
   [robotPlayer.activeTiles addObject:tile];
   [tile release];
   ///

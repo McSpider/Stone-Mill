@@ -53,18 +53,18 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   NSArray *activeTiles = [game.humanPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
     NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
-    [[NSImage imageNamed:@"Blue Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
   }
   activeTiles = [game.robotPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
     NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
-    [[NSImage imageNamed:@"Gold Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
   }
   
   // Draw Tile Pool - Only if the player hasn't placed all tiles yet
   if (![game.humanPlayer placedTileCount] >= 9){
     NSPoint tilePos = NSMakePoint(250-TileSize/2,250-TileSize/2);
-    [[NSImage imageNamed:@"Blue Stone"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [[NSImage imageNamed:@"Blue_Inactive"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }  
 }
 
@@ -100,12 +100,13 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 	float dragDistance = hypot(mouseDownPoint.x - mouseDragPoint.x, mouseDownPoint.y - mouseDragPoint.y);
 	if (dragDistance < 0)
 		return;
+  
+  if (!clickedTile)
+		return;
+  [clickedTile setActive:YES];
 	
 	dragging = YES;
-	
-	if (!clickedTile)
-		return;
-  		
+	  		
   // Start dragging the tile
 	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
 	[pasteboard declareTypes:[NSArray arrayWithObjects:KBStoneMillPasteboardType, nil] owner:nil];
@@ -116,7 +117,7 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 	// Remove tile from playing board
 	
   // Drag tile to different location
-	NSPoint dragPoint = NSMakePoint(pointInView.x - image.size.width*0.5, pointInView.y - image.size.height*0.5);
+	NSPoint dragPoint = NSMakePoint(pointInView.x - TileSize*0.5, pointInView.y - TileSize*0.5);
 	[self dragImage:image
                at:dragPoint
            offset:NSZeroSize

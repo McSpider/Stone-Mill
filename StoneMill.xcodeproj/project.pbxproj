@@ -11,17 +11,21 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		AE5D7898139C4DB3001C9FE7 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */; };
+		AE5D7918139C5579001C9FE7 /* Blue_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7911139C5579001C9FE7 /* Blue_Active.png */; };
+		AE5D7919139C5579001C9FE7 /* Blue_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7912139C5579001C9FE7 /* Blue_Inactive.png */; };
+		AE5D791A139C5579001C9FE7 /* Blue_Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7913139C5579001C9FE7 /* Blue_Lock.png */; };
+		AE5D791B139C5579001C9FE7 /* Ghost_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */; };
+		AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7915139C5579001C9FE7 /* Gold_Active.png */; };
+		AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */; };
+		AE5D791E139C5579001C9FE7 /* Gold_Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7917139C5579001C9FE7 /* Gold_Lock.png */; };
 		AE8246BA139834CA00A351F8 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8246B8139834CA00A351F8 /* Board.png */; };
 		AE8247C713983E0600A351F8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8247C613983E0600A351F8 /* QuartzCore.framework */; };
-		AE8248361398405300A351F8 /* Blue Stone.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8248341398405300A351F8 /* Blue Stone.png */; };
-		AE8248371398405300A351F8 /* Gold Stone.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8248351398405300A351F8 /* Gold Stone.png */; };
-		AE824962139849F800A351F8 /* Ghost Stone.png in Resources */ = {isa = PBXBuildFile; fileRef = AE824961139849F800A351F8 /* Ghost Stone.png */; };
 		AE824A131398525900A351F8 /* GameTile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0C1398525900A351F8 /* GameTile.m */; };
 		AE824A141398525900A351F8 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0E1398525900A351F8 /* GameView.m */; };
 		AE824A151398525900A351F8 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A101398525900A351F8 /* MainController.m */; };
 		AE824A161398525900A351F8 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A121398525900A351F8 /* GameController.m */; };
 		AE824A1B1398526100A351F8 /* TileMap.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE824A191398526100A351F8 /* TileMap.csv */; };
-		AEAC6D24139855D100698915 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D23139855D100698915 /* GamePlayer.m */; };
 		AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D4F13985A0E00698915 /* KBLabel.m */; };
 /* End PBXBuildFile section */
 
@@ -36,11 +40,17 @@
 		32CA4F630368D1EE00C91783 /* StoneMill_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoneMill_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* StoneMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoneMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE5D7896139C4DB3001C9FE7 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayer.h; path = Classes/GamePlayer.h; sourceTree = "<group>"; };
+		AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlayer.m; path = Classes/GamePlayer.m; sourceTree = "<group>"; };
+		AE5D7911139C5579001C9FE7 /* Blue_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Active.png; sourceTree = "<group>"; };
+		AE5D7912139C5579001C9FE7 /* Blue_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Inactive.png; sourceTree = "<group>"; };
+		AE5D7913139C5579001C9FE7 /* Blue_Lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Lock.png; sourceTree = "<group>"; };
+		AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ghost_Inactive.png; sourceTree = "<group>"; };
+		AE5D7915139C5579001C9FE7 /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
+		AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
+		AE5D7917139C5579001C9FE7 /* Gold_Lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Lock.png; sourceTree = "<group>"; };
 		AE8246B8139834CA00A351F8 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
 		AE8247C613983E0600A351F8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
-		AE8248341398405300A351F8 /* Blue Stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blue Stone.png"; sourceTree = "<group>"; };
-		AE8248351398405300A351F8 /* Gold Stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Gold Stone.png"; sourceTree = "<group>"; };
-		AE824961139849F800A351F8 /* Ghost Stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ghost Stone.png"; sourceTree = "<group>"; };
 		AE824A0B1398525900A351F8 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTile.h; path = Classes/GameTile.h; sourceTree = "<group>"; };
 		AE824A0C1398525900A351F8 /* GameTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTile.m; path = Classes/GameTile.m; sourceTree = "<group>"; };
 		AE824A0D1398525900A351F8 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameView.h; path = Classes/GameView.h; sourceTree = "<group>"; };
@@ -52,8 +62,6 @@
 		AE824A181398526100A351F8 /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE824A191398526100A351F8 /* TileMap.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TileMap.csv; sourceTree = "<group>"; };
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		AEAC6D22139855D100698915 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayer.h; sourceTree = "<group>"; };
-		AEAC6D23139855D100698915 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayer.m; sourceTree = "<group>"; };
 		AEAC6D4E13985A0E00698915 /* KBLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBLabel.h; sourceTree = "<group>"; };
 		AEAC6D4F13985A0E00698915 /* KBLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,8 +88,8 @@
 				AE824A0E1398525900A351F8 /* GameView.m */,
 				AE824A111398525900A351F8 /* GameController.h */,
 				AE824A121398525900A351F8 /* GameController.m */,
-				AEAC6D22139855D100698915 /* GamePlayer.h */,
-				AEAC6D23139855D100698915 /* GamePlayer.m */,
+				AE5D7896139C4DB3001C9FE7 /* GamePlayer.h */,
+				AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */,
 				AE824A0B1398525900A351F8 /* GameTile.h */,
 				AE824A0C1398525900A351F8 /* GameTile.m */,
 				AEAC6D4D13985A0E00698915 /* GUI */,
@@ -162,9 +170,13 @@
 		AE8246B7139834CA00A351F8 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				AE824961139849F800A351F8 /* Ghost Stone.png */,
-				AE8248341398405300A351F8 /* Blue Stone.png */,
-				AE8248351398405300A351F8 /* Gold Stone.png */,
+				AE5D7911139C5579001C9FE7 /* Blue_Active.png */,
+				AE5D7912139C5579001C9FE7 /* Blue_Inactive.png */,
+				AE5D7913139C5579001C9FE7 /* Blue_Lock.png */,
+				AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */,
+				AE5D7915139C5579001C9FE7 /* Gold_Active.png */,
+				AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */,
+				AE5D7917139C5579001C9FE7 /* Gold_Lock.png */,
 				AE8246B8139834CA00A351F8 /* Board.png */,
 			);
 			path = Graphics;
@@ -235,10 +247,14 @@
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				AE8246BA139834CA00A351F8 /* Board.png in Resources */,
-				AE8248361398405300A351F8 /* Blue Stone.png in Resources */,
-				AE8248371398405300A351F8 /* Gold Stone.png in Resources */,
-				AE824962139849F800A351F8 /* Ghost Stone.png in Resources */,
 				AE824A1B1398526100A351F8 /* TileMap.csv in Resources */,
+				AE5D7918139C5579001C9FE7 /* Blue_Active.png in Resources */,
+				AE5D7919139C5579001C9FE7 /* Blue_Inactive.png in Resources */,
+				AE5D791A139C5579001C9FE7 /* Blue_Lock.png in Resources */,
+				AE5D791B139C5579001C9FE7 /* Ghost_Inactive.png in Resources */,
+				AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */,
+				AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */,
+				AE5D791E139C5579001C9FE7 /* Gold_Lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +270,8 @@
 				AE824A141398525900A351F8 /* GameView.m in Sources */,
 				AE824A151398525900A351F8 /* MainController.m in Sources */,
 				AE824A161398525900A351F8 /* GameController.m in Sources */,
-				AEAC6D24139855D100698915 /* GamePlayer.m in Sources */,
 				AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */,
+				AE5D7898139C4DB3001C9FE7 /* GamePlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
