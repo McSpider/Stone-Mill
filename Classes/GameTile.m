@@ -11,6 +11,7 @@
 
 @implementation GameTile
 @synthesize pos;
+@synthesize oldPos;
 @synthesize type;
 @synthesize age;
 @synthesize active;
@@ -21,6 +22,7 @@
 	if ((self = [super init]))
 	{
 		pos = [decoder decodePointForKey:@"pos"];
+    oldPos = [decoder decodePointForKey:@"oldPos"];
 		type = [decoder decodeIntForKey:@"type"];
 		age = [decoder decodeIntForKey:@"age"];
     active = [decoder decodeBoolForKey:@"active"];
@@ -31,6 +33,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
 	[coder encodePoint:pos forKey:@"pos"];
+	[coder encodePoint:oldPos forKey:@"oldPos"];
 	[coder encodeInt:type forKey:@"type"];
 	[coder encodeInt:age forKey:@"age"];
   [coder encodeBool:active forKey:@"active"];

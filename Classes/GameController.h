@@ -41,5 +41,6 @@
 - (NSArray *)validTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
+- (NSArray *)validTilePositionsFromPoint:(NSPoint)point;
 
 @end

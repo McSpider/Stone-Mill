@@ -12,6 +12,7 @@
 
 @interface GameView : NSView {
   NSEvent *mouseDownEvent;
+  NSEvent *mouseDraggedEvent;
   GameTile *clickedTile;
 	BOOL dragging;
   

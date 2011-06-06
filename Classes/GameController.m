@@ -50,6 +50,12 @@
   [tile setType:RobotTile];
   [robotPlayer.activeTiles addObject:tile];
   [tile release];
+  
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(310,310)];
+  [tile setType:GhostTile];
+  [robotPlayer.activeTiles addObject:tile];
+  [tile release];
   ///
   
   return self;
@@ -106,6 +112,17 @@
       return tile;
     }
   }
+  
+  if (!humanPlayer.isSetup) {
+    NSRect tileBounds = NSMakeRect(250-TileSize/2, 250-TileSize/2, TileSize, TileSize);
+    if (NSPointInRect(point,tileBounds)) {
+      GameTile *tile = [[GameTile alloc] init];
+      [tile setPos:NSMakePoint(250-TileSize/2,250-TileSize/2)];
+      [tile setType:PlayerTile];
+      return tile;
+    }
+  }
+
   return nil;
 }
 
@@ -116,6 +133,14 @@
   return nil;
 }
 
+- (NSArray *)validTilePositionsFromPoint:(NSPoint)point
+{
+  // Return an array consisting of the tile positions that can be moved to from the specified position
+  // Curently returns fake data
+  NSMutableArray *points = [[NSMutableArray alloc] init];
+  [points addObject:[NSString stringWithFormat:@"430,250"]];
+  return [self validTilePositions]; // Wrong dont return all positions :)
+}
 
 
 @end
