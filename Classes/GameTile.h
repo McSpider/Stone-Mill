@@ -30,5 +30,6 @@ typedef enum {
 @property BOOL active;
 
 - (NSImage *)image;
+- (void)incrementAge;
 
 @end

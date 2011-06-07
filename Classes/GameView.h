@@ -11,9 +11,10 @@
 
 
 @interface GameView : NSView {
-  NSEvent *mouseDraggedEvent;
   GameTile *activeTile;
+  NSArray *validDropPositions;
 	BOOL dragging;
+  BOOL mouseDown;
   
   IBOutlet GameController *game;
 }

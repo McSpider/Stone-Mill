@@ -59,4 +59,10 @@
   return [NSImage imageNamed:@"Unknown"];
 }
 
+- (void)incrementAge
+{
+  self.age += 1;
+}
+
+
 @end

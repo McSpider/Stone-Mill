@@ -46,14 +46,12 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   }
   
   // Draw valid location indicators
-  if (dragging) {
-    NSArray *posArray = [game validTilePositionsFromPoint:[activeTile oldPos]];
-    for (NSString *string in posArray) {
+  if (dragging || mouseDown && activeTile) {
+    for (NSString *string in validDropPositions) {
       NSPoint zonePos = NSPointFromString(string);
       zonePos = NSMakePoint(zonePos.x-15/2, zonePos.y-15/2);
       [[NSImage imageNamed:@"Drop Zone"] drawAtPoint:zonePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
-    [posArray release];
   }
   
   // Draw Tiles
@@ -80,18 +78,9 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 }
 
 
-- (void)mouseMoved:(NSEvent *)theEvent
-{
-  NSPoint mouseMovePoint = [theEvent locationInWindow];
-  NSPoint pointInView = [self convertPoint:mouseMovePoint fromView:nil];
-  
-  GameTile *nearestTile = [game tileNearestToPoint:pointInView];
-  if (!nearestTile)
-    return;
-}
-
 - (void)mouseDown:(NSEvent *)theEvent
 {
+  mouseDown = YES;
 	dragging = NO;
   
   // Find the clicked tile
@@ -100,6 +89,9 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   if (activeTile) {
     [activeTile setOldPos:[activeTile pos]];
     [activeTile setActive:YES];
+    
+    validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
+    
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] == GhostTile || [activeTile type] == RobotTile) {
       // Currently the just poof, that is wrong they should stay
@@ -119,40 +111,48 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   
   if (!activeTile)
 		return;
-	
 	dragging = YES;
-	  		
+  
+  // Don't drag over view bounds
+  if (pointInView.y > NSMaxY([self bounds]) - 25)
+		pointInView.y = NSMaxY([self bounds]) - 25;
+  if (pointInView.y < NSMinY([self bounds]) + 25)
+		pointInView.y = NSMinY([self bounds]) + 25;
+	if (pointInView.x < NSMinX([self bounds]) + 25)
+		pointInView.x = NSMinX([self bounds]) + 25;
+	if (pointInView.x > NSMaxX([self bounds]) - 25)
+		pointInView.x = NSMaxX([self bounds]) - 25;
+  
   // Start dragging the tile
   [activeTile setPos:pointInView];
-  
   
   [self setNeedsDisplay:YES];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+  mouseDown = NO;
   if (!activeTile)
     return;
   
   NSPoint mouseUpPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseUpPoint fromView:nil];
   
-  if (dragging) {
-    // Check validitity of position for drop
-    NSArray *posArray = [game validTilePositionsFromPoint:[activeTile oldPos]];
-    
+  if (dragging) {    
     BOOL validDrop = NO;
-    for (NSString *string in posArray) {
+    for (NSString *string in validDropPositions) {
       NSPoint point = NSPointFromString(string);
       NSRect detectionRect = NSMakeRect(point.x-HalfTileSize, point.y-HalfTileSize, TileSize, TileSize);
       if (NSPointInRect(pointInView, detectionRect)) {
         // Drop the dragged tile
         [activeTile setPos:point];
+        [activeTile incrementAge];
+        [game playerMoved];
         validDrop = YES;
         break;
       }
     }
-    [posArray release];
+    [validDropPositions release];
     
     // Put it back where it came from
     if (!validDrop)

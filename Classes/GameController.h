@@ -44,4 +44,7 @@
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSArray *)validTilePositionsFromPoint:(NSPoint)point;
 
+- (void)playerMoved;
+- (void)playerFinishedMoving;
+
 @end

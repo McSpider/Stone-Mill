@@ -145,8 +145,18 @@
     [posArray addObject:string];
   }
 
-  //return posArray;
-  return tileArray; // Should return ^ but it doesn't work with that.
+  return posArray; // returns all spots that are empty
+}
+
+
+- (void)playerMoved
+{
+  
+}
+
+- (void)playerFinishedMoving
+{
+  
 }
 
 
