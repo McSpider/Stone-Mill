@@ -3,7 +3,7 @@
 //  StoneMill
 //
 //  Created by Ben K on 2011/06/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import "GameView.h"
@@ -41,27 +41,41 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   if ([game.humanPlayer placedTileCount] < 9){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);
     [[NSImage imageNamed:@"Pool"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    NSPoint tilePos = NSMakePoint(250-TileSize/2,250-TileSize/2);
+    NSPoint tilePos = NSMakePoint(250-HalfTileSize,250-HalfTileSize);
     [[NSImage imageNamed:@"Blue_Inactive"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-  } 
+  }
+  
+  // Draw valid location indicators
+  if (dragging) {
+    NSArray *posArray = [game validTilePositionsFromPoint:[activeTile oldPos]];
+    for (NSString *string in posArray) {
+      NSPoint zonePos = NSPointFromString(string);
+      zonePos = NSMakePoint(zonePos.x-15/2, zonePos.y-15/2);
+      [[NSImage imageNamed:@"Drop Zone"] drawAtPoint:zonePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    [posArray release];
+  }
   
   // Draw Tiles
   NSArray *activeTiles = [game.humanPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
-    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
   }
   activeTiles = [game.robotPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSPoint tilePos = NSMakePoint(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2);
-    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
   }
   
   // Draw Selected/Dragged Tile
-  
-  // Draw valid location indicators
-  if (dragging) {
-    
+  if (activeTile) {
+    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HalfTileSize, activeTile.pos.y-HalfTileSize);
+    [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
 }
 
@@ -78,39 +92,38 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-	[theEvent retain];
-	[mouseDownEvent release];
-	mouseDownEvent = theEvent;
 	dragging = NO;
   
   // Find the clicked tile
-	NSPoint pointInView = [self convertPoint:[mouseDownEvent locationInWindow] fromView:nil];
-  [clickedTile release];
-	clickedTile = [[game tileAtPoint:pointInView] retain];
-  [clickedTile setOldPos:[clickedTile pos]];
-  [clickedTile setActive:YES];
-  if ([clickedTile type] == GhostTile)
-    clickedTile = nil;
+	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	activeTile = [[game tileAtPoint:pointInView] retain];
+  if (activeTile) {
+    [activeTile setOldPos:[activeTile pos]];
+    [activeTile setActive:YES];
+    // Don't drag ghost tiles or other computer tiles
+    if ([activeTile type] == GhostTile || [activeTile type] == RobotTile) {
+      // Currently the just poof, that is wrong they should stay
+      [activeTile setActive:NO];
+      [activeTile release];
+      activeTile = nil;
+    }
+  }
 
   [self setNeedsDisplay:YES];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-	NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];
 	NSPoint mouseDragPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseDragPoint fromView:nil];
-	float dragDistance = hypot(mouseDownPoint.x - mouseDragPoint.x, mouseDownPoint.y - mouseDragPoint.y);
-	if (dragDistance < 0)
-		return;
   
-  if (!clickedTile)
+  if (!activeTile)
 		return;
 	
 	dragging = YES;
 	  		
   // Start dragging the tile
-  [clickedTile setPos:pointInView];
+  [activeTile setPos:pointInView];
   
   
   [self setNeedsDisplay:YES];
@@ -118,43 +131,41 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-  if (!clickedTile)
+  if (!activeTile)
     return;
   
   NSPoint mouseUpPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseUpPoint fromView:nil];
   
-  [clickedTile setActive:NO];
   if (dragging) {
     // Check validitity of position for drop
-    NSArray *posArray = [[game validTilePositionsFromPoint:[clickedTile oldPos]] retain];
-    NSLog(@"%@",posArray);
-    int index;
-    for (index = 0; index < [posArray count]; index++) {
-      NSPoint point = NSPointFromString([posArray objectAtIndex:index]);
-      NSRect detectionRect = NSMakeRect(point.x-TileSize/2, point.y-TileSize/2, TileSize, TileSize);
+    NSArray *posArray = [game validTilePositionsFromPoint:[activeTile oldPos]];
+    
+    BOOL validDrop = NO;
+    for (NSString *string in posArray) {
+      NSPoint point = NSPointFromString(string);
+      NSRect detectionRect = NSMakeRect(point.x-HalfTileSize, point.y-HalfTileSize, TileSize, TileSize);
       if (NSPointInRect(pointInView, detectionRect)) {
         // Drop the dragged tile
-        [clickedTile setPos:point];
-        [posArray release];
-        [self display];
-        return;
+        [activeTile setPos:point];
+        validDrop = YES;
+        break;
       }
     }
     [posArray release];
     
     // Put it back where it came from
-    [clickedTile setPos:[clickedTile oldPos]];
+    if (!validDrop)
+      [activeTile setPos:[activeTile oldPos]];
   }
   
+  [activeTile setActive:NO];
+  [activeTile release];
+  activeTile = nil;
+  
+  dragging = NO;
   [self setNeedsDisplay:YES];
 }
-
-- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
-{
-
-}
-
 
 
 @end

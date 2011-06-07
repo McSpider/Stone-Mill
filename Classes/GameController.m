@@ -3,7 +3,7 @@
 //  StoneMill
 //
 //  Created by Ben K on 2011/06/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import "GameController.h"
@@ -100,28 +100,28 @@
   // Untested
   NSArray *activeTiles = [humanPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2, TileSize, TileSize);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize, TileSize, TileSize);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
   }
   activeTiles = [robotPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x-TileSize/2, tile.pos.y-TileSize/2, TileSize, TileSize);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize, TileSize, TileSize);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
   }
   
-  if (!humanPlayer.isSetup) {
-    NSRect tileBounds = NSMakeRect(250-TileSize/2, 250-TileSize/2, TileSize, TileSize);
+  /*if (!humanPlayer.isSetup) {
+    NSRect tileBounds = NSMakeRect(250-HalfTileSize, 250-HalfTileSize, TileSize, TileSize);
     if (NSPointInRect(point,tileBounds)) {
       GameTile *tile = [[GameTile alloc] init];
-      [tile setPos:NSMakePoint(250-TileSize/2,250-TileSize/2)];
+      [tile setPos:NSMakePoint(250,250)];
       [tile setType:PlayerTile];
-      return tile;
+      return [tile autorelease];
     }
-  }
+  }*/
 
   return nil;
 }
@@ -137,9 +137,16 @@
 {
   // Return an array consisting of the tile positions that can be moved to from the specified position
   // Curently returns fake data
-  NSMutableArray *points = [[NSMutableArray alloc] init];
-  [points addObject:[NSString stringWithFormat:@"430,250"]];
-  return [self validTilePositions]; // Wrong dont return all positions :)
+  NSArray *tileArray = [self validTilePositions];
+  NSMutableArray *posArray = [[NSMutableArray alloc] init];
+  for (NSString *string in tileArray) {
+    if ([self tileAtPoint:NSPointFromString(string)])
+      continue;
+    [posArray addObject:string];
+  }
+
+  //return posArray;
+  return tileArray; // Should return ^ but it doesn't work with that.
 }
 
 

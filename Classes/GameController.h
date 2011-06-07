@@ -3,7 +3,7 @@
 //  StoneMill
 //
 //  Created by Ben K on 2011/06/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -12,6 +12,7 @@
 #define TotalGamePositions (24)
 #define MaxPlayerTiles (9)
 #define TileSize (29)
+#define HalfTileSize (14)
 
 @interface GameController : NSObject {
   IBOutlet NSButton *multipurposeButton;

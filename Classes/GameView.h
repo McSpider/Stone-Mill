@@ -3,7 +3,7 @@
 //  StoneMill
 //
 //  Created by Ben K on 2011/06/02.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  All code is provided under the New BSD license.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -11,9 +11,8 @@
 
 
 @interface GameView : NSView {
-  NSEvent *mouseDownEvent;
   NSEvent *mouseDraggedEvent;
-  GameTile *clickedTile;
+  GameTile *activeTile;
 	BOOL dragging;
   
   IBOutlet GameController *game;
