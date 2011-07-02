@@ -87,19 +87,6 @@
 - (NSDictionary *)validTilePositions
 {
   return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CoordMap" ofType:@"plist"]];
-  
-//  NSString *tiles = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TileMap" ofType:@"csv"]
-//                                              encoding:NSUTF8StringEncoding
-//                                                 error:nil];
-//  
-//  NSArray *tilePositions = [tiles componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-//  NSMutableArray *tilePositionArray = [[NSMutableArray alloc] init];
-//  
-//  for (NSString *position in tilePositions) {
-//    if (![position isEqualToString:@""]) //ignore empty lines
-//      [tilePositionArray addObject:position];
-//  }
-//  return tilePositionArray;
 }
 
 - (GameTile *)tileAtPoint:(NSPoint)point
