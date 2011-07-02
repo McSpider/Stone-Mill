@@ -12,8 +12,7 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		AE103917139EE7610051B469 /* Blue_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE103915139EE7610051B469 /* Blue_Scared.png */; };
-		AE103918139EE7610051B469 /* Gold_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE103916139EE7610051B469 /* Gold_Scared.png */; };
-		AE2A330D139D8855009EE448 /* BUGS.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE2A330C139D8855009EE448 /* BUGS.rtf */; };
+		AE2A330D139D8855009EE448 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AE2A330C139D8855009EE448 /* Notes.rtf */; };
 		AE5D7898139C4DB3001C9FE7 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */; };
 		AE5D7918139C5579001C9FE7 /* Blue_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7911139C5579001C9FE7 /* Blue_Active.png */; };
 		AE5D7919139C5579001C9FE7 /* Blue_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7912139C5579001C9FE7 /* Blue_Inactive.png */; };
@@ -21,13 +20,14 @@
 		AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7915139C5579001C9FE7 /* Gold_Active.png */; };
 		AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */; };
 		AE5D79F1139C6AC2001C9FE7 /* Pool.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D79F0139C6AC2001C9FE7 /* Pool.png */; };
+		AE80F5C513B5392400D7D227 /* CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE80F5C413B5392400D7D227 /* CoordMap.plist */; };
 		AE8246BA139834CA00A351F8 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8246B8139834CA00A351F8 /* Board.png */; };
 		AE8247C713983E0600A351F8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8247C613983E0600A351F8 /* QuartzCore.framework */; };
 		AE824A131398525900A351F8 /* GameTile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0C1398525900A351F8 /* GameTile.m */; };
 		AE824A141398525900A351F8 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0E1398525900A351F8 /* GameView.m */; };
 		AE824A151398525900A351F8 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A101398525900A351F8 /* MainController.m */; };
 		AE824A161398525900A351F8 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A121398525900A351F8 /* GameController.m */; };
-		AE824A1B1398526100A351F8 /* TileMap.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE824A191398526100A351F8 /* TileMap.csv */; };
+		AEA232C813A19EE600967295 /* Gold_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE103916139EE7610051B469 /* Gold_Scared.png */; };
 		AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA2AB15139DB953009919A0 /* Drop Zone.png */; };
 		AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D4F13985A0E00698915 /* KBLabel.m */; };
 /* End PBXBuildFile section */
@@ -45,7 +45,7 @@
 		8D1107320486CEB800E47090 /* StoneMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoneMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE103915139EE7610051B469 /* Blue_Scared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Scared.png; sourceTree = "<group>"; };
 		AE103916139EE7610051B469 /* Gold_Scared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Scared.png; sourceTree = "<group>"; };
-		AE2A330C139D8855009EE448 /* BUGS.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = BUGS.rtf; sourceTree = "<group>"; };
+		AE2A330C139D8855009EE448 /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		AE5D7896139C4DB3001C9FE7 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayer.h; path = Classes/GamePlayer.h; sourceTree = "<group>"; };
 		AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlayer.m; path = Classes/GamePlayer.m; sourceTree = "<group>"; };
 		AE5D7911139C5579001C9FE7 /* Blue_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Active.png; sourceTree = "<group>"; };
@@ -54,6 +54,7 @@
 		AE5D7915139C5579001C9FE7 /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
 		AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
 		AE5D79F0139C6AC2001C9FE7 /* Pool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pool.png; sourceTree = "<group>"; };
+		AE80F5C413B5392400D7D227 /* CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CoordMap.plist; sourceTree = "<group>"; };
 		AE8246B8139834CA00A351F8 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
 		AE8247C613983E0600A351F8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		AE824A0B1398525900A351F8 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTile.h; path = Classes/GameTile.h; sourceTree = "<group>"; };
@@ -64,7 +65,6 @@
 		AE824A101398525900A351F8 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = Classes/MainController.m; sourceTree = "<group>"; };
 		AE824A111398525900A351F8 /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameController.h; path = Classes/GameController.h; sourceTree = "<group>"; };
 		AE824A121398525900A351F8 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameController.m; path = Classes/GameController.m; sourceTree = "<group>"; };
-		AE824A191398526100A351F8 /* TileMap.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TileMap.csv; sourceTree = "<group>"; };
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AEA2AB15139DB953009919A0 /* Drop Zone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Drop Zone.png"; sourceTree = "<group>"; };
 		AEAC6D4E13985A0E00698915 /* KBLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBLabel.h; sourceTree = "<group>"; };
@@ -192,8 +192,8 @@
 		AE824A171398526100A351F8 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				AE824A191398526100A351F8 /* TileMap.csv */,
-				AE2A330C139D8855009EE448 /* BUGS.rtf */,
+				AE80F5C413B5392400D7D227 /* CoordMap.plist */,
+				AE2A330C139D8855009EE448 /* Notes.rtf */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -259,17 +259,17 @@
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				AE8246BA139834CA00A351F8 /* Board.png in Resources */,
-				AE824A1B1398526100A351F8 /* TileMap.csv in Resources */,
 				AE5D7918139C5579001C9FE7 /* Blue_Active.png in Resources */,
 				AE5D7919139C5579001C9FE7 /* Blue_Inactive.png in Resources */,
 				AE5D791B139C5579001C9FE7 /* Ghost_Inactive.png in Resources */,
 				AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */,
 				AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */,
 				AE5D79F1139C6AC2001C9FE7 /* Pool.png in Resources */,
-				AE2A330D139D8855009EE448 /* BUGS.rtf in Resources */,
+				AE2A330D139D8855009EE448 /* Notes.rtf in Resources */,
 				AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */,
 				AE103917139EE7610051B469 /* Blue_Scared.png in Resources */,
-				AE103918139EE7610051B469 /* Gold_Scared.png in Resources */,
+				AEA232C813A19EE600967295 /* Gold_Scared.png in Resources */,
+				AE80F5C513B5392400D7D227 /* CoordMap.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +315,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -324,6 +325,8 @@
 				GCC_PREFIX_HEADER = StoneMill_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = StoneMill;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = app;
@@ -334,12 +337,15 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = StoneMill_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = StoneMill;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = app;
@@ -351,6 +357,7 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
@@ -365,6 +372,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};

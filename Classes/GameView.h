@@ -12,7 +12,7 @@
 
 @interface GameView : NSView {
   GameTile *activeTile;
-  NSArray *validDropPositions;
+  NSDictionary *validDropPositions;
 	BOOL dragging;
   BOOL mouseDown;
   

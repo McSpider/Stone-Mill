@@ -9,8 +9,6 @@
 #import "GameView.h"
 #import <QuartzCore/QuartzCore.h>
 
-NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
-
 
 @implementation GameView
 
@@ -41,14 +39,12 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   if ([game.humanPlayer placedTileCount] < 9){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);
     [[NSImage imageNamed:@"Pool"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    NSPoint tilePos = NSMakePoint(250-HalfTileSize,250-HalfTileSize);
-    [[NSImage imageNamed:@"Blue_Inactive"] drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   
   // Draw valid location indicators
   if (dragging || mouseDown && activeTile) {
-    for (NSString *string in validDropPositions) {
-      NSPoint zonePos = NSPointFromString(string);
+    for (NSString *point in validDropPositions) {
+      NSPoint zonePos = NSPointFromString(point);
       zonePos = NSMakePoint(zonePos.x-15/2, zonePos.y-15/2);
       [[NSImage imageNamed:@"Drop Zone"] drawAtPoint:zonePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
@@ -75,6 +71,8 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
     NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HalfTileSize, activeTile.pos.y-HalfTileSize);
     [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
+  
+  // Draw Messages
 }
 
 
@@ -140,14 +138,14 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
   
   if (dragging) {    
     BOOL validDrop = NO;
-    for (NSString *string in validDropPositions) {
-      NSPoint point = NSPointFromString(string);
-      NSRect detectionRect = NSMakeRect(point.x-HalfTileSize, point.y-HalfTileSize, TileSize, TileSize);
+    for (NSString *point in validDropPositions) {
+      NSPoint pos = NSPointFromString(point);
+      NSRect detectionRect = NSMakeRect(pos.x-HalfTileSize, pos.y-HalfTileSize, TileSize, TileSize);
       if (NSPointInRect(pointInView, detectionRect)) {
         // Drop the dragged tile
-        [activeTile setPos:point];
+        [activeTile setPos:pos];
         [activeTile incrementAge];
-        [game playerMoved];
+        [game playerMoved:0];
         validDrop = YES;
         break;
       }
@@ -158,7 +156,7 @@ NSString * const KBStoneMillPasteboardType = @"com.mcspider.millstone";
     if (!validDrop)
       [activeTile setPos:[activeTile oldPos]];
   }
-  
+    
   [activeTile setActive:NO];
   [activeTile release];
   activeTile = nil;

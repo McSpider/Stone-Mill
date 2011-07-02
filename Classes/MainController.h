@@ -7,11 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameView.h"
+#import "GameController.h"
 
 
 @interface MainController : NSObject {
   IBOutlet NSWindow *mainWindow;
+  
+  GameController *game;
 }
 
 @end

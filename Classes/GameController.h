@@ -14,14 +14,29 @@
 #define TileSize (29)
 #define HalfTileSize (14)
 
+typedef enum {
+  GameIdle,
+  GamePaused
+} GameState;
+
+typedef enum {
+  Gold_Playing,
+  Blue_Playing,
+  Gold_MillClosed,
+  Blue_MillClosed,
+  Gold_Wins,
+  Blue_Wins
+} PlayingState;
+
+
 @interface GameController : NSObject {
   IBOutlet NSButton *multipurposeButton;
   IBOutlet NSButton *ghostCheck;
   IBOutlet NSButton *jumpCheck;
   
-  BOOL gameIsRunning;
-  BOOL gameIsPaused;
-  BOOL gameIsSetup;
+  int gameState;
+  int playingState;
+
   BOOL tilesCanJump;
   BOOL ghostTiles;
   NSTimeInterval timeLimit;
@@ -33,18 +48,19 @@
 
 @property (nonatomic, readonly) GamePlayer *humanPlayer;
 @property (nonatomic, readonly) GamePlayer *robotPlayer;
+@property int gameState, playingState;
 
 - (BOOL)tilesCanJump;
 - (BOOL)gameIsSetup;
 
 - (NSString*)totalMoves;
 
-- (NSArray *)validTilePositions;
+- (NSDictionary *)validTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
-- (NSArray *)validTilePositionsFromPoint:(NSPoint)point;
+- (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point;
 
-- (void)playerMoved;
+- (void)playerMoved:(int)moveType;
 - (void)playerFinishedMoving;
 
 @end

@@ -17,28 +17,6 @@
 @synthesize active;
 
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
-	if ((self = [super init]))
-	{
-		pos = [decoder decodePointForKey:@"pos"];
-    oldPos = [decoder decodePointForKey:@"oldPos"];
-		type = [decoder decodeIntForKey:@"type"];
-		age = [decoder decodeIntForKey:@"age"];
-    active = [decoder decodeBoolForKey:@"active"];
-	}
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-	[coder encodePoint:pos forKey:@"pos"];
-	[coder encodePoint:oldPos forKey:@"oldPos"];
-	[coder encodeInt:type forKey:@"type"];
-	[coder encodeInt:age forKey:@"age"];
-  [coder encodeBool:active forKey:@"active"];
-}
-
 - (NSImage *)image
 {
   if (active) {
@@ -46,6 +24,12 @@
       return [NSImage imageNamed:@"Blue_Active"];
     else if (self.type == RobotTile)
       return [NSImage imageNamed:@"Gold_Active"];
+  }
+  else if (0 != 0) {
+    if (self.type == PlayerTile)
+      return [NSImage imageNamed:@"Blue_Scared"];
+    else if (self.type == RobotTile)
+      return [NSImage imageNamed:@"Gold_Scared"];
   }
   else {
     if (self.type == PlayerTile)

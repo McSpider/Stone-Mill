@@ -17,5 +17,10 @@
 
 }
 
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+  [game setGameState:GamePaused];
+}
+
 
 @end
