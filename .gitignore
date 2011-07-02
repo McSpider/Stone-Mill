@@ -1,6 +1,7 @@
-# osx noise
+# osx noise and whatnot
 .DS_Store
 profile
+*.psd
 
 # xcode noise
 build/*
@@ -11,8 +12,10 @@ build/*
 *.perspective
 *.perspectivev3
 *.pbxuser
-*.xcworkspace
-xcuserdata
+Documentation/Generated
+doxygenWarnings.txt
+*.xcodeproj/xcuserdata/*.xcuserdatad
+*.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
 
 # svn & cvs
 .hg
