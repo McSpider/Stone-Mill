@@ -3,7 +3,7 @@
 //  StoneMill
 //
 //  Created by Ben K on 2011/06/02.
-//  All code is provided under the New BSD license.
+//  All code is provided under the MIT license.
 //
 
 #import "GameTile.h"
