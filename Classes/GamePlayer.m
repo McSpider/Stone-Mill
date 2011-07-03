@@ -31,7 +31,7 @@
 
 - (BOOL)isSetup
 {
-  return placedTileCount == 9;
+  return placedTileCount >= 9;
 }
 
 - (BOOL)tilesCanJump
@@ -42,6 +42,23 @@
 - (int)color
 {
   return self.type;
+}
+
+- (NSString*)playerName
+{
+  switch (color) {
+    case Blue:
+      return @"Blue Player";
+      break;
+      
+    case Gold:
+      return @"Gold Player";
+      break;
+      
+    default:
+      break;
+  }
+  return @"Ghost Player";
 }
 
 

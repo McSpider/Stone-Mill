@@ -44,5 +44,7 @@ typedef enum {
 
 - (int)color;
 
+- (NSString*)playerName;
+
 
 @end

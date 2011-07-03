@@ -10,8 +10,7 @@
 
 
 @implementation GameController
-@synthesize humanPlayer;
-@synthesize robotPlayer;
+@synthesize humanPlayer, robotPlayer, playingPlayer;
 @synthesize gameState, playingState;
 
 
@@ -29,39 +28,6 @@
   
   robotPlayer = [[GamePlayer alloc] init];
   [robotPlayer setType:RobotPlayer];
-  
-  /// Temporary active tiles
-  GameTile *tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(130,130)];
-  [tile setType:PlayerTile];
-  [humanPlayer.activeTiles addObject:tile];
-  [tile release];
-  
-  tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(250,310)];
-  [tile setType:PlayerTile];
-  [humanPlayer.activeTiles addObject:tile];
-  [tile release];
-      
-  tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(130,250)];
-  [tile setType:RobotTile];
-  [robotPlayer.activeTiles addObject:tile];
-  [tile release];
-  
-  tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(310,310)];
-  [tile setType:GhostTile];
-  [robotPlayer.activeTiles addObject:tile];
-  [tile release];
-  ///
-  
-  // Add stone quarry
-  tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(250,250)];
-  [tile setType:PlayerTile];
-  [robotPlayer.activeTiles addObject:tile];
-  [tile release];
     
   return self;
 }
@@ -82,6 +48,13 @@
 - (NSString*)totalMoves
 {
   return [NSString stringWithFormat:@"Moves %i",humanPlayer.moves];
+}
+
+- (NSString*)activePlayer
+{
+  if (gameState == GameIdle)
+    return @"";
+  return [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
 }
 
 - (NSDictionary *)validTilePositions
@@ -141,15 +114,14 @@
 
 - (void)playerMoved:(int)moveType;
 {
-  NSLog(@"Game state: %i",gameState);
   [self willChangeValueForKey:@"totalMoves"];
   humanPlayer.moves += 1;
 	[self didChangeValueForKey:@"totalMoves"];
   
+  if (humanPlayer.placedTileCount < 9 && moveType == 0)
+    humanPlayer.placedTileCount += 1;
+  
   if (!humanPlayer.isSetup && ![self tileAtPoint:NSMakePoint(250,250)]) {
-    if (humanPlayer.placedTileCount != 9)
-      humanPlayer.placedTileCount += 1;
-    
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
     [tile setPos:NSMakePoint(250,250)];
@@ -162,6 +134,44 @@
 - (void)playerFinishedMoving
 {
   
+}
+
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)newGame:(id)sender
+{
+  if (gameState != GameIdle)
+    return;
+  
+  gameState = GameRunning;
+  
+  [self willChangeValueForKey:@"activePlayer"];
+  playingPlayer = humanPlayer;
+  [self didChangeValueForKey:@"activePlayer"];
+  
+  /// Temporary active tiles
+  GameTile *tile = [[GameTile alloc] init];  
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(130,250)];
+  [tile setType:RobotTile];
+  [robotPlayer.activeTiles addObject:tile];
+  [tile release];
+  
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(310,310)];
+  [tile setType:GhostTile];
+  [robotPlayer.activeTiles addObject:tile];
+  [tile release];
+  ///
+  
+  // Add stone quarry
+  tile = [[GameTile alloc] init];
+  [tile setPos:NSMakePoint(250,250)];
+  [tile setType:PlayerTile];
+  [robotPlayer.activeTiles addObject:tile];
+  [tile release];
 }
 
 

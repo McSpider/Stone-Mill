@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
+		<string key="IBDocument.SystemVersion">10K540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
+		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -839,7 +839,7 @@
 							<string key="NSFrame">{{506, 429}, {166, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="167587382"/>
+							<reference key="NSNextKeyView" ref="938891705"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="600308759">
 								<int key="NSCellFlags">68288064</int>
@@ -958,6 +958,24 @@
 								<string key="NSContents">Ghosts</string>
 								<reference key="NSSupport" ref="803297970"/>
 								<reference key="NSControlView" ref="773821942"/>
+								<reference key="NSBackgroundColor" ref="827502974"/>
+								<reference key="NSTextColor" ref="84657160"/>
+							</object>
+						</object>
+						<object class="NSTextField" id="938891705">
+							<reference key="NSNextResponder" ref="439893737"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{506, 384}, {166, 17}}</string>
+							<reference key="NSSuperview" ref="439893737"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="167587382"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="868326463">
+								<int key="NSCellFlags">68288064</int>
+								<int key="NSCellFlags2">138413056</int>
+								<string key="NSContents">Player Blue</string>
+								<reference key="NSSupport" ref="803297970"/>
+								<reference key="NSControlView" ref="938891705"/>
 								<reference key="NSBackgroundColor" ref="827502974"/>
 								<reference key="NSTextColor" ref="84657160"/>
 							</object>
@@ -1405,6 +1423,30 @@
 						<reference key="destination" ref="557308134"/>
 					</object>
 					<int key="connectionID">484</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: activePlayer</string>
+						<reference key="source" ref="938891705"/>
+						<reference key="destination" ref="96351722"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="938891705"/>
+							<reference key="NSDestination" ref="96351722"/>
+							<string key="NSLabel">value: activePlayer</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">activePlayer</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">488</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">newGame:</string>
+						<reference key="source" ref="96351722"/>
+						<reference key="destination" ref="68805047"/>
+					</object>
+					<int key="connectionID">496</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2027,6 +2069,7 @@
 							<reference ref="598049553"/>
 							<reference ref="167587382"/>
 							<reference ref="773821942"/>
+							<reference ref="938891705"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -2145,6 +2188,20 @@
 						<int key="objectID">453</int>
 						<reference key="object" ref="295026831"/>
 						<reference key="parent" ref="167587382"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">485</int>
+						<reference key="object" ref="938891705"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="868326463"/>
+						</object>
+						<reference key="parent" ref="439893737"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">486</int>
+						<reference key="object" ref="868326463"/>
+						<reference key="parent" ref="938891705"/>
 					</object>
 				</object>
 			</object>
@@ -2322,6 +2379,9 @@
 					<string>451.IBPluginDependency</string>
 					<string>452.IBPluginDependency</string>
 					<string>453.IBPluginDependency</string>
+					<string>485.CustomClassName</string>
+					<string>485.IBPluginDependency</string>
+					<string>486.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.ImportedFromIB2</string>
 					<string>56.IBPluginDependency</string>
@@ -2557,6 +2617,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>KBLabel</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2605,7 +2668,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">484</int>
+			<int key="maxID">496</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2613,6 +2676,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">GameController</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">newGame:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">newGame:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">newGame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">

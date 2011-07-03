@@ -17,7 +17,8 @@
   if (![super initWithFrame:frame]) {
     return nil;
   }
-    
+  
+  [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateView:) userInfo:nil repeats:YES];
   return self;
 }
 
@@ -27,6 +28,10 @@
 }
 
 
+- (void)updateView:(NSTimer *)timer
+{
+  [self setNeedsDisplay:YES];
+}
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -36,7 +41,7 @@
   [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   
   // Draw stone quarry - Only if the player hasn't placed all tiles yet
-  if ([game.humanPlayer placedTileCount] < 9){
+  if (![game.humanPlayer isSetup] && (game.gameState != GameIdle)){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);
     [[NSImage imageNamed:@"Quarry"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
@@ -78,6 +83,9 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
+  if (game.gameState == GameIdle || game.gameState == GamePaused)
+    return;
+  
   mouseDown = YES;
 	dragging = NO;
   
@@ -89,10 +97,9 @@
     [activeTile setActive:YES];
     
     validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
-    
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] == GhostTile || [activeTile type] == RobotTile) {
-      // Currently the just poof, that is wrong they should stay
+      mouseDown = NO;
       [activeTile setActive:NO];
       [activeTile release];
       activeTile = nil;
@@ -104,6 +111,9 @@
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
+  if (game.gameState == GameIdle || game.gameState == GamePaused)
+    return;
+  
 	NSPoint mouseDragPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseDragPoint fromView:nil];
   
@@ -129,9 +139,14 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+  if (game.gameState == GameIdle || game.gameState == GamePaused)
+    return;
+  
   mouseDown = NO;
   if (!activeTile)
     return;
+  
+  BOOL fromQuarry = NSEqualPoints([activeTile oldPos], NSMakePoint(250, 250));
   
   NSPoint mouseUpPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseUpPoint fromView:nil];
@@ -145,7 +160,7 @@
         // Drop the dragged tile
         [activeTile setPos:pos];
         [activeTile incrementAge];
-        [game playerMoved:0];
+        [game playerMoved:(fromQuarry ? 0 : 1)];
         validDrop = YES;
         break;
       }

@@ -16,7 +16,8 @@
 
 typedef enum {
   GameIdle,
-  GamePaused
+  GamePaused,
+  GameRunning
 } GameState;
 
 typedef enum {
@@ -49,12 +50,14 @@ typedef enum {
 
 @property (nonatomic, readonly) GamePlayer *humanPlayer;
 @property (nonatomic, readonly) GamePlayer *robotPlayer;
+@property (nonatomic, readonly) GamePlayer *playingPlayer;
 @property int gameState, playingState;
 
 - (BOOL)tilesCanJump;
 - (BOOL)gameIsSetup;
 
 - (NSString*)totalMoves;
+- (NSString*)activePlayer;
 
 - (NSDictionary *)validTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
@@ -63,5 +66,7 @@ typedef enum {
 
 - (void)playerMoved:(int)moveType;
 - (void)playerFinishedMoving;
+
+- (IBAction)newGame:(id)sender;
 
 @end
