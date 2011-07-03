@@ -17,7 +17,7 @@ Classic Nine men's morris with a optional twist, once tiles can jump they leave 
 Stone Mill is made available under the [MIT License](http://www.opensource.org/licenses/mit-license.html).  
 Its source code can be found on GitHub: [Stone Mill](http://github.com/mcspider/Stone-Mill).
 
-	Copyright (c) 2010 Ben K
+	Copyright (c) 2011 Ben K
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
