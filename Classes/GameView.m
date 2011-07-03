@@ -35,10 +35,10 @@
   // Draw board background
   [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   
-  // Draw Tile Pool - Only if the player hasn't placed all tiles yet
+  // Draw stone quarry - Only if the player hasn't placed all tiles yet
   if ([game.humanPlayer placedTileCount] < 9){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);
-    [[NSImage imageNamed:@"Pool"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [[NSImage imageNamed:@"Quarry"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   
   // Draw valid location indicators

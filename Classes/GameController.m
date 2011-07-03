@@ -56,7 +56,7 @@
   [tile release];
   ///
   
-  // Add tile pool tile
+  // Add stone quarry
   tile = [[GameTile alloc] init];
   [tile setPos:NSMakePoint(250,250)];
   [tile setType:PlayerTile];
@@ -119,15 +119,22 @@
 
 - (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point
 {
-  // Return an dictionary consisting of the tile positions that can be moved to from the specified position
-  NSDictionary *tilePositions = [[self validTilePositions] objectForKey:[NSString stringWithFormat:@"%i, %i",(int)point.x,(int)point.y]];
+  NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
+  BOOL fromStoneQuarry = NSEqualPoints(point, NSMakePoint(250,250));
+  
+  // Return an dictionary consisting of the tile positions that can be moved to from the specified position
+  if (fromStoneQuarry || [playingPlayer tilesCanJump])
+    tilePositions = [self validTilePositions];
+  else
+    tilePositions = [[self validTilePositions] objectForKey:[NSString stringWithFormat:@"%i, %i",(int)point.x,(int)point.y]];
+
   for (NSString *string in tilePositions) {
     if ([self tileAtPoint:NSPointFromString(string)])
       continue;
     [positions setObject:string forKey:string];
   }
-
+  
   return positions; //returns all spots that are empty and valid
 }
 
@@ -143,7 +150,7 @@
     if (humanPlayer.placedTileCount != 9)
       humanPlayer.placedTileCount += 1;
     
-    // Add tile to tile pool
+    // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
     [tile setPos:NSMakePoint(250,250)];
     [tile setType:PlayerTile];

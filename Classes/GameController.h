@@ -44,6 +44,7 @@ typedef enum {
     
   GamePlayer *humanPlayer;
   GamePlayer *robotPlayer;
+  GamePlayer *playingPlayer;
 }
 
 @property (nonatomic, readonly) GamePlayer *humanPlayer;

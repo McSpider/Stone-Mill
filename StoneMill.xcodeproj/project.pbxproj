@@ -19,7 +19,7 @@
 		AE5D791B139C5579001C9FE7 /* Ghost_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */; };
 		AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7915139C5579001C9FE7 /* Gold_Active.png */; };
 		AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */; };
-		AE5D79F1139C6AC2001C9FE7 /* Pool.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D79F0139C6AC2001C9FE7 /* Pool.png */; };
+		AE5D79F1139C6AC2001C9FE7 /* Quarry.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D79F0139C6AC2001C9FE7 /* Quarry.png */; };
 		AE80F5C513B5392400D7D227 /* CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE80F5C413B5392400D7D227 /* CoordMap.plist */; };
 		AE8246BA139834CA00A351F8 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8246B8139834CA00A351F8 /* Board.png */; };
 		AE8247C713983E0600A351F8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8247C613983E0600A351F8 /* QuartzCore.framework */; };
@@ -53,7 +53,7 @@
 		AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ghost_Inactive.png; sourceTree = "<group>"; };
 		AE5D7915139C5579001C9FE7 /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
 		AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
-		AE5D79F0139C6AC2001C9FE7 /* Pool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pool.png; sourceTree = "<group>"; };
+		AE5D79F0139C6AC2001C9FE7 /* Quarry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Quarry.png; sourceTree = "<group>"; };
 		AE80F5C413B5392400D7D227 /* CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CoordMap.plist; sourceTree = "<group>"; };
 		AE8246B8139834CA00A351F8 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
 		AE8247C613983E0600A351F8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
@@ -183,7 +183,7 @@
 				AE5D7914139C5579001C9FE7 /* Ghost_Inactive.png */,
 				AE5D7915139C5579001C9FE7 /* Gold_Active.png */,
 				AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */,
-				AE5D79F0139C6AC2001C9FE7 /* Pool.png */,
+				AE5D79F0139C6AC2001C9FE7 /* Quarry.png */,
 				AE8246B8139834CA00A351F8 /* Board.png */,
 			);
 			path = Graphics;
@@ -264,7 +264,7 @@
 				AE5D791B139C5579001C9FE7 /* Ghost_Inactive.png in Resources */,
 				AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */,
 				AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */,
-				AE5D79F1139C6AC2001C9FE7 /* Pool.png in Resources */,
+				AE5D79F1139C6AC2001C9FE7 /* Quarry.png in Resources */,
 				AE2A330D139D8855009EE448 /* Notes.rtf in Resources */,
 				AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */,
 				AE103917139EE7610051B469 /* Blue_Scared.png in Resources */,
