@@ -5,17 +5,17 @@
 ![Stone Mill Screenshot](http://mcspider.bzextreme.com/files/Stone%20Mill%200.0.png)
   
 Classic Nine men's morris with a optional twist, once tiles can jump they leave behind a ghost stone that disappears after the next turn.
-
-##### Goals
-
+  
+#### Goals
+  
 - Create a semi-smart AI to play against.
 - Enter this in the uDevGames 2011 Games Competition. (When I can honestly say that this will be finished).
-
-
+  
+  
 ### License
-
-Stone Mill is made available under the [MIT License](http://www.opensource.org/licenses/mit-license.html).
-Its source code can be found on GitHub: [http://github.com/mcspider/Stone Mill]().
+  
+Stone Mill is made available under the [MIT License](http://www.opensource.org/licenses/mit-license.html).  
+Its source code can be found on GitHub: [Stone Mill](http://github.com/mcspider/Stone-Mill).
 
 	Copyright (c) 2010 Ben K
 
