@@ -17,7 +17,8 @@
 typedef enum {
   GameIdle,
   GamePaused,
-  GameRunning
+  GameRunning,
+  GameOver
 } GameState;
 
 typedef enum {
@@ -56,8 +57,9 @@ typedef enum {
 - (BOOL)tilesCanJump;
 - (BOOL)gameIsSetup;
 
-- (NSString*)totalMoves;
-- (NSString*)activePlayer;
+- (NSString*)movesLabelString;
+- (NSString*)timeLabelString;
+- (NSString*)statusLabelString;
 
 - (NSDictionary *)validTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;

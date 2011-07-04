@@ -45,17 +45,34 @@
   return NO;
 }
 
-- (NSString*)totalMoves
+- (NSString*)movesLabelString
 {
   return [NSString stringWithFormat:@"Moves %i",humanPlayer.moves];
 }
 
-- (NSString*)activePlayer
+- (NSString*)timeLabelString
+{
+  return [NSString stringWithFormat:@"Time 00:00"];
+}
+
+- (NSString*)statusLabelString
 {
   if (gameState == GameIdle)
-    return @"";
+    return @"Game Idle";
+  if (gameState == GamePaused)
+    return @"Game Paused";
+  if (gameState == GameOver) {
+    if (playingState == Blue_Wins)
+      return @"Blue Wins";
+    else if (playingState == Gold_Wins)
+      return @"Gold Wins";
+    else
+      return @"Game Over";
+  }
+
   return [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
 }
+
 
 - (NSDictionary *)validTilePositions
 {
@@ -114,9 +131,9 @@
 
 - (void)playerMoved:(int)moveType;
 {
-  [self willChangeValueForKey:@"totalMoves"];
+  [self willChangeValueForKey:@"movesLabelString"];
   humanPlayer.moves += 1;
-	[self didChangeValueForKey:@"totalMoves"];
+	[self didChangeValueForKey:@"movesLabelString"];
   
   if (humanPlayer.placedTileCount < 9 && moveType == 0)
     humanPlayer.placedTileCount += 1;
@@ -136,21 +153,8 @@
   
 }
 
-
-#pragma mark -
-#pragma mark Actions
-
-- (IBAction)newGame:(id)sender
+- (void)addTemporaryStones
 {
-  if (gameState != GameIdle)
-    return;
-  
-  gameState = GameRunning;
-  
-  [self willChangeValueForKey:@"activePlayer"];
-  playingPlayer = humanPlayer;
-  [self didChangeValueForKey:@"activePlayer"];
-  
   /// Temporary active tiles
   GameTile *tile = [[GameTile alloc] init];  
   tile = [[GameTile alloc] init];
@@ -164,14 +168,41 @@
   [tile setType:GhostTile];
   [robotPlayer.activeTiles addObject:tile];
   [tile release];
-  ///
-  
-  // Add stone quarry
-  tile = [[GameTile alloc] init];
-  [tile setPos:NSMakePoint(250,250)];
-  [tile setType:PlayerTile];
-  [robotPlayer.activeTiles addObject:tile];
-  [tile release];
+}
+
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)newGame:(id)sender
+{
+  [self willChangeValueForKey:@"statusLabelString"];
+  if (gameState != GamePaused && (gameState == GameIdle || gameState == GameOver)) {
+    gameState = GameRunning;
+    [multipurposeButton setTitle:@"Pause Game"];
+    [ghostCheck setEnabled:NO];
+    [jumpCheck setEnabled:NO];
+    
+    playingPlayer = humanPlayer;
+    
+    // Add stone quarry
+    GameTile *tile = [[GameTile alloc] init];  
+    [tile setPos:NSMakePoint(250,250)];
+    [tile setType:PlayerTile];
+    [robotPlayer.activeTiles addObject:tile];
+    [tile release];
+    
+    [self addTemporaryStones];
+  }
+  else if (gameState == GameRunning) {
+    gameState = GamePaused;
+    [multipurposeButton setTitle:@"Resume Game"];
+  }
+  else if (gameState == GamePaused) {
+    gameState = GameRunning;
+    [multipurposeButton setTitle:@"Pause Game"];
+  }
+  [self didChangeValueForKey:@"statusLabelString"];
 }
 
 

@@ -1346,22 +1346,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: totalMoves</string>
-						<reference key="source" ref="754483111"/>
-						<reference key="destination" ref="96351722"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="754483111"/>
-							<reference key="NSDestination" ref="96351722"/>
-							<string key="NSLabel">value: totalMoves</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">totalMoves</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">456</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: ghostTiles</string>
 						<reference key="source" ref="167587382"/>
 						<reference key="destination" ref="96351722"/>
@@ -1425,28 +1409,60 @@
 					<int key="connectionID">484</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: activePlayer</string>
-						<reference key="source" ref="938891705"/>
-						<reference key="destination" ref="96351722"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="938891705"/>
-							<reference key="NSDestination" ref="96351722"/>
-							<string key="NSLabel">value: activePlayer</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">activePlayer</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">488</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">newGame:</string>
 						<reference key="source" ref="96351722"/>
 						<reference key="destination" ref="68805047"/>
 					</object>
 					<int key="connectionID">496</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: movesLabelString</string>
+						<reference key="source" ref="754483111"/>
+						<reference key="destination" ref="96351722"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="754483111"/>
+							<reference key="NSDestination" ref="96351722"/>
+							<string key="NSLabel">value: movesLabelString</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">movesLabelString</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">497</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: statusLabelString</string>
+						<reference key="source" ref="938891705"/>
+						<reference key="destination" ref="96351722"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="938891705"/>
+							<reference key="NSDestination" ref="96351722"/>
+							<string key="NSLabel">value: statusLabelString</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">statusLabelString</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">500</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: timeLabelString</string>
+						<reference key="source" ref="313812776"/>
+						<reference key="destination" ref="96351722"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="313812776"/>
+							<reference key="NSDestination" ref="96351722"/>
+							<string key="NSLabel">value: timeLabelString</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">timeLabelString</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">502</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2668,7 +2684,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">496</int>
+			<int key="maxID">502</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
