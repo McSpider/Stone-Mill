@@ -33,6 +33,14 @@
   return self;
 }
 
+- (void)dealloc
+{
+  [humanPlayer release];
+  [robotPlayer release];
+  [super dealloc];
+}
+
+
 - (BOOL)tilesCanJump
 {
   return tilesCanJump;
@@ -205,7 +213,8 @@
   [self willChangeValueForKey:@"statusLabelString"];
   if (gameState != GamePaused && (gameState == GameIdle || gameState == GameOver)) {
     gameState = GameRunning;
-    [multipurposeButton setTitle:@"Pause Game"];
+    [gameButton setTitle:@"End Game"];
+    [pauseButton setEnabled:YES];
     [ghostCheck setEnabled:NO];
     [jumpCheck setEnabled:NO];
     
@@ -220,13 +229,31 @@
     
     [self addTemporaryStones];
   }
-  else if (gameState == GameRunning) {
+  else if (gameState == GameRunning || gameState == GamePaused) {
+    gameState = GameOver;
+    [gameButton setTitle:@"Start Game"];
+    [pauseButton setTitle:@"Pause"];
+    [pauseButton setEnabled:NO];
+    [ghostCheck setEnabled:YES];
+    [jumpCheck setEnabled:YES];
+    
+    [robotPlayer.activeTiles removeAllObjects];
+    [humanPlayer.activeTiles removeAllObjects];
+  }
+  [self didChangeValueForKey:@"statusLabelString"];
+  [gameView setNeedsDisplay:YES];
+}
+
+- (IBAction)pauseGame:(id)sender
+{
+  [self willChangeValueForKey:@"statusLabelString"];
+  if (gameState == GameRunning) {
     gameState = GamePaused;
-    [multipurposeButton setTitle:@"Resume Game"];
+    [pauseButton setTitle:@"Resume"];
   }
   else if (gameState == GamePaused) {
     gameState = GameRunning;
-    [multipurposeButton setTitle:@"Pause Game"];
+    [pauseButton setTitle:@"Pause"];
   }
   [self didChangeValueForKey:@"statusLabelString"];
   [gameView setNeedsDisplay:YES];

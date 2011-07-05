@@ -968,7 +968,7 @@
 							<string key="NSFrame">{{506, 384}, {166, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="234104679"/>
+							<reference key="NSNextKeyView" ref="610422642"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="868326463">
 								<int key="NSCellFlags">68288064</int>
@@ -980,31 +980,27 @@
 								<reference key="NSTextColor" ref="84657160"/>
 							</object>
 						</object>
-						<object class="NSButton" id="234104679">
+						<object class="NSButton" id="610422642">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{569, 230}, {41, 41}}</string>
+							<string key="NSFrame">{{538, 352}, {103, 19}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="167587382"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="408926788">
-								<int key="NSCellFlags">-1543373312</int>
+							<object class="NSButtonCell" key="NSCell" id="894787130">
+								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents"/>
-								<reference key="NSSupport" ref="803297970"/>
-								<reference key="NSControlView" ref="234104679"/>
-								<int key="NSButtonFlags">1221349631</int>
-								<int key="NSButtonFlags2">34</int>
-								<object class="NSCustomResource" key="NSNormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Gold_Inactive</string>
+								<string key="NSContents">Pause</string>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
 								</object>
-								<object class="NSCustomResource" key="NSAlternateImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Blue_Inactive</string>
-								</object>
-								<string key="NSAlternateContents"/>
+								<reference key="NSControlView" ref="610422642"/>
+								<int key="NSButtonFlags">-930856705</int>
+								<int key="NSButtonFlags2">164</int>
+								<string key="NSAlternateContents">Resume</string>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
@@ -1400,14 +1396,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">multipurposeButton</string>
-						<reference key="source" ref="96351722"/>
-						<reference key="destination" ref="68805047"/>
-					</object>
-					<int key="connectionID">463</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">ghostCheck</string>
 						<reference key="source" ref="96351722"/>
 						<reference key="destination" ref="167587382"/>
@@ -1493,6 +1481,30 @@
 						<reference key="destination" ref="454374762"/>
 					</object>
 					<int key="connectionID">528</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">gameButton</string>
+						<reference key="source" ref="96351722"/>
+						<reference key="destination" ref="68805047"/>
+					</object>
+					<int key="connectionID">533</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">pauseButton</string>
+						<reference key="source" ref="96351722"/>
+						<reference key="destination" ref="610422642"/>
+					</object>
+					<int key="connectionID">534</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pauseGame:</string>
+						<reference key="source" ref="96351722"/>
+						<reference key="destination" ref="610422642"/>
+					</object>
+					<int key="connectionID">535</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2116,7 +2128,7 @@
 							<reference ref="167587382"/>
 							<reference ref="773821942"/>
 							<reference ref="938891705"/>
-							<reference ref="234104679"/>
+							<reference ref="610422642"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -2251,18 +2263,18 @@
 						<reference key="parent" ref="938891705"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">529</int>
-						<reference key="object" ref="234104679"/>
+						<int key="objectID">531</int>
+						<reference key="object" ref="610422642"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="408926788"/>
+							<reference ref="894787130"/>
 						</object>
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">530</int>
-						<reference key="object" ref="408926788"/>
-						<reference key="parent" ref="234104679"/>
+						<int key="objectID">532</int>
+						<reference key="object" ref="894787130"/>
+						<reference key="parent" ref="610422642"/>
 					</object>
 				</object>
 			</object>
@@ -2445,8 +2457,8 @@
 					<string>486.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.ImportedFromIB2</string>
-					<string>529.IBPluginDependency</string>
-					<string>530.IBPluginDependency</string>
+					<string>531.IBPluginDependency</string>
+					<string>532.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>56.ImportedFromIB2</string>
 					<string>57.IBPluginDependency</string>
@@ -2733,7 +2745,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">530</int>
+			<int key="maxID">535</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2742,27 +2754,50 @@
 					<string key="className">GameController</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">newGame:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>newGame:</string>
+							<string>pauseGame:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">newGame:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">newGame:</string>
-							<string key="candidateClassName">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>newGame:</string>
+							<string>pauseGame:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">newGame:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">pauseGame:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>gameButton</string>
 							<string>gameView</string>
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
-							<string>multipurposeButton</string>
+							<string>pauseButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
 							<string>GameView</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
@@ -2773,13 +2808,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>gameButton</string>
 							<string>gameView</string>
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
-							<string>multipurposeButton</string>
+							<string>pauseButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">gameButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">gameView</string>
 								<string key="candidateClassName">GameView</string>
@@ -2793,7 +2833,7 @@
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">multipurposeButton</string>
+								<string key="name">pauseButton</string>
 								<string key="candidateClassName">NSButton</string>
 							</object>
 						</object>
@@ -2934,16 +2974,12 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>Blue_Inactive</string>
-				<string>Gold_Inactive</string>
 				<string>NSMenuCheckmark</string>
 				<string>NSMenuMixedState</string>
 				<string>NSSwitch</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{29, 29}</string>
-				<string>{29, 29}</string>
 				<string>{9, 8}</string>
 				<string>{7, 2}</string>
 				<string>{15, 15}</string>

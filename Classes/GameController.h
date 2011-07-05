@@ -34,7 +34,8 @@ typedef enum {
 @class GameView;
 
 @interface GameController : NSObject {
-  IBOutlet NSButton *multipurposeButton;
+  IBOutlet NSButton *gameButton;
+  IBOutlet NSButton *pauseButton;
   IBOutlet NSButton *ghostCheck;
   IBOutlet NSButton *jumpCheck;
   
@@ -78,5 +79,6 @@ typedef enum {
 - (void)playerFinishedMoving;
 
 - (IBAction)newGame:(id)sender;
+- (IBAction)pauseGame:(id)sender;
 
 @end
