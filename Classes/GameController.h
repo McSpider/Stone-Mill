@@ -59,7 +59,7 @@ typedef enum {
 @property int gameState, playingState;
 
 - (BOOL)tilesCanJump;
-- (BOOL)gameIsSetup;
+- (BOOL)isGameSetup;
 
 - (NSString*)movesLabelString;
 - (NSString*)timeLabelString;
@@ -69,6 +69,10 @@ typedef enum {
 - (GameTile *)tileAtPoint:(NSPoint)point;
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point;
+
+- (BOOL)validMove:(NSPoint)point;
+- (BOOL)validDrop:(NSPoint)point;
+
 
 - (void)playerMoved:(int)moveType;
 - (void)playerFinishedMoving;

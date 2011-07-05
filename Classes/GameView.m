@@ -83,8 +83,13 @@
   mouseDown = YES;
 	dragging = NO;
   
-  // Find the clicked tile
+  
 	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  bool validMove = [game validMove:pointInView];
+  if (!validMove)
+    return;
+  
+  // Find the clicked tile
 	activeTile = [[game tileAtPoint:pointInView] retain];
   if (activeTile) {
     [activeTile setOldPos:[activeTile pos]];
@@ -147,6 +152,7 @@
   
   if (dragging) {    
     BOOL validDrop = NO;
+    //BOOL validDrop = [game validDrop:pointInView];
     for (NSString *point in validDropPositions) {
       NSPoint pos = NSPointFromString(point);
       NSRect detectionRect = NSMakeRect(pos.x-HalfTileSize, pos.y-HalfTileSize, TileSize, TileSize);

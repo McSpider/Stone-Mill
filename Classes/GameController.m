@@ -38,7 +38,7 @@
   return tilesCanJump;
 }
 
-- (BOOL)gameIsSetup
+- (BOOL)isGameSetup
 {
   if (humanPlayer.isSetup && robotPlayer.isSetup)
     return YES;
@@ -129,6 +129,28 @@
   return positions; //returns all spots that are empty and valid
 }
 
+- (BOOL)validMove:(NSPoint)point
+{
+  if (![self tileAtPoint:point])
+    return NO;
+  
+  if (![playingPlayer isSetup]) {
+    NSRect quarry = NSMakeRect(250-HalfTileSize, 250-HalfTileSize, TileSize, TileSize);
+    if (NSPointInRect(point,quarry))
+      return YES;
+  }
+  else {
+    return YES;
+  }
+  
+  return NO;
+}
+
+- (BOOL)validDrop:(NSPoint)point
+{
+  return NO;
+}
+
 
 - (void)playerMoved:(int)moveType;
 {
@@ -147,6 +169,9 @@
     [robotPlayer.activeTiles addObject:tile];
     [tile release];
   }
+  
+  NSSound *popSound = [NSSound soundNamed:@"Pop"];
+	[popSound play];
 }
 
 - (void)playerFinishedMoving
