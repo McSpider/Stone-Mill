@@ -18,7 +18,6 @@
     return nil;
   }
   
-  [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateView:) userInfo:nil repeats:YES];
   return self;
 }
 
@@ -27,11 +26,6 @@
   [super dealloc];
 }
 
-
-- (void)updateView:(NSTimer *)timer
-{
-  [self setNeedsDisplay:YES];
-}
 
 - (void)drawRect:(NSRect)dirtyRect
 {

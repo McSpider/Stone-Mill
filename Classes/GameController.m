@@ -7,6 +7,7 @@
 //
 
 #import "GameController.h"
+#import "GameView.h"
 
 
 @implementation GameController
@@ -203,6 +204,7 @@
     [multipurposeButton setTitle:@"Pause Game"];
   }
   [self didChangeValueForKey:@"statusLabelString"];
+  [gameView setNeedsDisplay:YES];
 }
 
 

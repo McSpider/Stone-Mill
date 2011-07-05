@@ -31,6 +31,8 @@ typedef enum {
 } PlayingState;
 
 
+@class GameView;
+
 @interface GameController : NSObject {
   IBOutlet NSButton *multipurposeButton;
   IBOutlet NSButton *ghostCheck;
@@ -47,6 +49,8 @@ typedef enum {
   GamePlayer *humanPlayer;
   GamePlayer *robotPlayer;
   GamePlayer *playingPlayer;
+  
+  IBOutlet GameView *gameView;
 }
 
 @property (nonatomic, readonly) GamePlayer *humanPlayer;
