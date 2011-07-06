@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "GameController.h"
 
+#define ViewPadding (50)
+
 
 @interface GameView : NSView {
   GameTile *activeTile;

@@ -2,7 +2,7 @@
 
 ### A Nine Men's Morris Game for Mac OS X
 
-![Stone Mill Screenshot](http://mcspider.bzextreme.com/files/Stone%20Mill%200.0.png)
+![Stone Mill Screenshot](http://mcspider.bzextreme.com/files/Stone%20Mill%200.1.png)
   
 Classic Nine men's morris with a optional twist, once tiles can jump they leave behind a ghost stone that disappears after the next turn.
   

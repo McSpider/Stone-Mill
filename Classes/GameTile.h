@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 typedef enum {
-  PlayerTile,
-  RobotTile,
+  BlueTile,
+  GoldTile,
   GhostTile
 } StoneTypes;
 

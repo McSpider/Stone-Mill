@@ -47,16 +47,19 @@ typedef enum {
   NSTimeInterval timeLimit;
   NSTimeInterval playingTime;
     
-  GamePlayer *humanPlayer;
-  GamePlayer *robotPlayer;
+  GamePlayer *bluePlayer;
+  GamePlayer *goldPlayer;
   GamePlayer *playingPlayer;
+  
+  NSMutableArray *ghostTileArray;
   
   IBOutlet GameView *gameView;
 }
 
-@property (nonatomic, readonly) GamePlayer *humanPlayer;
-@property (nonatomic, readonly) GamePlayer *robotPlayer;
-@property (nonatomic, readonly) GamePlayer *playingPlayer;
+@property (nonatomic, readonly) GamePlayer *bluePlayer;
+@property (nonatomic, readonly) GamePlayer *goldPlayer;
+@property (nonatomic, assign) GamePlayer *playingPlayer;
+@property (nonatomic, retain) NSMutableArray *ghostTileArray;
 @property int gameState, playingState;
 
 - (BOOL)tilesCanJump;
@@ -77,6 +80,7 @@ typedef enum {
 
 - (void)playerMoved:(int)moveType;
 - (void)playerFinishedMoving;
+- (void)selectNextPlayer;
 
 - (IBAction)newGame:(id)sender;
 - (IBAction)pauseGame:(id)sender;

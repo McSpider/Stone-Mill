@@ -22,12 +22,32 @@
     return nil;
   }
   
-  type = GhostPlayer;
+  type = ZeroPlayer;
   placedTileCount = 0;
   moves = 0;
   activeTiles = [[NSMutableArray alloc] init];
   return self;
 }
+
+- (id)initWithType:(int)playerType
+{
+  if (![super init]) {
+    return nil;
+  }
+  
+  type = playerType;
+  placedTileCount = 0;
+  moves = 0;
+  activeTiles = [[NSMutableArray alloc] init];
+  return self;
+}
+
+- (void)dealloc
+{
+  [activeTiles release];
+  [super dealloc];
+}
+
 
 - (BOOL)isSetup
 {
@@ -39,19 +59,32 @@
   return [activeTiles count] == 3 && [self isSetup];
 }
 
-- (int)color
+- (int)tileType
 {
-  return self.type;
+  switch (self.type) {
+    case BluePlayer:
+      return BlueTile;
+      break;
+      
+    case GoldPlayer:
+      return GoldTile;
+      break;
+      
+    default:
+      return GhostTile;
+      break;
+  }
+  return GhostTile;
 }
 
 - (NSString*)playerName
 {
-  switch (color) {
-    case Blue:
+  switch (self.type) {
+    case BluePlayer:
       return @"Blue Player";
       break;
       
-    case Gold:
+    case GoldPlayer:
       return @"Gold Player";
       break;
       
@@ -59,6 +92,13 @@
       break;
   }
   return @"Ghost Player";
+}
+
+- (void)reset
+{
+  self.placedTileCount = 0;
+  self.moves = 0;
+  [self.activeTiles removeAllObjects];
 }
 
 

@@ -20,21 +20,21 @@
 - (NSImage *)image
 {
   if (active) {
-    if (self.type == PlayerTile)
+    if (self.type == BlueTile)
       return [NSImage imageNamed:@"Blue_Active"];
-    else if (self.type == RobotTile)
+    else if (self.type == GoldTile)
       return [NSImage imageNamed:@"Gold_Active"];
   }
   else if (0 != 0) {
-    if (self.type == PlayerTile)
+    if (self.type == BlueTile)
       return [NSImage imageNamed:@"Blue_Scared"];
-    else if (self.type == RobotTile)
+    else if (self.type == GoldTile)
       return [NSImage imageNamed:@"Gold_Scared"];
   }
   else {
-    if (self.type == PlayerTile)
+    if (self.type == BlueTile)
       return [NSImage imageNamed:@"Blue_Inactive"];
-    else if (self.type == RobotTile)
+    else if (self.type == GoldTile)
       return [NSImage imageNamed:@"Gold_Inactive"];
   }
   

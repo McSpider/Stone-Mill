@@ -50,14 +50,21 @@
   }
   
   // Draw Tiles
-  NSArray *activeTiles = [game.humanPlayer activeTiles];
+  NSArray *activeTiles = [game.bluePlayer activeTiles];
   for (GameTile *tile in activeTiles) {
     if (!tile.active) {
       NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
       [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
   }
-  activeTiles = [game.robotPlayer activeTiles];
+  activeTiles = [game.goldPlayer activeTiles];
+  for (GameTile *tile in activeTiles) {
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+  }
+  activeTiles = [game ghostTileArray];
   for (GameTile *tile in activeTiles) {
     if (!tile.active) {
       NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
@@ -80,14 +87,13 @@
   if (game.gameState == GameIdle || game.gameState == GamePaused)
     return;
   
-  mouseDown = YES;
-	dragging = NO;
-  
-  
 	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
   bool validMove = [game validMove:pointInView];
   if (!validMove)
     return;
+  
+  mouseDown = YES;
+	dragging = NO;
   
   // Find the clicked tile
 	activeTile = [[game tileAtPoint:pointInView] retain];
@@ -97,7 +103,7 @@
     
     validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
     // Don't drag ghost tiles or other computer tiles
-    if ([activeTile type] == GhostTile || [activeTile type] == RobotTile) {
+    if ([activeTile type] != [game.playingPlayer tileType]) {
       mouseDown = NO;
       [activeTile setActive:NO];
       [activeTile release];
@@ -121,14 +127,14 @@
 	dragging = YES;
   
   // Don't drag over view bounds
-  if (pointInView.y > NSMaxY([self bounds]) - 25)
-		pointInView.y = NSMaxY([self bounds]) - 25;
-  if (pointInView.y < NSMinY([self bounds]) + 25)
-		pointInView.y = NSMinY([self bounds]) + 25;
-	if (pointInView.x < NSMinX([self bounds]) + 25)
-		pointInView.x = NSMinX([self bounds]) + 25;
-	if (pointInView.x > NSMaxX([self bounds]) - 25)
-		pointInView.x = NSMaxX([self bounds]) - 25;
+  if (pointInView.y > NSMaxY([self bounds]) - ViewPadding)
+		pointInView.y = NSMaxY([self bounds]) - ViewPadding;
+  if (pointInView.y < NSMinY([self bounds]) + ViewPadding)
+		pointInView.y = NSMinY([self bounds]) + ViewPadding;
+	if (pointInView.x < NSMinX([self bounds]) + ViewPadding)
+		pointInView.x = NSMinX([self bounds]) + ViewPadding;
+	if (pointInView.x > NSMaxX([self bounds]) - ViewPadding)
+		pointInView.x = NSMaxX([self bounds]) - ViewPadding;
   
   // Start dragging the tile
   [activeTile setPos:pointInView];
