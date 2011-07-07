@@ -150,9 +150,7 @@
   mouseDown = NO;
   if (!activeTile)
     return;
-  
-  BOOL fromQuarry = NSEqualPoints([activeTile oldPos], NSMakePoint(250, 250));
-  
+    
   NSPoint mouseUpPoint = [theEvent locationInWindow];
   NSPoint pointInView = [self convertPoint:mouseUpPoint fromView:nil];
   
@@ -166,7 +164,7 @@
         // Drop the dragged tile
         [activeTile setPos:pos];
         [activeTile incrementAge];
-        [game playerMoved:(fromQuarry ? 0 : 1)];
+        [game playerMovedFrom:[activeTile oldPos] to:pos];
         validDrop = YES;
         break;
       }

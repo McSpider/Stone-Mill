@@ -167,22 +167,38 @@
 }
 
 
-- (void)playerMoved:(int)moveType;
+- (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 {
   [self willChangeValueForKey:@"statusLabelString"];
   [self willChangeValueForKey:@"movesLabelString"];
   playingPlayer.moves += 1;
   
-  if (playingPlayer.placedTileCount < MaxPlayerTiles && moveType == 0)
+  BOOL fromQuarry = NSEqualPoints(fromPos, NSMakePoint(250, 250));
+  
+  if (playingPlayer.placedTileCount < MaxPlayerTiles && fromQuarry)
     playingPlayer.placedTileCount += 1;
-    
-  [self selectNextPlayer];
-  [self didChangeValueForKey:@"statusLabelString"];
-  [self didChangeValueForKey:@"movesLabelString"];
   
   NSSound *popSound = [NSSound soundNamed:@"Pop"];
 	[popSound play];
-    
+  
+  // We closed a mill so now we get to remove a enemy stone
+  //if (![playingPlayer didCloseMill:toPos])
+  [self playerFinishedMoving];
+  [self didChangeValueForKey:@"statusLabelString"];
+  [self didChangeValueForKey:@"movesLabelString"];
+}
+
+- (void)playerFinishedMoving
+{
+  [self selectNextPlayer];
+  
+  /*if (![self playerCanMove]) {
+    gameState == GameOver;
+    if ([playingPlayer type] == BluePlayer)
+      playingState == Gold_Wins;
+    else if ([playingPlayer type] == GoldPlayer)
+      playingState == Blue_Wins;
+  }*/
   if (!playingPlayer.isSetup && ![self tileAtPoint:NSMakePoint(250,250)]) {
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
@@ -191,11 +207,6 @@
     [playingPlayer.activeTiles addObject:tile];
     [tile release];
   }
-}
-
-- (void)playerFinishedMoving
-{
-  
 }
 
 - (void)selectNextPlayer
@@ -207,11 +218,11 @@
     case GoldPlayer:
       playingPlayer = bluePlayer;
       break;
-      
     default:
       playingPlayer = bluePlayer;
       break;
   }
+  //[playingPlayer notifyTurn];
 }
 
 

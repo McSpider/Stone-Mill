@@ -78,7 +78,7 @@ typedef enum {
 - (BOOL)validDrop:(NSPoint)point;
 
 
-- (void)playerMoved:(int)moveType;
+- (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 - (void)playerFinishedMoving;
 - (void)selectNextPlayer;
 
