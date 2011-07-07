@@ -2,7 +2,7 @@
 
 ### A Nine Men's Morris Game for Mac OS X
 
-![Stone Mill Screenshot](http://mcspider.bzextreme.com/files/Stone%20Mill%200.2.png)
+![Stone Mill Screenshot](http://mcspider.bzextreme.com/files/Stone%20Mill%203.png)
   
 Classic Nine men's morris with a optional twist, once tiles can jump they leave behind a ghost stone that disappears after the next turn.
   
@@ -10,6 +10,11 @@ Classic Nine men's morris with a optional twist, once tiles can jump they leave 
   
 - Create a semi-smart AI to play against.
 - Enter this in the uDevGames 2011 Games Competition. (When I can honestly say that this will be finished).
+  
+  
+### Credits
+  
+[Matthew Skiles](http://dribbble.com/matthewskiles) for his hand crafted wood texture
   
   
 ### License
