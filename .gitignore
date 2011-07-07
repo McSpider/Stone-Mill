@@ -1,7 +1,10 @@
 # osx noise and whatnot
 .DS_Store
 profile
+
+# WIP stuff
 *.psd
+*Junk/
 
 # xcode noise
 build/*
