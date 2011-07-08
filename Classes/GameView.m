@@ -11,12 +11,15 @@
 
 
 @implementation GameView
+@synthesize viewCenter;
 
 
 - (id)initWithFrame:(NSRect)frame {
   if (![super initWithFrame:frame]) {
     return nil;
   }
+  
+  viewCenter = NSMakePoint(250,250);
   
   return self;
 }

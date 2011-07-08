@@ -127,7 +127,7 @@
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
-  BOOL fromStoneQuarry = NSEqualPoints(point, NSMakePoint(250,250));
+  BOOL fromStoneQuarry = NSEqualPoints(point, gameView.viewCenter);
   
   // Return an dictionary consisting of the tile positions that can be moved to from the specified position
   if (fromStoneQuarry || [playingPlayer tilesCanJump])
@@ -173,7 +173,7 @@
   [self willChangeValueForKey:@"movesLabelString"];
   playingPlayer.moves += 1;
   
-  BOOL fromQuarry = NSEqualPoints(fromPos, NSMakePoint(250, 250));
+  BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
   
   if (playingPlayer.placedTileCount < MaxPlayerTiles && fromQuarry)
     playingPlayer.placedTileCount += 1;
@@ -199,10 +199,10 @@
     else if ([playingPlayer type] == GoldPlayer)
       playingState == Blue_Wins;
   }*/
-  if (!playingPlayer.isSetup && ![self tileAtPoint:NSMakePoint(250,250)]) {
+  if (!playingPlayer.isSetup && ![self tileAtPoint:gameView.viewCenter]) {
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
-    [tile setPos:NSMakePoint(250,250)];
+    [tile setPos:gameView.viewCenter];
     [tile setType:[playingPlayer tileType]];
     [playingPlayer.activeTiles addObject:tile];
     [tile release];
@@ -258,7 +258,7 @@
     
     // Add stone quarry
     GameTile *tile = [[GameTile alloc] init];  
-    [tile setPos:NSMakePoint(250,250)];
+    [tile setPos:gameView.viewCenter];
     [tile setType:BlueTile];
     [playingPlayer.activeTiles addObject:tile];
     [tile release];

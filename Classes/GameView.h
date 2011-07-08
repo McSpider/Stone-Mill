@@ -18,8 +18,12 @@
 	BOOL dragging;
   BOOL mouseDown;
   
+  NSPoint viewCenter;
+  
   IBOutlet GameController *game;
 }
+
+@property (nonatomic, readonly) NSPoint viewCenter;
 
 
 @end
