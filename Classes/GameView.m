@@ -79,6 +79,13 @@
   }
   
   // Draw Messages
+  if ([game gameState] == GamePaused) {
+    [[NSColor colorWithCalibratedWhite:0.0 alpha:0.4] set];
+    NSRectFillUsingOperation([self bounds], NSCompositeSourceOver);
+    
+    NSPoint msgPos = NSMakePoint(250-175/2, 250-85/2);
+    [[NSImage imageNamed:@"Game_Paused"] drawAtPoint:msgPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+  }
 }
 
 
