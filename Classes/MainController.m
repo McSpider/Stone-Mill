@@ -19,7 +19,7 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-  [game setGameState:GamePaused];
+  [game pauseGame:self];
 }
 
 

@@ -13,7 +13,7 @@
 @interface MainController : NSObject {
   IBOutlet NSWindow *mainWindow;
   
-  GameController *game;
+  IBOutlet GameController *game;
 }
 
 @end

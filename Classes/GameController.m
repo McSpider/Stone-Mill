@@ -250,6 +250,7 @@
     [gameButton setTitle:@"End Game"];
     [pauseButton setEnabled:YES];
     [pauseButton setTransparent:NO];
+    [pauseButton setState:0];
     [ghostCheck setEnabled:NO];
     [jumpCheck setEnabled:NO];
     
@@ -267,7 +268,6 @@
   else if (gameState == GameRunning || gameState == GamePaused) {
     gameState = GameOver;
     [gameButton setTitle:@"Start Game"];
-    [pauseButton setTitle:@"Pause"];
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [ghostCheck setEnabled:YES];
@@ -286,14 +286,22 @@
 - (IBAction)pauseGame:(id)sender
 {
   [self willChangeValueForKey:@"statusLabelString"];
-  if (gameState == GameRunning) {
-    gameState = GamePaused;
-    [pauseButton setTitle:@"Resume"];
+  
+  if (sender != pauseButton) {
+    if (gameState == GameRunning)
+      gameState = GamePaused;
+    [pauseButton setState:1];
   }
-  else if (gameState == GamePaused) {
-    gameState = GameRunning;
-    [pauseButton setTitle:@"Pause"];
+  else {
+    // Toggle game state
+    if (gameState == GameRunning) {
+      gameState = GamePaused;
+    }
+    else if (gameState == GamePaused) {
+      gameState = GameRunning;
+    }
   }
+  
   [self didChangeValueForKey:@"statusLabelString"];
   [gameView setNeedsDisplay:YES];
 }
