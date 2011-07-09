@@ -9,26 +9,35 @@
 #import <Cocoa/Cocoa.h>
 #import "GameTile.h"
 
+#define MAX_PLAYER_TILES (9)
+
+typedef enum {
+  HumanPlayer,
+  RobotPlayer,
+  GhostPlayer
+} PlayerTypes;
+
 typedef enum {
   BluePlayer,
   GoldPlayer,
   ZeroPlayer
-} PlayerTypes;
+} PlayerColors;
 
 
 @interface GamePlayer : NSObject {
   int type;
+  int color;
   int placedTileCount;
   int moves;
   
   NSMutableArray *activeTiles;
 }
-@property int type;
+@property int type, color;
 @property int placedTileCount;
 @property int moves;
 @property (nonatomic, retain) NSMutableArray *activeTiles;
 
-- (id)initWithType:(int)playerType;
+- (id)initWithType:(int)aPlayerType andColor:(int)aColor;
 
 // Player has placed all his tiles and can now move
 - (BOOL)isSetup;

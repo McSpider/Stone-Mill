@@ -12,6 +12,7 @@
 
 @implementation GameView
 @synthesize viewCenter;
+@synthesize boardOpacity;
 
 
 - (id)initWithFrame:(NSRect)frame {
@@ -20,6 +21,7 @@
   }
   
   viewCenter = NSMakePoint(250,250);
+  boardOpacity = 0.0f;
   
   return self;
 }
@@ -33,9 +35,9 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
   // Drawing code here.
-  
+
   // Draw board background
-  [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+  [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:boardOpacity];
   
   // Draw stone quarry - Only if the player hasn't placed all tiles yet
   if (![game.playingPlayer isSetup] && (game.gameState != GameIdle && game.gameState != GameOver)){
@@ -56,28 +58,28 @@
   NSArray *activeTiles = [game.bluePlayer activeTiles];
   for (GameTile *tile in activeTiles) {
     if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
       [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
   }
   activeTiles = [game.goldPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
     if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
       [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
   }
   activeTiles = [game ghostTileArray];
   for (GameTile *tile in activeTiles) {
     if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize);
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
       [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
   }
   
   // Draw Selected/Dragged Tile
   if (activeTile) {
-    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HalfTileSize, activeTile.pos.y-HalfTileSize);
+    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HALF_TILE_SIZE, activeTile.pos.y-HALF_TILE_SIZE);
     [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   
@@ -94,7 +96,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-  if (game.gameState == GameIdle || game.gameState == GamePaused)
+  if (game.gameState == GameIdle || game.gameState == GamePaused || game.gameState == GameOver)
     return;
   
 	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -137,14 +139,14 @@
 	dragging = YES;
   
   // Don't drag over view bounds
-  if (pointInView.y > NSMaxY([self bounds]) - ViewPadding)
-		pointInView.y = NSMaxY([self bounds]) - ViewPadding;
-  if (pointInView.y < NSMinY([self bounds]) + ViewPadding)
-		pointInView.y = NSMinY([self bounds]) + ViewPadding;
-	if (pointInView.x < NSMinX([self bounds]) + ViewPadding)
-		pointInView.x = NSMinX([self bounds]) + ViewPadding;
-	if (pointInView.x > NSMaxX([self bounds]) - ViewPadding)
-		pointInView.x = NSMaxX([self bounds]) - ViewPadding;
+  if (pointInView.y > NSMaxY([self bounds]) - VIEW_PADDING)
+		pointInView.y = NSMaxY([self bounds]) - VIEW_PADDING;
+  if (pointInView.y < NSMinY([self bounds]) + VIEW_PADDING)
+		pointInView.y = NSMinY([self bounds]) + VIEW_PADDING;
+	if (pointInView.x < NSMinX([self bounds]) + VIEW_PADDING)
+		pointInView.x = NSMinX([self bounds]) + VIEW_PADDING;
+	if (pointInView.x > NSMaxX([self bounds]) - VIEW_PADDING)
+		pointInView.x = NSMaxX([self bounds]) - VIEW_PADDING;
   
   // Start dragging the tile
   [activeTile setPos:pointInView];
@@ -169,7 +171,7 @@
     //BOOL validDrop = [game validDrop:pointInView];
     for (NSString *point in validDropPositions) {
       NSPoint pos = NSPointFromString(point);
-      NSRect detectionRect = NSMakeRect(pos.x-HalfTileSize, pos.y-HalfTileSize, TileSize, TileSize);
+      NSRect detectionRect = NSMakeRect(pos.x-HALF_TILE_SIZE, pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
       if (NSPointInRect(pointInView, detectionRect)) {
         // Drop the dragged tile
         [activeTile setPos:pos];

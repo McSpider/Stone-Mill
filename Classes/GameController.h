@@ -9,10 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "GamePlayer.h"
 
-#define TotalGamePositions (24)
-#define MaxPlayerTiles (9)
-#define TileSize (29)
-#define HalfTileSize (14)
+#define TOTAL_POSITIONS (24)
+#define TILE_SIZE (29)
+#define HALF_TILE_SIZE (14)
 
 typedef enum {
   GameIdle,
@@ -81,6 +80,10 @@ typedef enum {
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 - (void)playerFinishedMoving;
 - (void)selectNextPlayer;
+
+- (BOOL)playerCanMove;
+- (void)movePlayer;
+
 
 - (IBAction)newGame:(id)sender;
 - (IBAction)pauseGame:(id)sender;

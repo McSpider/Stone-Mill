@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GameController.h"
 
-#define ViewPadding (50)
+#define VIEW_PADDING (50)
 
 
 @interface GameView : NSView {
@@ -19,11 +19,13 @@
   BOOL mouseDown;
   
   NSPoint viewCenter;
+  float boardOpacity;
   
   IBOutlet GameController *game;
 }
 
 @property (nonatomic, readonly) NSPoint viewCenter;
+@property float boardOpacity;
 
 
 @end

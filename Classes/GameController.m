@@ -25,11 +25,16 @@
   ghostTiles = YES;
   gameState = GameIdle;
   
-  bluePlayer = [[GamePlayer alloc] initWithType:BluePlayer];
-  goldPlayer = [[GamePlayer alloc] initWithType:GoldPlayer];
+  bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
+  goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
   
   return self;
+}
+
+- (void)awakeFromNib
+{
+  [gameView setBoardOpacity:1.0];
 }
 
 - (void)dealloc
@@ -90,24 +95,23 @@
 
 - (GameTile *)tileAtPoint:(NSPoint)point
 {
-  // Untested
   NSArray *activeTiles = [bluePlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize, TileSize, TileSize);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
   }
   activeTiles = [goldPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize, TileSize, TileSize);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
   }
   activeTiles = [self ghostTileArray];
   for (GameTile *tile in activeTiles) {
-    NSRect tileBounds = NSMakeRect(tile.pos.x-HalfTileSize, tile.pos.y-HalfTileSize, TileSize, TileSize);
+    NSRect tileBounds = NSMakeRect(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
     if (NSPointInRect(point,tileBounds)) {
       return tile;
     }
@@ -150,7 +154,7 @@
     return NO;
   
   if (![playingPlayer isSetup]) {
-    NSRect quarry = NSMakeRect(250-HalfTileSize, 250-HalfTileSize, TileSize, TileSize);
+    NSRect quarry = NSMakeRect(250-HALF_TILE_SIZE, 250-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
     if (NSPointInRect(point,quarry))
       return YES;
   }
@@ -175,7 +179,7 @@
   
   BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
   
-  if (playingPlayer.placedTileCount < MaxPlayerTiles && fromQuarry)
+  if (![playingPlayer isSetup] && fromQuarry)
     playingPlayer.placedTileCount += 1;
   
   NSSound *popSound = [NSSound soundNamed:@"Pop"];
@@ -192,13 +196,17 @@
 {
   [self selectNextPlayer];
   
-  /*if (![self playerCanMove]) {
-    gameState == GameOver;
-    if ([playingPlayer type] == BluePlayer)
-      playingState == Gold_Wins;
-    else if ([playingPlayer type] == GoldPlayer)
-      playingState == Blue_Wins;
-  }*/
+  if (![self playerCanMove]) {
+    gameState = GameOver;
+    [pauseButton setEnabled:NO];
+    [pauseButton setTransparent:YES];
+    if ([playingPlayer color] == BluePlayer)
+      playingState = Gold_Wins;
+    else if ([playingPlayer color] == GoldPlayer)
+      playingState = Blue_Wins;
+    return;
+  }
+  
   if (!playingPlayer.isSetup && ![self tileAtPoint:gameView.viewCenter]) {
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
@@ -207,11 +215,13 @@
     [playingPlayer.activeTiles addObject:tile];
     [tile release];
   }
+  if (playingPlayer.type == RobotPlayer)
+    [self movePlayer];
 }
 
 - (void)selectNextPlayer
 {
-  switch (playingPlayer.type) {
+  switch (playingPlayer.color) {
     case BluePlayer:
       playingPlayer = goldPlayer;
       break;
@@ -222,9 +232,28 @@
       playingPlayer = bluePlayer;
       break;
   }
-  //[playingPlayer notifyTurn];
 }
 
+- (BOOL)playerCanMove
+{
+  BOOL canMove = NO;
+  for (GameTile *aTile in playingPlayer.activeTiles) {
+    if ([[self validTilePositionsFromPoint:aTile.pos] count] > 0) {
+      canMove = YES;
+    }
+  }
+  // Check if the player could move from the quarry
+  if (!playingPlayer.isSetup && !canMove)
+    if ([[self validTilePositionsFromPoint:gameView.viewCenter] count] > 0)
+      canMove = YES;
+
+  return canMove;
+}
+
+- (void)movePlayer
+{
+
+}
 
 - (void)addTemporaryStones
 {
@@ -245,7 +274,7 @@
   [self willChangeValueForKey:@"movesLabelString"];
   [self willChangeValueForKey:@"timeLabelString"];
   [self willChangeValueForKey:@"statusLabelString"];
-  if (gameState != GamePaused && (gameState == GameIdle || gameState == GameOver)) {
+  if (gameState != GamePaused && gameState == GameIdle) {
     gameState = GameRunning;
     [gameButton setTitle:@"End Game"];
     [pauseButton setEnabled:YES];
@@ -265,7 +294,7 @@
     
     [self addTemporaryStones];
   }
-  else if (gameState == GameRunning || gameState == GamePaused) {
+  else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     gameState = GameOver;
     [gameButton setTitle:@"Start Game"];
     [pauseButton setEnabled:NO];
@@ -280,7 +309,6 @@
   [self didChangeValueForKey:@"movesLabelString"];
   [self didChangeValueForKey:@"timeLabelString"];
   [self didChangeValueForKey:@"statusLabelString"];
-  [gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)pauseGame:(id)sender
@@ -303,7 +331,6 @@
   }
   
   [self didChangeValueForKey:@"statusLabelString"];
-  [gameView setNeedsDisplay:YES];
 }
 
 

@@ -10,7 +10,7 @@
 
 
 @implementation GamePlayer
-@synthesize type;
+@synthesize type,color;
 @synthesize placedTileCount;
 @synthesize moves;
 @synthesize activeTiles;
@@ -29,13 +29,14 @@
   return self;
 }
 
-- (id)initWithType:(int)playerType
+- (id)initWithType:(int)aPlayerType andColor:(int)aColor;
 {
   if (![super init]) {
     return nil;
   }
   
-  type = playerType;
+  type = aPlayerType;
+  color = aColor;
   placedTileCount = 0;
   moves = 0;
   activeTiles = [[NSMutableArray alloc] init];
@@ -51,7 +52,7 @@
 
 - (BOOL)isSetup
 {
-  return placedTileCount >= 9;
+  return placedTileCount >= MAX_PLAYER_TILES;
 }
 
 - (BOOL)tilesCanJump
@@ -61,7 +62,7 @@
 
 - (int)tileType
 {
-  switch (self.type) {
+  switch (self.color) {
     case BluePlayer:
       return BlueTile;
       break;
@@ -79,7 +80,7 @@
 
 - (NSString*)playerName
 {
-  switch (self.type) {
+  switch (self.color) {
     case BluePlayer:
       return @"Blue Player";
       break;
