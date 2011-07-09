@@ -309,6 +309,7 @@
   [self didChangeValueForKey:@"movesLabelString"];
   [self didChangeValueForKey:@"timeLabelString"];
   [self didChangeValueForKey:@"statusLabelString"];
+  [gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)pauseGame:(id)sender
@@ -331,6 +332,7 @@
   }
   
   [self didChangeValueForKey:@"statusLabelString"];
+  [gameView setNeedsDisplay:YES];
 }
 
 
