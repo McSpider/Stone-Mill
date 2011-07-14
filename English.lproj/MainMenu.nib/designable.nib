@@ -1061,7 +1061,7 @@
 					<reference key="NSNextKeyView" ref="600628402"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{701, 523}</string>
 				<string key="NSMaxSize">{701, 523}</string>
 			</object>
@@ -2553,6 +2553,7 @@
 					<string>532.IBPluginDependency</string>
 					<string>538.IBPluginDependency</string>
 					<string>539.IBPluginDependency</string>
+					<string>545.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>56.ImportedFromIB2</string>
 					<string>57.IBPluginDependency</string>
@@ -2796,6 +2797,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -2841,7 +2843,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">549</int>
+			<int key="maxID">550</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2890,7 +2892,6 @@
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
 							<string>pauseButton</string>
-							<string>timeLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2899,7 +2900,6 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
-							<string>KBLabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2911,7 +2911,6 @@
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
 							<string>pauseButton</string>
-							<string>timeLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2934,10 +2933,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">pauseButton</string>
 								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">timeLabel</string>
-								<string key="candidateClassName">KBLabel</string>
 							</object>
 						</object>
 					</object>

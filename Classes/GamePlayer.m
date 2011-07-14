@@ -14,6 +14,7 @@
 @synthesize placedTileCount;
 @synthesize moves;
 @synthesize activeTiles;
+@synthesize state;
 
 
 - (id)init
@@ -25,6 +26,7 @@
   type = ZeroPlayer;
   placedTileCount = 0;
   moves = 0;
+  state = 0;
   activeTiles = [[NSMutableArray alloc] init];
   return self;
 }
@@ -39,6 +41,7 @@
   color = aColor;
   placedTileCount = 0;
   moves = 0;
+  state = 0;
   activeTiles = [[NSMutableArray alloc] init];
   return self;
 }

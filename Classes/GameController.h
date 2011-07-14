@@ -21,10 +21,7 @@ typedef enum {
 } GameState;
 
 typedef enum {
-  Gold_Playing,
-  Blue_Playing,
-  Gold_MillClosed,
-  Blue_MillClosed,
+  Game_Draw,
   Gold_Wins,
   Blue_Wins
 } PlayingState;
@@ -53,10 +50,10 @@ typedef enum {
   NSMutableArray *ghostTileArray;
   
   IBOutlet GameView *gameView;
-    
+  
   NSDate * gameStart;
-    NSString * timeLabelString;
-    NSTimer * gameTimer;
+  NSString * timeLabelString;
+  NSTimer * gameTimer;
 }
 
 @property (nonatomic, readonly) GamePlayer *bluePlayer;
@@ -72,7 +69,6 @@ typedef enum {
 - (BOOL)isGameSetup;
 
 - (NSString*)movesLabelString;
-- (NSString*)timeLabelString;
 - (NSString*)statusLabelString;
 
 - (NSDictionary *)validTilePositions;
@@ -83,6 +79,7 @@ typedef enum {
 - (BOOL)validMove:(NSPoint)point;
 - (BOOL)validDrop:(NSPoint)point;
 
+- (BOOL)removeTileAtPoint:(NSPoint)point;
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 - (void)playerFinishedMoving;

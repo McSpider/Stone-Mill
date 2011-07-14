@@ -104,6 +104,9 @@
   if (!validMove)
     return;
   
+  if ([game.playingPlayer state] == 1)
+    return;
+  
   mouseDown = YES;
 	dragging = NO;
   
@@ -131,9 +134,7 @@
   if (game.gameState == GameIdle || game.gameState == GamePaused)
     return;
   
-	NSPoint mouseDragPoint = [theEvent locationInWindow];
-  NSPoint pointInView = [self convertPoint:mouseDragPoint fromView:nil];
-  
+  NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
   if (!activeTile)
 		return;
 	dragging = YES;
@@ -160,12 +161,16 @@
     return;
   
   mouseDown = NO;
+  
+  NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  if ([game.playingPlayer state] == 1) {
+    if (![game removeTileAtPoint:pointInView])
+      NSLog(@"Can't remove selected tile!");//[self displayErorr];
+  }
+
   if (!activeTile)
     return;
-    
-  NSPoint mouseUpPoint = [theEvent locationInWindow];
-  NSPoint pointInView = [self convertPoint:mouseUpPoint fromView:nil];
-  
+      
   if (dragging) {    
     BOOL validDrop = NO;
     //BOOL validDrop = [game validDrop:pointInView];

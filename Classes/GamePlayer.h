@@ -30,11 +30,13 @@ typedef enum {
   int placedTileCount;
   int moves;
   
+  int state; // 0 Idle , 1 MillClosed
   NSMutableArray *activeTiles;
 }
 @property int type, color;
 @property int placedTileCount;
 @property int moves;
+@property int state;
 @property (nonatomic, retain) NSMutableArray *activeTiles;
 
 - (id)initWithType:(int)aPlayerType andColor:(int)aColor;

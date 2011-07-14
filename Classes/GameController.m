@@ -35,7 +35,7 @@
 - (void)awakeFromNib
 {
   [gameView setBoardOpacity:1.0];
-    self.timeLabelString = @"00:00";
+  self.timeLabelString = @"00:00";
 }
 
 - (void)dealloc
@@ -167,6 +167,19 @@
 }
 
 
+- (BOOL)removeTileAtPoint:(NSPoint)point
+{
+  GameTile *aTile = [self tileAtPoint:point];
+  
+  if (aTile.type == [playingPlayer tileType] || aTile.type == GhostTile)
+    return NO;
+  
+  // Remove Tile
+  [playingPlayer setState:0];
+  return YES;
+}
+
+
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 {
   [self willChangeValueForKey:@"statusLabelString"];
@@ -183,7 +196,7 @@
   
   // We closed a mill so now we get to remove a enemy stone
   //if (![playingPlayer didCloseMill:toPos])
-  [self playerFinishedMoving];
+    [self playerFinishedMoving];
   [self didChangeValueForKey:@"statusLabelString"];
   [self didChangeValueForKey:@"movesLabelString"];
 }
@@ -270,7 +283,6 @@
 - (IBAction)newGame:(id)sender
 {
   [self willChangeValueForKey:@"movesLabelString"];
-  [self willChangeValueForKey:@"timeLabelString"];
   [self willChangeValueForKey:@"statusLabelString"];
   [goldPlayer reset];
   [bluePlayer reset];
@@ -313,7 +325,6 @@
     [jumpCheck setEnabled:YES];
   }
   [self didChangeValueForKey:@"movesLabelString"];
-  [self didChangeValueForKey:@"timeLabelString"];
   [self didChangeValueForKey:@"statusLabelString"];
   [gameView setNeedsDisplay:YES];
 }
