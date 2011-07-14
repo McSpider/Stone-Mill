@@ -24,6 +24,7 @@
 			<string>NSView</string>
 			<string>NSWindowTemplate</string>
 			<string>NSTextField</string>
+			<string>NSUserDefaultsController</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1060,7 +1061,7 @@
 					<reference key="NSNextKeyView" ref="600628402"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{701, 523}</string>
 				<string key="NSMaxSize">{701, 523}</string>
 			</object>
@@ -1069,6 +1070,9 @@
 			</object>
 			<object class="NSCustomObject" id="96351722">
 				<string key="NSClassName">GameController</string>
+			</object>
+			<object class="NSUserDefaultsController" id="694938323">
+				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1507,22 +1511,6 @@
 					<int key="connectionID">500</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: timeLabelString</string>
-						<reference key="source" ref="313812776"/>
-						<reference key="destination" ref="96351722"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="313812776"/>
-							<reference key="NSDestination" ref="96351722"/>
-							<string key="NSLabel">value: timeLabelString</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">timeLabelString</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">502</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">gameView</string>
 						<reference key="source" ref="96351722"/>
@@ -1561,6 +1549,34 @@
 						<reference key="destination" ref="96351722"/>
 					</object>
 					<int key="connectionID">540</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">timeLabel</string>
+						<reference key="source" ref="96351722"/>
+						<reference key="destination" ref="313812776"/>
+					</object>
+					<int key="connectionID">544</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: timeLabelString</string>
+						<reference key="source" ref="600308759"/>
+						<reference key="destination" ref="96351722"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="600308759"/>
+							<reference key="NSDestination" ref="96351722"/>
+							<string key="NSLabel">value: timeLabelString</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">timeLabelString</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">549</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2177,7 +2193,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="454374762"/>
 							<reference ref="754483111"/>
-							<reference ref="313812776"/>
 							<reference ref="68805047"/>
 							<reference ref="955566528"/>
 							<reference ref="598049553"/>
@@ -2186,6 +2201,7 @@
 							<reference ref="938891705"/>
 							<reference ref="610422642"/>
 							<reference ref="600628402"/>
+							<reference ref="313812776"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -2346,6 +2362,11 @@
 						<int key="objectID">539</int>
 						<reference key="object" ref="652772419"/>
 						<reference key="parent" ref="600628402"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">545</int>
+						<reference key="object" ref="694938323"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</object>
 			</object>
@@ -2820,7 +2841,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">540</int>
+			<int key="maxID">549</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2869,6 +2890,7 @@
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
 							<string>pauseButton</string>
+							<string>timeLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2877,6 +2899,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>KBLabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2888,6 +2911,7 @@
 							<string>ghostCheck</string>
 							<string>jumpCheck</string>
 							<string>pauseButton</string>
+							<string>timeLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2910,6 +2934,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">pauseButton</string>
 								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">timeLabel</string>
+								<string key="candidateClassName">KBLabel</string>
 							</object>
 						</object>
 					</object>

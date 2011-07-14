@@ -53,6 +53,10 @@ typedef enum {
   NSMutableArray *ghostTileArray;
   
   IBOutlet GameView *gameView;
+    
+  NSDate * gameStart;
+    NSString * timeLabelString;
+    NSTimer * gameTimer;
 }
 
 @property (nonatomic, readonly) GamePlayer *bluePlayer;
@@ -60,6 +64,9 @@ typedef enum {
 @property (nonatomic, assign) GamePlayer *playingPlayer;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
 @property int gameState, playingState;
+@property (nonatomic, retain) NSString * timeLabelString;
+@property (nonatomic, retain) NSTimer * gameTimer;
+@property (nonatomic, retain) NSDate * gameStart;
 
 - (BOOL)tilesCanJump;
 - (BOOL)isGameSetup;

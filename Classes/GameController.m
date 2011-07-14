@@ -14,7 +14,7 @@
 @synthesize bluePlayer, goldPlayer, playingPlayer;
 @synthesize ghostTileArray;
 @synthesize gameState, playingState;
-
+@synthesize timeLabelString, gameTimer, gameStart;
 
 - (id)init
 {
@@ -35,6 +35,7 @@
 - (void)awakeFromNib
 {
   [gameView setBoardOpacity:1.0];
+    self.timeLabelString = @"00:00";
 }
 
 - (void)dealloc
@@ -62,11 +63,6 @@
 - (NSString*)movesLabelString
 {
   return [NSString stringWithFormat:@"Moves %i",bluePlayer.moves+goldPlayer.moves];
-}
-
-- (NSString*)timeLabelString
-{
-  return [NSString stringWithFormat:@"Time 00:00"];
 }
 
 - (NSString*)statusLabelString
@@ -200,6 +196,8 @@
     gameState = GameOver;
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
+      [self.gameTimer invalidate];
+      self.gameTimer = nil;
     if ([playingPlayer color] == BluePlayer)
       playingState = Gold_Wins;
     else if ([playingPlayer color] == GoldPlayer)
@@ -293,6 +291,12 @@
     [tile release];
     
     [self addTemporaryStones];
+      self.gameStart = [NSDate date];
+      self.gameTimer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                        target:self
+                                                      selector:@selector(updateTimer)
+                                                      userInfo:nil
+                                                       repeats:TRUE];
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     gameState = GameOver;
@@ -305,6 +309,8 @@
     [goldPlayer reset];
     [bluePlayer reset];
     [ghostTileArray removeAllObjects];
+      [self.gameTimer invalidate];
+      self.gameTimer = nil;
   }
   [self didChangeValueForKey:@"movesLabelString"];
   [self didChangeValueForKey:@"timeLabelString"];
@@ -333,6 +339,18 @@
   
   [self didChangeValueForKey:@"statusLabelString"];
   [gameView setNeedsDisplay:YES];
+}
+
+- (void)updateTimer
+{
+	NSAutoreleasePool * pool0 = [[NSAutoreleasePool alloc] init];
+	// determine seconds between now and gameStart
+	NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.gameStart];
+	NSInteger minutes = ((NSInteger)((CGFloat)seconds/60.0f));
+    self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d",
+                            minutes,
+                            ((NSInteger)seconds) - (minutes*60)];
+	[pool0 release];
 }
 
 
