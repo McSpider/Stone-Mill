@@ -13,6 +13,7 @@
 @implementation GameController
 @synthesize bluePlayer, goldPlayer, playingPlayer;
 @synthesize ghostTileArray;
+@synthesize statusLabelString, movesLabelString;
 @synthesize gameState, playingState;
 @synthesize timeLabelString, gameTimer, gameStart;
 
@@ -23,11 +24,16 @@
   }
   tilesCanJump = YES;
   ghostTiles = YES;
-  gameState = GameIdle;
+  [self setGameState:GameIdle];
   
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
+  
+  errorSound = [[NSSound soundNamed:@"Pop"] retain];
+  removeSound = [[NSSound soundNamed:@"Pop"] retain];
+  moveSound = [[NSSound soundNamed:@"Pop"] retain];
+  closeSound = [[NSSound soundNamed:@"Pop"] retain];
   
   return self;
 }
@@ -36,10 +42,16 @@
 {
   [gameView setBoardOpacity:1.0];
   self.timeLabelString = @"00:00";
+  self.movesLabelString = @"Moves 0";
 }
 
 - (void)dealloc
 {
+  [errorSound release];
+  [removeSound release];
+  [moveSound release];
+  [closeSound release];
+  
   [bluePlayer release];
   [goldPlayer release];
   [ghostTileArray release];
@@ -60,27 +72,29 @@
   return NO;
 }
 
-- (NSString*)movesLabelString
+- (void)setGameState:(int)theState
 {
-  return [NSString stringWithFormat:@"Moves %i",bluePlayer.moves+goldPlayer.moves];
-}
-
-- (NSString*)statusLabelString
-{
-  if (gameState == GameIdle)
-    return @"";
-  if (gameState == GamePaused)
-    return @"Game Paused";
-  if (gameState == GameOver) {
-    if (playingState == Blue_Wins)
-      return @"Blue Wins";
-    else if (playingState == Gold_Wins)
-      return @"Gold Wins";
-    else
-      return @"Game Over";
+  gameState = theState;
+  
+  // Update the status label string
+  if (gameState == GameIdle) {
+    self.statusLabelString = @"";
   }
-
-  return [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
+  else if (gameState == GamePaused) {
+    self.statusLabelString = @"Game Paused";
+  }
+  else if (gameState == GameOver) {
+    [gameButton setTitle:@"Reset Game"];
+    if (playingState == Blue_Wins)
+      self.statusLabelString = @"Blue Wins";
+    else if (playingState == Gold_Wins)
+      self.statusLabelString = @"Gold Wins";
+    else
+      self.statusLabelString = @"Game Over";
+  }
+  else {
+    self.statusLabelString = [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
+  }
 }
 
 
@@ -161,60 +175,93 @@
   return NO;
 }
 
-- (BOOL)validDrop:(NSPoint)point
-{
-  return NO;
-}
 
-
-- (BOOL)removeTileAtPoint:(NSPoint)point
+- (BOOL)playerRemoveTileAtPoint:(NSPoint)point
 {
   GameTile *aTile = [self tileAtPoint:point];
   
-  if (aTile.type == [playingPlayer tileType] || aTile.type == GhostTile)
+  if (aTile.type == [playingPlayer tileType] || aTile.type == GhostTile) {
+    [errorSound play];
     return NO;
+  }
   
   // Remove Tile
+  if (aTile.type == BlueTile)
+    [bluePlayer.activeTiles removeObject:aTile];
+  else if (aTile.type == GoldTile)
+    [goldPlayer.activeTiles removeObject:aTile];
+  
+  [removeSound play];
+  
   [playingPlayer setState:0];
+  [self playerFinishedMoving];
   return YES;
 }
 
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 {
-  [self willChangeValueForKey:@"statusLabelString"];
-  [self willChangeValueForKey:@"movesLabelString"];
+  // If we closed a mill we get to remove a enemy stone
+  if ([self playerDidCloseMill:toPos]) {
+    [playingPlayer setState:1];
+    return;
+  }
+
   playingPlayer.moves += 1;
-  
+  self.movesLabelString = [NSString stringWithFormat:@"Moves %i",(bluePlayer.moves + goldPlayer.moves)];
+    
+  // Increment the age of ghost stones
+  for (GameTile *theTile in ghostTileArray) {
+    [theTile setAge:theTile.age + 1];
+  }
+    
   BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
-  
+    
   if (![playingPlayer isSetup] && fromQuarry)
-    playingPlayer.placedTileCount += 1;
-  
-  NSSound *popSound = [NSSound soundNamed:@"Pop"];
-	[popSound play];
-  
-  // We closed a mill so now we get to remove a enemy stone
-  //if (![playingPlayer didCloseMill:toPos])
-    [self playerFinishedMoving];
-  [self didChangeValueForKey:@"statusLabelString"];
-  [self didChangeValueForKey:@"movesLabelString"];
+    playingPlayer.placedTileCount += 1;    
+  [moveSound play];
+    
+  [self playerFinishedMoving];
+}
+
+- (BOOL)playerDidCloseMill:(NSPoint)aPoint
+{
+  BOOL millClosed = NO;
+  NSArray *playerTiles = [playingPlayer activeTiles];
+  for (GameTile *theTile in playerTiles) {
+    NSDictionary *vaidMoves = [self validTilePositionsFromPoint:[theTile pos]];
+    for (NSString *theMove in vaidMoves) {
+      // Check for 3 positions in a row which include our starting position
+    }
+  }
+
+  if (millClosed) {
+    [closeSound play];
+  }
+
+  return millClosed;
 }
 
 - (void)playerFinishedMoving
 {
   [self selectNextPlayer];
   
+  // Remove ghost stones older that 1 turn;
+  for (GameTile *theTile in ghostTileArray) {
+    if ([theTile age] > 1)
+      [ghostTileArray removeObject:theTile];
+  }
+  
   if (![self playerCanMove]) {
-    gameState = GameOver;
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
-      [self.gameTimer invalidate];
-      self.gameTimer = nil;
+    [self.gameTimer invalidate];
+    self.gameTimer = nil;
     if ([playingPlayer color] == BluePlayer)
       playingState = Gold_Wins;
     else if ([playingPlayer color] == GoldPlayer)
       playingState = Blue_Wins;
+    [self setGameState:GameOver];
     return;
   }
   
@@ -243,6 +290,7 @@
       playingPlayer = bluePlayer;
       break;
   }
+  self.statusLabelString = [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
 }
 
 - (BOOL)playerCanMove
@@ -256,6 +304,11 @@
   // Check if the player could move from the quarry
   if (!playingPlayer.isSetup && !canMove)
     if ([[self validTilePositionsFromPoint:gameView.viewCenter] count] > 0)
+      canMove = YES;
+  
+  // Check if the player can jump and there are empty spots
+  if (playingPlayer.tilesCanJump)
+    if ([[self validTilePositions] count] > 0)
       canMove = YES;
 
   return canMove;
@@ -272,6 +325,8 @@
   GameTile *tile = [[GameTile alloc] init];  
   [tile setPos:NSMakePoint(310,310)];
   [tile setType:GhostTile];
+  // Make this tile unremovable used to test
+  //[tile setAge:-2000];
   [self.ghostTileArray addObject:tile];
   [tile release];
 }
@@ -282,16 +337,15 @@
 
 - (IBAction)newGame:(id)sender
 {
-  [self willChangeValueForKey:@"movesLabelString"];
-  [self willChangeValueForKey:@"statusLabelString"];
   [goldPlayer reset];
   [bluePlayer reset];
   [ghostTileArray removeAllObjects];
   [self.gameTimer invalidate];
   self.gameTimer = nil;
+  self.timeLabelString = @"00:00";
+  self.movesLabelString = @"Moves 0";
   
   if (gameState != GamePaused && gameState == GameIdle) {
-    gameState = GameRunning;
     [gameButton setTitle:@"End Game"];
     [pauseButton setEnabled:YES];
     [pauseButton setTransparent:NO];
@@ -300,6 +354,7 @@
     [jumpCheck setEnabled:NO];
     
     playingPlayer = bluePlayer;
+    [self setGameState:GameRunning];
     
     // Add stone quarry
     GameTile *tile = [[GameTile alloc] init];  
@@ -309,46 +364,41 @@
     [tile release];
     
     [self addTemporaryStones];
-      self.gameStart = [NSDate date];
-      self.gameTimer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                        target:self
-                                                      selector:@selector(updateTimer)
-                                                      userInfo:nil
-                                                       repeats:TRUE];
+    self.gameStart = [NSDate date];
+    self.gameTimer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                      target:self
+                                                    selector:@selector(updateTimer)
+                                                    userInfo:nil
+                                                      repeats:TRUE];
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
-    gameState = GameIdle;
+    [self setGameState:GameIdle];
     [gameButton setTitle:@"Start Game"];
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [ghostCheck setEnabled:YES];
     [jumpCheck setEnabled:YES];
   }
-  [self didChangeValueForKey:@"movesLabelString"];
-  [self didChangeValueForKey:@"statusLabelString"];
+
   [gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)pauseGame:(id)sender
-{
-  [self willChangeValueForKey:@"statusLabelString"];
-  
+{  
   if (sender != pauseButton) {
     if (gameState == GameRunning)
-      gameState = GamePaused;
+      [self setGameState:GamePaused];
     [pauseButton setState:1];
   }
   else {
     // Toggle game state
     if (gameState == GameRunning) {
-      gameState = GamePaused;
+      [self setGameState:GamePaused];
     }
     else if (gameState == GamePaused) {
-      gameState = GameRunning;
+      [self setGameState:GameRunning];
     }
-  }
-  
-  [self didChangeValueForKey:@"statusLabelString"];
+  }  
   [gameView setNeedsDisplay:YES];
 }
 
@@ -358,9 +408,9 @@
 	// determine seconds between now and gameStart
 	NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.gameStart];
 	NSInteger minutes = ((NSInteger)((CGFloat)seconds/60.0f));
-    self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d",
-                            minutes,
-                            ((NSInteger)seconds) - (minutes*60)];
+  self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d",
+                          minutes,
+                          ((NSInteger)seconds) - (minutes*60)];
 	[pool0 release];
 }
 

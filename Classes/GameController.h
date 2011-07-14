@@ -47,8 +47,15 @@ typedef enum {
   GamePlayer *goldPlayer;
   GamePlayer *playingPlayer;
   
-  NSMutableArray *ghostTileArray;
+  NSString * movesLabelString;
+  NSString * statusLabelString;
   
+  NSSound *errorSound;
+  NSSound *removeSound;
+  NSSound *moveSound;
+  NSSound *closeSound;
+  
+  NSMutableArray *ghostTileArray;
   IBOutlet GameView *gameView;
   
   NSDate * gameStart;
@@ -59,6 +66,8 @@ typedef enum {
 @property (nonatomic, readonly) GamePlayer *bluePlayer;
 @property (nonatomic, readonly) GamePlayer *goldPlayer;
 @property (nonatomic, assign) GamePlayer *playingPlayer;
+@property (nonatomic, retain) NSString * movesLabelString;
+@property (nonatomic, retain) NSString * statusLabelString;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
 @property int gameState, playingState;
 @property (nonatomic, retain) NSString * timeLabelString;
@@ -68,20 +77,17 @@ typedef enum {
 - (BOOL)tilesCanJump;
 - (BOOL)isGameSetup;
 
-- (NSString*)movesLabelString;
-- (NSString*)statusLabelString;
-
 - (NSDictionary *)validTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point;
 
 - (BOOL)validMove:(NSPoint)point;
-- (BOOL)validDrop:(NSPoint)point;
 
-- (BOOL)removeTileAtPoint:(NSPoint)point;
+- (BOOL)playerRemoveTileAtPoint:(NSPoint)point;
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
+- (BOOL)playerDidCloseMill:(NSPoint)aPoint;
 - (void)playerFinishedMoving;
 - (void)selectNextPlayer;
 

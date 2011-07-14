@@ -116,7 +116,10 @@
     [activeTile setOldPos:[activeTile pos]];
     [activeTile setActive:YES];
     
-    validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
+    if (![game.playingPlayer tilesCanJump])
+      validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
+    else validDropPositions = [game validTilePositions];
+    
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] != [game.playingPlayer tileType]) {
       mouseDown = NO;
@@ -164,8 +167,10 @@
   
   NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
   if ([game.playingPlayer state] == 1) {
-    if (![game removeTileAtPoint:pointInView])
-      NSLog(@"Can't remove selected tile!");//[self displayErorr];
+    if (![game playerRemoveTileAtPoint:pointInView])
+      NSLog(@"Can't remove selected tile!");//[self displayError];
+    [self setNeedsDisplay:YES];
+    return;
   }
 
   if (!activeTile)
@@ -173,7 +178,6 @@
       
   if (dragging) {    
     BOOL validDrop = NO;
-    //BOOL validDrop = [game validDrop:pointInView];
     for (NSString *point in validDropPositions) {
       NSPoint pos = NSPointFromString(point);
       NSRect detectionRect = NSMakeRect(pos.x-HALF_TILE_SIZE, pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);

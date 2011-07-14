@@ -30,7 +30,7 @@ typedef enum {
   int placedTileCount;
   int moves;
   
-  int state; // 0 Idle , 1 MillClosed
+  int state; // 0 Idle, 1 MillClosed
   NSMutableArray *activeTiles;
 }
 @property int type, color;
