@@ -272,6 +272,12 @@
   [self willChangeValueForKey:@"movesLabelString"];
   [self willChangeValueForKey:@"timeLabelString"];
   [self willChangeValueForKey:@"statusLabelString"];
+  [goldPlayer reset];
+  [bluePlayer reset];
+  [ghostTileArray removeAllObjects];
+  [self.gameTimer invalidate];
+  self.gameTimer = nil;
+  
   if (gameState != GamePaused && gameState == GameIdle) {
     gameState = GameRunning;
     [gameButton setTitle:@"End Game"];
@@ -299,18 +305,12 @@
                                                        repeats:TRUE];
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
-    gameState = GameOver;
+    gameState = GameIdle;
     [gameButton setTitle:@"Start Game"];
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [ghostCheck setEnabled:YES];
     [jumpCheck setEnabled:YES];
-    
-    [goldPlayer reset];
-    [bluePlayer reset];
-    [ghostTileArray removeAllObjects];
-      [self.gameTimer invalidate];
-      self.gameTimer = nil;
   }
   [self didChangeValueForKey:@"movesLabelString"];
   [self didChangeValueForKey:@"timeLabelString"];
