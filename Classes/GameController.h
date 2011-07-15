@@ -82,9 +82,9 @@ typedef enum {
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point;
 - (NSDictionary *)playerTilePositionsFromPoint:(NSPoint)point;
+- (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos;
 
 - (BOOL)validMove:(NSPoint)point;
-
 - (BOOL)playerRemoveTileAtPoint:(NSPoint)point;
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;

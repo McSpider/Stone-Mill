@@ -176,6 +176,37 @@
   return positions;
 }
 
+- (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
+{
+  int returnValue = 0;
+  if (fromPos.x < toPos.x)
+    returnValue = 1; // Right
+  else if (fromPos.x == toPos.x)
+    returnValue = 2; // Inline
+  else if (fromPos.x > toPos.x)
+    returnValue = 4; // Left
+  
+  if (fromPos.y < toPos.y)
+    returnValue = 8; // Up
+  else if (fromPos.y == toPos.y)
+    returnValue = 16; // Inline
+  else if (fromPos.y > toPos.y)
+    returnValue = 32; // Down
+  return returnValue;
+}
+
+- (int)oppositeOffsetDirection:(int)offsetDir
+{
+  if (offsetDir == 1)
+    return 4;
+  if (offsetDir == 4)
+    return 1;
+  if (offsetDir == 8)
+    return 32;
+  if (offsetDir == 32)
+    return 8;
+}
+
 - (BOOL)validMove:(NSPoint)point
 {
   if (![self tileAtPoint:point])
@@ -193,7 +224,6 @@
   return NO;
 }
 
-
 - (BOOL)playerRemoveTileAtPoint:(NSPoint)point
 {
   GameTile *aTile = [self tileAtPoint:point];
@@ -202,6 +232,8 @@
     [errorSound play];
     return NO;
   }
+  
+  // Check if tile is in a mill, and return NO if it's
   
   // Remove Tile
   if (aTile.type == BlueTile)
@@ -221,6 +253,7 @@
 {
   // If we closed a mill we get to remove a enemy stone
   if ([self playerDidCloseMill:toPos]) {
+    NSLog(@"Closed Mill");
     [playingPlayer setState:1];
     return;
   }
@@ -244,26 +277,39 @@
 
 - (BOOL)playerDidCloseMill:(NSPoint)aPoint
 {
-  BOOL millClosed = NO;
+  BOOL stone1 = NO;
+  BOOL stone2 = NO;
+  BOOL stone3 = NO;
   
   // Try to build a row of 3 stones which include our starting position
   NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aPoint];
   for (NSString *thePos1 in tilePositions1) {
+    // Store direction we are moving
+    int direction1 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
+    stone1 = YES;
+    
+    // We are moving a certain direction now keep going that way
     NSDictionary *tilePositions2 = [self playerTilePositionsFromPoint:NSPointFromString(thePos1)];
     for (NSString *thePos2 in tilePositions2) {
-      NSDictionary *tilePositions3 = [self playerTilePositionsFromPoint:NSPointFromString(thePos2)];
-      for (NSString *thePos3 in tilePositions2) {
-        
-        
-      }
+      int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
+      if (direction2 != direction1)
+        break;
+      stone2 = YES;
+    }
+    // Also try going the opposite direction from the original position
+    for (NSString *thePos1 in tilePositions1) {
+      int direction2 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
+      if (direction2 != [self oppositeOffsetDirection:direction1])
+        break;
+      stone3 = YES;
     }
   }
 
-  if (millClosed) {
+  if (stone1 && (stone2 || stone3)) {
     [closeSound play];
   }
-
-  return millClosed;
+  NSLog(@"%i,%i",(stone1?1:0),(stone2 || stone3?1:0));
+  return (stone1 && (stone2 || stone3));
 }
 
 - (void)playerFinishedMoving
