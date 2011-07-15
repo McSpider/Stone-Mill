@@ -247,13 +247,6 @@
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 {
-  // If we closed a mill we get to remove a enemy stone
-  if ([self playerDidCloseMill:toPos]) {
-    NSLog(@"Closed Mill");
-    [playingPlayer setState:1];
-    return;
-  }
-
   playingPlayer.moves += 1;
   self.movesLabelString = [NSString stringWithFormat:@"Moves %i",(bluePlayer.moves + goldPlayer.moves)];
     
@@ -265,9 +258,16 @@
   BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
     
   if (![playingPlayer isSetup] && fromQuarry)
-    playingPlayer.placedTileCount += 1;    
+    playingPlayer.placedTileCount += 1;
+  
+  // If we closed a mill we get to remove a enemy stone
+  if ([self playerDidCloseMill:toPos]) {
+    NSLog(@"Closed Mill");
+    [playingPlayer setState:1];
+    return;
+  }
+
   [moveSound play];
-    
   [self playerFinishedMoving];
 }
 
@@ -291,23 +291,23 @@
       int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
       NSLog(@"%i",direction2);
       if (direction2 != direction1)
-        break;
+        continue;
       NSLog(@"Stone %i to the second pos",direction2);
       stone2 = YES;
-      continue;
+      break;
     }
     // Also try going the opposite direction from the original position
     for (NSString *thePos1 in tilePositions1) {
       int direction2 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
       if (direction2 != [self oppositeOffsetDirection:direction1])
-        break;
+        continue;
       NSLog(@"Stone opposite %i to the original pos",direction2);
       stone3 = YES;
-      continue;
+      break;
     }
     if (stone1 && (stone2 || stone3)) {
       // Exit loop we found a mill
-      continue;
+      break;
     }
     else {
       // Didn't find a full match, reset booleans
