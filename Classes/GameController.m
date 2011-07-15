@@ -198,8 +198,8 @@
   if (offsetDir == 4)
     return 1;
   if (offsetDir == 8)
-    return 32;
-  if (offsetDir == 32)
+    return 6;
+  if (offsetDir == 6)
     return 8;
 }
 
