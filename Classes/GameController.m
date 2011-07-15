@@ -155,7 +155,25 @@
     [positions setObject:string forKey:string];
   }
   
-  return positions; //returns all spots that are empty and valid
+  // return all spots that are empty and valid
+  return positions;
+}
+
+- (NSDictionary *)playerTilePositionsFromPoint:(NSPoint)point
+{
+  NSDictionary *tilePositions;
+  NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
+  
+  tilePositions = [[self validTilePositions] objectForKey:[NSString stringWithFormat:@"%i, %i",(int)point.x,(int)point.y]];
+  
+  for (NSString *string in tilePositions) {
+    GameTile *aTile = [self tileAtPoint:NSPointFromString(string)];
+    if (aTile != nil && aTile.type == [playingPlayer tileType])
+      [positions setObject:string forKey:string];
+  }
+  
+  // return all spots that have a tile which the current player owns
+  return positions;
 }
 
 - (BOOL)validMove:(NSPoint)point
@@ -227,11 +245,17 @@
 - (BOOL)playerDidCloseMill:(NSPoint)aPoint
 {
   BOOL millClosed = NO;
-  NSArray *playerTiles = [playingPlayer activeTiles];
-  for (GameTile *theTile in playerTiles) {
-    NSDictionary *vaidMoves = [self validTilePositionsFromPoint:[theTile pos]];
-    for (NSString *theMove in vaidMoves) {
-      // Check for 3 positions in a row which include our starting position
+  
+  // Try to build a row of 3 stones which include our starting position
+  NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aPoint];
+  for (NSString *thePos1 in tilePositions1) {
+    NSDictionary *tilePositions2 = [self playerTilePositionsFromPoint:NSPointFromString(thePos1)];
+    for (NSString *thePos2 in tilePositions2) {
+      NSDictionary *tilePositions3 = [self playerTilePositionsFromPoint:NSPointFromString(thePos2)];
+      for (NSString *thePos3 in tilePositions2) {
+        
+        
+      }
     }
   }
 
