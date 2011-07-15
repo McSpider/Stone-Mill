@@ -277,9 +277,9 @@
 
 - (BOOL)playerDidCloseMill:(NSPoint)aPoint
 {
-  BOOL stone1 = NO;
-  BOOL stone2 = NO;
-  BOOL stone3 = NO;
+  BOOL stone1 = NO; // First Stone, always returns YES if there's an adjacent stone to the starting position X O
+  BOOL stone2 = NO; // Second Stone, returns true if there's a stone adjacent and in the same direction as the second position X O 0
+  BOOL stone3 = NO; // Third Stone, returns true if there's a stone adjacent and in the opposite direction as starting position 0 X O
   
   // Try to build a row of 3 stones which include our starting position
   NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aPoint];
