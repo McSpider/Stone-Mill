@@ -102,6 +102,7 @@
 {
   self.placedTileCount = 0;
   self.moves = 0;
+  self.state = 0;
   [self.activeTiles removeAllObjects];
 }
 

@@ -181,17 +181,13 @@
   int returnValue = 0;
   if (fromPos.x < toPos.x)
     returnValue = 1; // Right
-  else if (fromPos.x == toPos.x)
-    returnValue = 2; // Inline
   else if (fromPos.x > toPos.x)
     returnValue = 4; // Left
   
   if (fromPos.y < toPos.y)
-    returnValue = 8; // Up
-  else if (fromPos.y == toPos.y)
-    returnValue = 16; // Inline
+    returnValue = 6; // Up
   else if (fromPos.y > toPos.y)
-    returnValue = 32; // Down
+    returnValue = 8; // Down
   return returnValue;
 }
 
@@ -286,29 +282,45 @@
   for (NSString *thePos1 in tilePositions1) {
     // Store direction we are moving
     int direction1 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
+    NSLog(@"Stone %i to the original pos",direction1);
     stone1 = YES;
     
     // We are moving a certain direction now keep going that way
     NSDictionary *tilePositions2 = [self playerTilePositionsFromPoint:NSPointFromString(thePos1)];
     for (NSString *thePos2 in tilePositions2) {
       int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
+      NSLog(@"%i",direction2);
       if (direction2 != direction1)
         break;
+      NSLog(@"Stone %i to the second pos",direction2);
       stone2 = YES;
+      continue;
     }
     // Also try going the opposite direction from the original position
     for (NSString *thePos1 in tilePositions1) {
       int direction2 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
       if (direction2 != [self oppositeOffsetDirection:direction1])
         break;
+      NSLog(@"Stone opposite %i to the original pos",direction2);
       stone3 = YES;
+      continue;
+    }
+    if (stone1 && (stone2 || stone3)) {
+      // Exit loop we found a mill
+      continue;
+    }
+    else {
+      // Didn't find a full match, reset booleans
+      stone1 = NO;
+      stone2 = NO;
+      stone3 = NO;
     }
   }
 
   if (stone1 && (stone2 || stone3)) {
     [closeSound play];
   }
-  NSLog(@"%i,%i",(stone1?1:0),(stone2 || stone3?1:0));
+  NSLog(@"%i,%i,%i",(stone1?1:0),(stone2?1:0),(stone3?1:0));
   return (stone1 && (stone2 || stone3));
 }
 
