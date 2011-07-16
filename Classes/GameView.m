@@ -116,9 +116,7 @@
     [activeTile setOldPos:[activeTile pos]];
     [activeTile setActive:YES];
     
-    if (![game.playingPlayer tilesCanJump])
-      validDropPositions = [game validTilePositionsFromPoint:[activeTile oldPos]];
-    else validDropPositions = [game validTilePositions];
+    validDropPositions = [[game validTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
     
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] != [game.playingPlayer tileType]) {

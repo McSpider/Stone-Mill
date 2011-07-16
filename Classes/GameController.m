@@ -137,14 +137,14 @@
   return nil;
 }
 
-- (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point
+- (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
   BOOL fromStoneQuarry = NSEqualPoints(point, gameView.viewCenter);
   
   // Return an dictionary consisting of the tile positions that can be moved to from the specified position
-  if (fromStoneQuarry || [playingPlayer tilesCanJump])
+  if (fromStoneQuarry || [thePlayer tilesCanJump])
     tilePositions = [self validTilePositions];
   else
     tilePositions = [[self validTilePositions] objectForKey:[NSString stringWithFormat:@"%i, %i",(int)point.x,(int)point.y]];
@@ -156,7 +156,7 @@
   }
   
   // return all spots that are empty and valid
-  return positions;
+  return [positions autorelease];
 }
 
 - (NSDictionary *)tilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
@@ -173,7 +173,7 @@
   }
   
   // return all spots that have a tile which the current player owns
-  return positions;
+  return [positions autorelease];
 }
 
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
@@ -358,7 +358,7 @@
       [ghostTileArray removeObjectAtIndex:index];
   }
   
-  if (![self playerCanMove]) {
+  if (![self playerCanMove:playingPlayer]) {
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [self.gameTimer invalidate];
@@ -399,21 +399,21 @@
   self.statusLabelString = [NSString stringWithFormat:@"%@'s Turn",[playingPlayer playerName]];
 }
 
-- (BOOL)playerCanMove
+- (BOOL)playerCanMove:(GamePlayer *)thePlayer;
 {
   BOOL canMove = NO;
-  for (GameTile *aTile in playingPlayer.activeTiles) {
-    if ([[self validTilePositionsFromPoint:aTile.pos] count] > 0) {
+  for (GameTile *aTile in thePlayer.activeTiles) {
+    if ([[self validTilePositionsFromPoint:aTile.pos player:thePlayer] count] > 0) {
       canMove = YES;
     }
   }
   // Check if the player could move from the quarry
-  if (!playingPlayer.isSetup && !canMove)
-    if ([[self validTilePositionsFromPoint:gameView.viewCenter] count] > 0)
+  if (!thePlayer.isSetup && !canMove)
+    if ([[self validTilePositionsFromPoint:gameView.viewCenter player:thePlayer] count] > 0)
       canMove = YES;
   
   // Check if the player can jump and there are empty spots
-  if (playingPlayer.tilesCanJump)
+  if (thePlayer.tilesCanJump)
     if ([[self validTilePositions] count] > 0)
       canMove = YES;
 
