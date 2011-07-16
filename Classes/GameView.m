@@ -100,7 +100,7 @@
     return;
   
 	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-  bool validMove = [game validMove:pointInView];
+  bool validMove = [game validMove:pointInView player:game.playingPlayer];
   if (!validMove)
     return;
   
@@ -167,7 +167,7 @@
   
   NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
   if ([game.playingPlayer state] == 1) {
-    if (![game playerRemoveTileAtPoint:pointInView])
+    if (![game removeTileAtPoint:pointInView player:game.playingPlayer])
       NSLog(@"Can't remove selected tile!");//[self displayError];
     [self setNeedsDisplay:YES];
     return;

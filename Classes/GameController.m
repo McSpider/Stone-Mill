@@ -159,7 +159,7 @@
   return positions;
 }
 
-- (NSDictionary *)playerTilePositionsFromPoint:(NSPoint)point
+- (NSDictionary *)tilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
@@ -168,7 +168,7 @@
   
   for (NSString *string in tilePositions) {
     GameTile *aTile = [self tileAtPoint:NSPointFromString(string)];
-    if (aTile != nil && aTile.type == [playingPlayer tileType])
+    if (aTile != nil && aTile.type == [thePlayer tileType])
       [positions setObject:string forKey:string];
   }
   
@@ -201,14 +201,15 @@
     return 6;
   if (offsetDir == 6)
     return 8;
+  return 0;
 }
 
-- (BOOL)validMove:(NSPoint)point
+- (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
 {
   if (![self tileAtPoint:point])
     return NO;
   
-  if (![playingPlayer isSetup]) {
+  if (![thePlayer isSetup]) {
     NSRect quarry = NSMakeRect(250-HALF_TILE_SIZE, 250-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
     if (NSPointInRect(point,quarry))
       return YES;
@@ -220,16 +221,20 @@
   return NO;
 }
 
-- (BOOL)playerRemoveTileAtPoint:(NSPoint)point
+- (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   GameTile *aTile = [self tileAtPoint:point];
   
-  if (aTile.type == [playingPlayer tileType] || aTile.type == GhostTile) {
+  if (aTile.type == [thePlayer tileType] || aTile.type == GhostTile) {
     [errorSound play];
     return NO;
   }
-  
   // Check if tile is in a mill, and return NO if it's
+  GamePlayer *aPlayer = ((thePlayer == bluePlayer)?goldPlayer:bluePlayer);
+  if ([self isMill:aTile.pos player:aPlayer]) { // Should also check if all tiles are in a mill
+    [errorSound play];
+    return NO;
+  }
   
   // Remove Tile
   if (aTile.type == BlueTile)
@@ -239,7 +244,7 @@
   
   [removeSound play];
   
-  [playingPlayer setState:0];
+  [thePlayer setState:0];
   [self playerFinishedMoving];
   return YES;
 }
@@ -261,7 +266,7 @@
     playingPlayer.placedTileCount += 1;
   
   // If we closed a mill we get to remove a enemy stone
-  if ([self playerDidCloseMill:toPos]) {
+  if ([self isMill:toPos player:playingPlayer]) {
     NSLog(@"Closed Mill");
     [playingPlayer setState:1];
     return;
@@ -271,14 +276,14 @@
   [self playerFinishedMoving];
 }
 
-- (BOOL)playerDidCloseMill:(NSPoint)aPoint
+- (BOOL)isMill:(NSPoint)aPoint player:(GamePlayer *)thePlayer;
 {
   BOOL stone1 = NO; // First Stone, always returns YES if there's an adjacent stone to the starting position X O
   BOOL stone2 = NO; // Second Stone, returns true if there's a stone adjacent and in the same direction as the second position X O 0
   BOOL stone3 = NO; // Third Stone, returns true if there's a stone adjacent and in the opposite direction as starting position 0 X O
   
   // Try to build a row of 3 stones which include our starting position
-  NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aPoint];
+  NSDictionary *tilePositions1 = [self tilePositionsFromPoint:aPoint player:thePlayer];
   for (NSString *thePos1 in tilePositions1) {
     // Store direction we are moving
     int direction1 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
@@ -286,7 +291,7 @@
     stone1 = YES;
     
     // We are moving a certain direction now keep going that way
-    NSDictionary *tilePositions2 = [self playerTilePositionsFromPoint:NSPointFromString(thePos1)];
+    NSDictionary *tilePositions2 = [self tilePositionsFromPoint:NSPointFromString(thePos1) player:thePlayer];
     for (NSString *thePos2 in tilePositions2) {
       int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
       NSLog(@"%i",direction2);
