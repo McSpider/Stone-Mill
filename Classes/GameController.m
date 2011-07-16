@@ -358,7 +358,7 @@
       [ghostTileArray removeObjectAtIndex:index];
   }
   
-  if (![self playerCanMove:playingPlayer]) {
+  if (![self playerCanMove:playingPlayer] || [playingPlayer hasLost]) {
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [self.gameTimer invalidate];

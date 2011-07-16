@@ -63,6 +63,11 @@
   return [activeTiles count] == 3 && [self isSetup];
 }
 
+- (BOOL)hasLost
+{
+  return [activeTiles count] <= 2 && [self isSetup];
+}
+
 - (int)tileType
 {
   switch (self.color) {

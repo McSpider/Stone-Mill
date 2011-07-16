@@ -46,6 +46,7 @@ typedef enum {
 
 // Player has less than 3 active tiles then he can jump it the game permits it
 - (BOOL)tilesCanJump;
+- (BOOL)hasLost;
 - (int)tileType;
 - (NSString*)playerName;
 
