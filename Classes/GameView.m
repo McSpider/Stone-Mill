@@ -176,9 +176,9 @@
   if (!activeTile)
     return;
       
-  if (dragging) {    
+  if (dragging) {
     BOOL validDrop = NO;
-    for (NSString *point in validDropPositions) {
+    for (NSString *point in validDropPositions) { // Crashes here if the player only has a closed mill, or 3 Tiles?
       NSPoint pos = NSPointFromString(point);
       NSRect detectionRect = NSMakeRect(pos.x-HALF_TILE_SIZE, pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
       if (NSPointInRect(pointInView, detectionRect)) {

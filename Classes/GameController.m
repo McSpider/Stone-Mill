@@ -224,14 +224,25 @@
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   GameTile *aTile = [self tileAtPoint:point];
+  if (!aTile)
+    return NO;
   
   if (aTile.type == [thePlayer tileType] || aTile.type == GhostTile) {
     [errorSound play];
     return NO;
   }
-  // Check if tile is in a mill, and return NO if it's
+  
+  // get the opponent player
   GamePlayer *aPlayer = ((thePlayer == bluePlayer)?goldPlayer:bluePlayer);
-  if ([self isMill:aTile.pos player:aPlayer]) { // Should also check if all tiles are in a mill
+  
+  BOOL allMills = YES;
+  // Check if all tiles are in a mill and if they are either call it a draw, or allow removal of selected tile
+  for (GameTile *aTile in aPlayer.activeTiles) {
+    if (![self isMill:aTile.pos player:aPlayer])
+      allMills = NO;
+  }
+  // Check if tile is in a mill, and return NO if it's
+  if ([self isMill:aTile.pos player:aPlayer] && !allMills) {
     [errorSound play];
     return NO;
   }
@@ -255,8 +266,14 @@
   playingPlayer.moves += 1;
   self.movesLabelString = [NSString stringWithFormat:@"Moves %i",(bluePlayer.moves + goldPlayer.moves)];
     
-  // Increment the age of ghost stones
+  // Increment the age of all stones
   for (GameTile *theTile in ghostTileArray) {
+    [theTile setAge:theTile.age + 1];
+  }
+  for (GameTile *theTile in bluePlayer.activeTiles) {
+    [theTile setAge:theTile.age + 1];
+  }
+  for (GameTile *theTile in goldPlayer.activeTiles) {
     [theTile setAge:theTile.age + 1];
   }
     
@@ -333,10 +350,12 @@
 {
   [self selectNextPlayer];
   
-  // Remove ghost stones older that 1 turn;
-  for (GameTile *theTile in ghostTileArray) {
+  // Remove ghost stones older that 1 turn
+  int index = 0;
+  for (index = ghostTileArray.count - 1; index >= 0; index--)  {
+    GameTile *theTile = [ghostTileArray objectAtIndex:index];
     if ([theTile age] > 1)
-      [ghostTileArray removeObject:theTile];
+      [ghostTileArray removeObjectAtIndex:index];
   }
   
   if (![self playerCanMove]) {
