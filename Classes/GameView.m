@@ -39,6 +39,10 @@
   // Draw board background
   [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:boardOpacity];
   
+  // Draw board grid
+  NSString *boardName = [NSString stringWithFormat:@"%@_Mill",game.boardPrefix];
+  [[NSImage imageNamed:boardName] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:boardOpacity];
+  
   // Draw stone quarry - Only if the player hasn't placed all tiles yet
   if (![game.playingPlayer isSetup] && (game.gameState != GameIdle && game.gameState != GameOver)){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);

@@ -22,7 +22,7 @@
 		AE5D791C139C5579001C9FE7 /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7915139C5579001C9FE7 /* Gold_Active.png */; };
 		AE5D791D139C5579001C9FE7 /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */; };
 		AE5D79F1139C6AC2001C9FE7 /* Quarry.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D79F0139C6AC2001C9FE7 /* Quarry.png */; };
-		AE80F5C513B5392400D7D227 /* CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE80F5C413B5392400D7D227 /* CoordMap.plist */; };
+		AE80F5C513B5392400D7D227 /* Regular_CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE80F5C413B5392400D7D227 /* Regular_CoordMap.plist */; };
 		AE8246BA139834CA00A351F8 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8246B8139834CA00A351F8 /* Board.png */; };
 		AE8247C713983E0600A351F8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8247C613983E0600A351F8 /* QuartzCore.framework */; };
 		AE824A131398525900A351F8 /* GameTile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0C1398525900A351F8 /* GameTile.m */; };
@@ -32,6 +32,13 @@
 		AEA232C813A19EE600967295 /* Gold_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE103916139EE7610051B469 /* Gold_Scared.png */; };
 		AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA2AB15139DB953009919A0 /* Drop Zone.png */; };
 		AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D4F13985A0E00698915 /* KBLabel.m */; };
+		AEFA96F713D22493000A9C2F /* Closed.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96F513D22493000A9C2F /* Closed.wav */; };
+		AEFA96F813D22493000A9C2F /* Error.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96F613D22493000A9C2F /* Error.wav */; };
+		AEFA96FB13D388D1000A9C2F /* Regular_Mill.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */; };
+		AEFA96FD13D38CD2000A9C2F /* Remove.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96FC13D38CD2000A9C2F /* Remove.wav */; };
+		AEFA96FF13D39D9F000A9C2F /* Click.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96FE13D39D9F000A9C2F /* Click.wav */; };
+		AEFA970113D3A245000A9C2F /* Möbius_Mill.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFA970013D3A245000A9C2F /* Möbius_Mill.png */; };
+		AEFA970313D3A251000A9C2F /* Möbius_CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEFA970213D3A251000A9C2F /* Möbius_CoordMap.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +65,7 @@
 		AE5D7915139C5579001C9FE7 /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
 		AE5D7916139C5579001C9FE7 /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
 		AE5D79F0139C6AC2001C9FE7 /* Quarry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Quarry.png; sourceTree = "<group>"; };
-		AE80F5C413B5392400D7D227 /* CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CoordMap.plist; sourceTree = "<group>"; };
+		AE80F5C413B5392400D7D227 /* Regular_CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Regular_CoordMap.plist; sourceTree = "<group>"; };
 		AE8246B8139834CA00A351F8 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
 		AE8247C613983E0600A351F8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		AE824A0B1398525900A351F8 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTile.h; path = Classes/GameTile.h; sourceTree = "<group>"; };
@@ -73,6 +80,13 @@
 		AEA2AB15139DB953009919A0 /* Drop Zone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Drop Zone.png"; sourceTree = "<group>"; };
 		AEAC6D4E13985A0E00698915 /* KBLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBLabel.h; sourceTree = "<group>"; };
 		AEAC6D4F13985A0E00698915 /* KBLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBLabel.m; sourceTree = "<group>"; };
+		AEFA96F513D22493000A9C2F /* Closed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Closed.wav; sourceTree = "<group>"; };
+		AEFA96F613D22493000A9C2F /* Error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Error.wav; sourceTree = "<group>"; };
+		AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Regular_Mill.png; sourceTree = "<group>"; };
+		AEFA96FC13D38CD2000A9C2F /* Remove.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Remove.wav; sourceTree = "<group>"; };
+		AEFA96FE13D39D9F000A9C2F /* Click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Click.wav; sourceTree = "<group>"; };
+		AEFA970013D3A245000A9C2F /* Möbius_Mill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Möbius_Mill.png"; sourceTree = "<group>"; };
+		AEFA970213D3A251000A9C2F /* Möbius_CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Möbius_CoordMap.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +172,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEFA96F413D22493000A9C2F /* Sounds */,
 				AE8246B7139834CA00A351F8 /* Graphics */,
 				AE824A171398526100A351F8 /* Data */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -189,6 +204,7 @@
 			children = (
 				AE2B777A13C376B20003CAEA /* Background.png */,
 				AE8246B8139834CA00A351F8 /* Board.png */,
+				AEFA96F913D388D1000A9C2F /* Boards */,
 				AE2923D613C6947700AEC1BF /* Messages */,
 				AE103915139EE7610051B469 /* Blue_Scared.png */,
 				AE103916139EE7610051B469 /* Gold_Scared.png */,
@@ -206,7 +222,8 @@
 		AE824A171398526100A351F8 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				AE80F5C413B5392400D7D227 /* CoordMap.plist */,
+				AE80F5C413B5392400D7D227 /* Regular_CoordMap.plist */,
+				AEFA970213D3A251000A9C2F /* Möbius_CoordMap.plist */,
 				AE2A330C139D8855009EE448 /* Notes.rtf */,
 			);
 			path = Data;
@@ -220,6 +237,26 @@
 			);
 			name = GUI;
 			path = Classes/GUI;
+			sourceTree = "<group>";
+		};
+		AEFA96F413D22493000A9C2F /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				AEFA96FE13D39D9F000A9C2F /* Click.wav */,
+				AEFA96F513D22493000A9C2F /* Closed.wav */,
+				AEFA96F613D22493000A9C2F /* Error.wav */,
+				AEFA96FC13D38CD2000A9C2F /* Remove.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		AEFA96F913D388D1000A9C2F /* Boards */ = {
+			isa = PBXGroup;
+			children = (
+				AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */,
+				AEFA970013D3A245000A9C2F /* Möbius_Mill.png */,
+			);
+			path = Boards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,9 +320,16 @@
 				AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */,
 				AE103917139EE7610051B469 /* Blue_Scared.png in Resources */,
 				AEA232C813A19EE600967295 /* Gold_Scared.png in Resources */,
-				AE80F5C513B5392400D7D227 /* CoordMap.plist in Resources */,
+				AE80F5C513B5392400D7D227 /* Regular_CoordMap.plist in Resources */,
 				AE2B777B13C376B20003CAEA /* Background.png in Resources */,
 				AE2923D513C6932400AEC1BF /* Game_Paused.png in Resources */,
+				AEFA96F713D22493000A9C2F /* Closed.wav in Resources */,
+				AEFA96F813D22493000A9C2F /* Error.wav in Resources */,
+				AEFA96FB13D388D1000A9C2F /* Regular_Mill.png in Resources */,
+				AEFA96FD13D38CD2000A9C2F /* Remove.wav in Resources */,
+				AEFA96FF13D39D9F000A9C2F /* Click.wav in Resources */,
+				AEFA970113D3A245000A9C2F /* Möbius_Mill.png in Resources */,
+				AEFA970313D3A251000A9C2F /* Möbius_CoordMap.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

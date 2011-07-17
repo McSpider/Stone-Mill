@@ -13,6 +13,7 @@
 @implementation GameController
 @synthesize bluePlayer, goldPlayer, playingPlayer;
 @synthesize ghostTileArray;
+@synthesize boardPrefix;
 @synthesize statusLabelString, movesLabelString;
 @synthesize gameState, playingState;
 @synthesize timeLabelString, gameTimer, gameStart;
@@ -29,11 +30,12 @@
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
+  boardPrefix = [[NSString alloc] initWithString:@"Möbius"]; //Regular - Möbius
   
-  errorSound = [[NSSound soundNamed:@"Pop"] retain];
-  removeSound = [[NSSound soundNamed:@"Pop"] retain];
-  moveSound = [[NSSound soundNamed:@"Pop"] retain];
-  closeSound = [[NSSound soundNamed:@"Pop"] retain];
+  errorSound = [[NSSound soundNamed:@"Error"] retain];
+  removeSound = [[NSSound soundNamed:@"Remove"] retain];
+  moveSound = [[NSSound soundNamed:@"Click"] retain];
+  closeSound = [[NSSound soundNamed:@"Closed"] retain];
   
   return self;
 }
@@ -51,6 +53,8 @@
   [removeSound release];
   [moveSound release];
   [closeSound release];
+  
+  [boardPrefix release];
   
   [bluePlayer release];
   [goldPlayer release];
@@ -100,7 +104,8 @@
 
 - (NSDictionary *)validTilePositions
 {
-  return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CoordMap" ofType:@"plist"]];
+  NSString *fileName = [NSString stringWithFormat:@"%@_CoordMap",boardPrefix];
+  return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"]];
 }
 
 - (GameTile *)tileAtPoint:(NSPoint)point
@@ -285,6 +290,7 @@
   // If we closed a mill we get to remove a enemy stone
   if ([self isMill:toPos player:playingPlayer]) {
     NSLog(@"Closed Mill");
+    [closeSound play];
     [playingPlayer setState:1];
     return;
   }
@@ -339,9 +345,6 @@
     }
   }
 
-  if (stone1 && (stone2 || stone3)) {
-    [closeSound play];
-  }
   NSLog(@"%i,%i,%i",(stone1?1:0),(stone2?1:0),(stone3?1:0));
   return (stone1 && (stone2 || stone3));
 }

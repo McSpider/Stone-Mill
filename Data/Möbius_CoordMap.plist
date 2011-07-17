@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>130, 130</key>
+	<array>
+		<string>130, 250</string>
+		<string>250, 130</string>
+	</array>
+	<key>130, 250</key>
+	<array>
+		<string>70, 250</string>
+		<string>130, 370</string>
+		<string>190, 250</string>
+		<string>130, 130</string>
+	</array>
+	<key>130, 370</key>
+	<array>
+		<string>130, 250</string>
+		<string>250, 370</string>
+	</array>
+	<key>190, 190</key>
+	<array>
+		<string>190, 250</string>
+		<string>250, 190</string>
+	</array>
+	<key>190, 250</key>
+	<array>
+		<string>130, 250</string>
+		<string>190, 310</string>
+		<string>190, 190</string>
+	</array>
+	<key>190, 310</key>
+	<array>
+		<string>250, 310</string>
+		<string>190, 250</string>
+	</array>
+	<key>250, 130</key>
+	<array>
+		<string>130, 130</string>
+		<string>250, 190</string>
+		<string>370, 130</string>
+		<string>250, 70</string>
+	</array>
+	<key>250, 190</key>
+	<array>
+		<string>190, 190</string>
+		<string>310, 190</string>
+		<string>250, 130</string>
+	</array>
+	<key>250, 310</key>
+	<array>
+		<string>190, 310</string>
+		<string>250, 370</string>
+		<string>430, 310</string>
+	</array>
+	<key>250, 370</key>
+	<array>
+		<string>130, 370</string>
+		<string>250, 430</string>
+		<string>370, 370</string>
+		<string>250, 310</string>
+	</array>
+	<key>250, 430</key>
+	<array>
+		<string>70, 430</string>
+		<string>410, 430</string>
+		<string>250, 370</string>
+	</array>
+	<key>250, 70</key>
+	<array>
+		<string>70, 70</string>
+		<string>430, 70</string>
+		<string>250, 130</string>
+	</array>
+	<key>310, 190</key>
+	<array>
+		<string>250, 190</string>
+		<string>310, 250</string>
+	</array>
+	<key>310, 250</key>
+	<array>
+		<string>310, 430</string>
+		<string>370, 250</string>
+		<string>310, 190</string>
+	</array>
+	<key>310, 430</key>
+	<array>
+		<string>250, 430</string>
+		<string>310, 250</string>
+	</array>
+	<key>370, 130</key>
+	<array>
+		<string>250, 130</string>
+		<string>370, 250</string>
+	</array>
+	<key>370, 250</key>
+	<array>
+		<string>310, 250</string>
+		<string>370, 370</string>
+		<string>430, 250</string>
+		<string>370, 130</string>
+	</array>
+	<key>370, 370</key>
+	<array>
+		<string>250, 370</string>
+		<string>370, 250</string>
+	</array>
+	<key>430, 250</key>
+	<array>
+		<string>370, 250</string>
+		<string>430, 310</string>
+		<string>430, 70</string>
+	</array>
+	<key>430, 310</key>
+	<array>
+		<string>250, 310</string>
+		<string>430, 250</string>
+	</array>
+	<key>430, 70</key>
+	<array>
+		<string>250, 70</string>
+		<string>430, 250</string>
+	</array>
+	<key>70, 250</key>
+	<array>
+		<string>70, 430</string>
+		<string>130, 250</string>
+		<string>70, 70</string>
+	</array>
+	<key>70, 430</key>
+	<array>
+		<string>70, 250</string>
+		<string>250, 430</string>
+	</array>
+	<key>70, 70</key>
+	<array>
+		<string>70, 250</string>
+		<string>250, 70</string>
+	</array>
+</dict>
+</plist>

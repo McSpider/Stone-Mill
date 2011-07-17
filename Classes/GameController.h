@@ -37,6 +37,7 @@ typedef enum {
   
   int gameState;
   int playingState;
+  NSString *boardPrefix;
 
   BOOL tilesCanJump;
   BOOL ghostTiles;
@@ -66,6 +67,7 @@ typedef enum {
 @property (nonatomic, readonly) GamePlayer *bluePlayer;
 @property (nonatomic, readonly) GamePlayer *goldPlayer;
 @property (nonatomic, assign) GamePlayer *playingPlayer;
+@property (nonatomic, retain) NSString * boardPrefix;
 @property (nonatomic, retain) NSString * movesLabelString;
 @property (nonatomic, retain) NSString * statusLabelString;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
