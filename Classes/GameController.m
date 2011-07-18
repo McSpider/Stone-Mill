@@ -431,7 +431,7 @@
   int index = 0;
   for (index = ghostTileArray.count - 1; index >= 0; index--)  {
     GameTile *theTile = [ghostTileArray objectAtIndex:index];
-    if ([theTile age] > 1)
+    if ([theTile age] >= 1)
       [ghostTileArray removeObjectAtIndex:index];
   }
 }
