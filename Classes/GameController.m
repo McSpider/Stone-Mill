@@ -464,6 +464,7 @@
   
   if (gameState != GamePaused && gameState == GameIdle) {
     [gameButton setTitle:@"End Game"];
+    [selectorPopup setEnabled:NO];
     [pauseButton setEnabled:YES];
     [pauseButton setTransparent:NO];
     [pauseButton setState:0];
@@ -491,6 +492,7 @@
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     [self setGameState:GameIdle];
     [gameButton setTitle:@"Start Game"];
+    [selectorPopup setEnabled:YES];
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [ghostCheck setEnabled:YES];
@@ -518,6 +520,17 @@
   }  
   [gameView setNeedsDisplay:YES];
 }
+
+- (IBAction)changeBoard:(id)sender
+{
+  if ([sender indexOfSelectedItem] == 0) {
+    self.boardPrefix = @"Regular";
+  } else {
+    self.boardPrefix = @"Möbius";
+  }
+  [gameView setNeedsDisplay:YES];
+}
+
 
 - (void)updateTimer
 {

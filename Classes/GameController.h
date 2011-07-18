@@ -30,6 +30,7 @@ typedef enum {
 @class GameView;
 
 @interface GameController : NSObject {
+  IBOutlet NSButton *selectorPopup;
   IBOutlet NSButton *gameButton;
   IBOutlet NSButton *pauseButton;
   IBOutlet NSButton *ghostCheck;
@@ -98,5 +99,6 @@ typedef enum {
 
 - (IBAction)newGame:(id)sender;
 - (IBAction)pauseGame:(id)sender;
+- (IBAction)changeBoard:(id)sender;
 
 @end
