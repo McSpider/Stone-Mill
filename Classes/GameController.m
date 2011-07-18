@@ -23,8 +23,6 @@
   if (![super init]) {
     return nil;
   }
-  tilesCanJump = YES;
-  ghostTiles = YES;
   [self setGameState:GameIdle];
   
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
@@ -62,11 +60,6 @@
   [super dealloc];
 }
 
-
-- (BOOL)tilesCanJump
-{
-  return tilesCanJump;
-}
 
 - (BOOL)isGameSetup
 {
@@ -281,6 +274,15 @@
   for (GameTile *theTile in goldPlayer.activeTiles) {
     [theTile setAge:theTile.age + 1];
   }
+  
+  // Add a ghost
+  if ([playingPlayer tilesCanJump] && [ghostCheck state]) {
+    GameTile *tile = [[GameTile alloc] init];  
+    [tile setPos:fromPos];
+    [tile setType:GhostTile];
+    [self.ghostTileArray addObject:tile];
+    [tile release];
+  }
     
   BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
     
@@ -292,6 +294,7 @@
     NSLog(@"Closed Mill");
     [closeSound play];
     [playingPlayer setState:1];
+    [self removeOldGhosts];
     return;
   }
 
@@ -353,13 +356,7 @@
 {
   [self selectNextPlayer];
   
-  // Remove ghost stones older that 1 turn
-  int index = 0;
-  for (index = ghostTileArray.count - 1; index >= 0; index--)  {
-    GameTile *theTile = [ghostTileArray objectAtIndex:index];
-    if ([theTile age] > 1)
-      [ghostTileArray removeObjectAtIndex:index];
-  }
+  [self removeOldGhosts];
   
   if (![self playerCanMove:playingPlayer] || [playingPlayer hasLost]) {
     [pauseButton setEnabled:NO];
@@ -416,7 +413,7 @@
       canMove = YES;
   
   // Check if the player can jump and there are empty spots
-  if (thePlayer.tilesCanJump)
+  if (thePlayer.tilesCanJump && [jumpCheck state])
     if ([[self validTilePositions] count] > 0)
       canMove = YES;
 
@@ -426,6 +423,17 @@
 - (void)movePlayer
 {
 
+}
+
+- (void)removeOldGhosts
+{
+  // Remove ghost stones older that 1 turn
+  int index = 0;
+  for (index = ghostTileArray.count - 1; index >= 0; index--)  {
+    GameTile *theTile = [ghostTileArray objectAtIndex:index];
+    if ([theTile age] > 1)
+      [ghostTileArray removeObjectAtIndex:index];
+  }
 }
 
 - (void)addTemporaryStones

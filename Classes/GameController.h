@@ -39,8 +39,6 @@ typedef enum {
   int playingState;
   NSString *boardPrefix;
 
-  BOOL tilesCanJump;
-  BOOL ghostTiles;
   NSTimeInterval timeLimit;
   NSTimeInterval playingTime;
     
@@ -76,7 +74,6 @@ typedef enum {
 @property (nonatomic, retain) NSTimer * gameTimer;
 @property (nonatomic, retain) NSDate * gameStart;
 
-- (BOOL)tilesCanJump;
 - (BOOL)isGameSetup;
 
 - (NSDictionary *)validTilePositions;
@@ -94,8 +91,9 @@ typedef enum {
 - (void)playerFinishedMoving;
 - (void)selectNextPlayer;
 
-- (BOOL)playerCanMove:(GamePlayer *)thePlayer;;
+- (BOOL)playerCanMove:(GamePlayer *)thePlayer;
 - (void)movePlayer;
+- (void)removeOldGhosts;
 
 
 - (IBAction)newGame:(id)sender;
