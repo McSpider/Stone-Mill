@@ -174,6 +174,7 @@
   return [positions autorelease];
 }
 
+// Should return an angle relative to a vertical line
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
 {
   int returnValue = 0;
@@ -422,7 +423,15 @@
 
 - (void)movePlayer
 {
-
+  // get all the tiles we can move
+  // chose on at random
+  // move tile to position
+  
+  // check if we closed a mill
+    // get all the tiles we can remove
+    // remove random tile
+  
+  // we finished moving
 }
 
 - (void)removeOldGhosts

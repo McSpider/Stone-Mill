@@ -9,8 +9,8 @@ Classic Nine men's morris with a optional twist, once tiles can jump they leave 
 #### Goals
   
 - Create a semi-smart AI to play against.
+- Have multiple playable boards.
 - Use a NSView and Core Animation to draw the game.
-- Enter this in the uDevGames 2011 Games Competition. (When I can honestly say that this will be finished).
   
   
 ### Credits

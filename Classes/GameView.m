@@ -23,6 +23,7 @@
   viewCenter = NSMakePoint(250,250);
   boardOpacity = 0.0f;
   
+  [self setWantsLayer:YES];
   return self;
 }
 
