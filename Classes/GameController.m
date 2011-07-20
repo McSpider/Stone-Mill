@@ -28,7 +28,7 @@
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
-  boardPrefix = [[NSString alloc] initWithString:@"Möbius"]; //Regular - Möbius
+  boardPrefix = [[NSString alloc] initWithString:@"Möbius"];
   
   errorSound = [[NSSound soundNamed:@"Error"] retain];
   removeSound = [[NSSound soundNamed:@"Remove"] retain];
@@ -40,6 +40,12 @@
 
 - (void)awakeFromNib
 {
+  // populate the board selector with the boards
+  [selectorPopup removeAllItems];
+  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
+  [selectorPopup addItemsWithTitles:boardNames];
+  self.boardPrefix = [boardNames objectAtIndex:[selectorPopup indexOfSelectedItem]];
+  
   [gameView setBoardOpacity:1.0];
   self.timeLabelString = @"00:00";
   self.movesLabelString = @"Moves 0";
@@ -177,6 +183,8 @@
 // Should return an angle relative to a vertical line
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
 {
+  //return atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x);
+  
   int returnValue = 0;
   if (fromPos.x < toPos.x)
     returnValue = 1; // Right
@@ -192,6 +200,8 @@
 
 - (int)oppositeOffsetDirection:(int)offsetDir
 {
+  //return ((offsetDir + 180) % 360);
+  
   if (offsetDir == 1)
     return 4;
   if (offsetDir == 4)
@@ -532,11 +542,8 @@
 
 - (IBAction)changeBoard:(id)sender
 {
-  if ([sender indexOfSelectedItem] == 0) {
-    self.boardPrefix = @"Regular";
-  } else {
-    self.boardPrefix = @"Möbius";
-  }
+  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
+  self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
   [gameView setNeedsDisplay:YES];
 }
 

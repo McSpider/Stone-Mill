@@ -30,7 +30,7 @@ typedef enum {
 @class GameView;
 
 @interface GameController : NSObject {
-  IBOutlet NSButton *selectorPopup;
+  IBOutlet NSPopUpButton *selectorPopup;
   IBOutlet NSButton *gameButton;
   IBOutlet NSButton *pauseButton;
   IBOutlet NSButton *ghostCheck;
