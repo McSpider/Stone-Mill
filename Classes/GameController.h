@@ -93,7 +93,7 @@ typedef enum {
 - (void)selectNextPlayer;
 
 - (BOOL)playerCanMove:(GamePlayer *)thePlayer;
-- (void)movePlayer;
+- (void)movePlayer:(GamePlayer *)thePlayer;
 - (void)removeOldGhosts;
 
 

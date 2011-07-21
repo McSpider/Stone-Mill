@@ -8,6 +8,7 @@
 
 #import "GameController.h"
 #import "GameView.h"
+#include <stdlib.h>
 
 
 @implementation GameController
@@ -265,6 +266,11 @@
   [removeSound play];
   
   [thePlayer setState:0];
+  if (playingPlayer.type == RobotPlayer) {
+    [self performSelector:@selector(playerFinishedMoving) withObject:nil afterDelay:0.2];
+    return YES;
+  }
+  
   [self playerFinishedMoving];
   return YES;
 }
@@ -310,6 +316,11 @@
   }
 
   [moveSound play];
+  if (playingPlayer.type == RobotPlayer) {
+    [self performSelector:@selector(playerFinishedMoving) withObject:nil afterDelay:0.2];
+    return;
+  }
+  
   [self playerFinishedMoving];
 }
 
@@ -391,7 +402,8 @@
     [tile release];
   }
   if (playingPlayer.type == RobotPlayer)
-    [self movePlayer];
+    [self performSelector:@selector(movePlayer:) withObject:playingPlayer afterDelay:0.2]; //[self movePlayer:playingPlayer];
+  [gameView setNeedsDisplay:YES];
 }
 
 - (void)selectNextPlayer
@@ -431,17 +443,38 @@
   return canMove;
 }
 
-- (void)movePlayer
+- (void)movePlayer:(GamePlayer *)thePlayer
 {
-  // get all the tiles we can move
-  // chose on at random
-  // move tile to position
-  
-  // check if we closed a mill
-    // get all the tiles we can remove
-    // remove random tile
-  
-  // we finished moving
+  if (thePlayer.state == 0) {
+    // get all the tiles we can move
+    if (![thePlayer isSetup]) {
+      NSDictionary *validMoves = [self validTilePositionsFromPoint:gameView.viewCenter player:thePlayer];
+      GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+      if (aTile && validMoves != 0) {
+        [aTile setOldPos:[aTile pos]];
+        [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+        [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+      }
+    }
+    else {
+      for (GameTile *aTile in thePlayer.activeTiles) {
+        NSDictionary *validMoves = [self validTilePositionsFromPoint:[aTile pos] player:thePlayer];
+        if (validMoves && [validMoves count] != 0) {
+          [aTile setOldPos:[aTile pos]];
+          [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+          [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          break;
+        }
+      }
+    }
+  }
+  if (thePlayer.state == 1) {
+    for (NSString *string in [self validTilePositions]) {
+      if ([self removeTileAtPoint:NSPointFromString(string) player:thePlayer])
+        break;
+    }
+  }
+  [gameView setNeedsDisplay:YES];
 }
 
 - (void)removeOldGhosts

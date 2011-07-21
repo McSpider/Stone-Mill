@@ -124,7 +124,7 @@
     validDropPositions = [[game validTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
     
     // Don't drag ghost tiles or other computer tiles
-    if ([activeTile type] != [game.playingPlayer tileType]) {
+    if ([activeTile type] != [game.playingPlayer tileType] && [game.playingPlayer type] != RobotPlayer) {
       mouseDown = NO;
       [activeTile setActive:NO];
       [activeTile release];
