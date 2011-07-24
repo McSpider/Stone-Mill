@@ -21,6 +21,10 @@
 		AE46CD4413D6318C002EB60F /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3D13D6318C002EB60F /* Gold_Active.png */; };
 		AE46CD4513D6318C002EB60F /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3E13D6318C002EB60F /* Gold_Inactive.png */; };
 		AE46CD4613D6318C002EB60F /* Gold_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3F13D6318C002EB60F /* Gold_Scared.png */; };
+		AE46CD5213DA148B002EB60F /* Game_Blue_Wins.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD4F13DA148B002EB60F /* Game_Blue_Wins.png */; };
+		AE46CD5313DA148B002EB60F /* Game_Draw.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD5013DA148B002EB60F /* Game_Draw.png */; };
+		AE46CD5413DA148B002EB60F /* Game_Gold_Wins.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD5113DA148B002EB60F /* Game_Gold_Wins.png */; };
+		AE46CD5613DA2390002EB60F /* Bottom_Tab.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD5513DA2390002EB60F /* Bottom_Tab.png */; };
 		AE5D7898139C4DB3001C9FE7 /* GamePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */; };
 		AE5D79F1139C6AC2001C9FE7 /* Quarry.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5D79F0139C6AC2001C9FE7 /* Quarry.png */; };
 		AE80F5C513B5392400D7D227 /* Regular_CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE80F5C413B5392400D7D227 /* Regular_CoordMap.plist */; };
@@ -62,6 +66,10 @@
 		AE46CD3D13D6318C002EB60F /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
 		AE46CD3E13D6318C002EB60F /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
 		AE46CD3F13D6318C002EB60F /* Gold_Scared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Scared.png; sourceTree = "<group>"; };
+		AE46CD4F13DA148B002EB60F /* Game_Blue_Wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Blue_Wins.png; sourceTree = "<group>"; };
+		AE46CD5013DA148B002EB60F /* Game_Draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Draw.png; sourceTree = "<group>"; };
+		AE46CD5113DA148B002EB60F /* Game_Gold_Wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Gold_Wins.png; sourceTree = "<group>"; };
+		AE46CD5513DA2390002EB60F /* Bottom_Tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bottom_Tab.png; sourceTree = "<group>"; };
 		AE5D7896139C4DB3001C9FE7 /* GamePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayer.h; path = Classes/GamePlayer.h; sourceTree = "<group>"; };
 		AE5D7897139C4DB3001C9FE7 /* GamePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlayer.m; path = Classes/GamePlayer.m; sourceTree = "<group>"; };
 		AE5D79F0139C6AC2001C9FE7 /* Quarry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Quarry.png; sourceTree = "<group>"; };
@@ -194,6 +202,10 @@
 		AE2923D613C6947700AEC1BF /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				AE46CD5513DA2390002EB60F /* Bottom_Tab.png */,
+				AE46CD4F13DA148B002EB60F /* Game_Blue_Wins.png */,
+				AE46CD5013DA148B002EB60F /* Game_Draw.png */,
+				AE46CD5113DA148B002EB60F /* Game_Gold_Wins.png */,
 				AE2923D413C6932400AEC1BF /* Game_Paused.png */,
 			);
 			name = Messages;
@@ -338,6 +350,10 @@
 				AE46CD4413D6318C002EB60F /* Gold_Active.png in Resources */,
 				AE46CD4513D6318C002EB60F /* Gold_Inactive.png in Resources */,
 				AE46CD4613D6318C002EB60F /* Gold_Scared.png in Resources */,
+				AE46CD5213DA148B002EB60F /* Game_Blue_Wins.png in Resources */,
+				AE46CD5313DA148B002EB60F /* Game_Draw.png in Resources */,
+				AE46CD5413DA148B002EB60F /* Game_Gold_Wins.png in Resources */,
+				AE46CD5613DA2390002EB60F /* Bottom_Tab.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

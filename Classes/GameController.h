@@ -84,6 +84,8 @@ typedef enum {
 - (NSDictionary *)tilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos;
 
+- (NSDictionary *)closableMillsForPlayer:(GamePlayer *)thePlayer;
+
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 

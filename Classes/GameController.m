@@ -181,7 +181,7 @@
   return [positions autorelease];
 }
 
-// Should return an angle relative to a vertical line
+// Should return an angle relative to the zero axis
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
 {
   //return atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x);
@@ -212,6 +212,13 @@
   if (offsetDir == 6)
     return 8;
   return 0;
+}
+
+- (NSDictionary *)closableMillsForPlayer:(GamePlayer *)thePlayer
+{
+  // Return all mills that can be closed by thePlayer, does not return blocked ones
+  
+  return nil;
 }
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
@@ -457,15 +464,23 @@
       }
     }
     else {
+      NSMutableArray *moves = [[NSMutableArray alloc] init];
       for (GameTile *aTile in thePlayer.activeTiles) {
         NSDictionary *validMoves = [self validTilePositionsFromPoint:[aTile pos] player:thePlayer];
         if (validMoves && [validMoves count] != 0) {
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
-          [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
-          break;
+          [moves addObject:[NSArray arrayWithObjects:aTile, validMoves, nil]];          
         }
       }
+      
+      if ([moves count] > 0){
+        NSArray *moveData = [moves objectAtIndex:(arc4random() % [moves count])];
+        GameTile *aTile = [moveData objectAtIndex:0];
+        NSDictionary *validMoves = [moveData objectAtIndex:1];
+        [aTile setOldPos:[aTile pos]];
+        [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+        [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+      }
+      [moves release];
     }
   }
   if (thePlayer.state == 1) {
