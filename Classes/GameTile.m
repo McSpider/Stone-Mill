@@ -16,6 +16,26 @@
 @synthesize age;
 @synthesize active;
 
+- (id)init
+{
+  if (![super init]) {
+    return nil;
+  }
+  
+  pos = NSZeroPoint;
+  oldPos = NSZeroPoint;
+  type = GhostTile;
+  age = 0;
+  active = NO;
+  
+  return self;
+}
+
+- (void)dealloc
+{
+  [super dealloc];
+}
+
 
 - (NSImage *)image
 {
@@ -24,12 +44,6 @@
       return [NSImage imageNamed:@"Blue_Active"];
     else if (self.type == GoldTile)
       return [NSImage imageNamed:@"Gold_Active"];
-  }
-  else if (0 != 0) {
-    if (self.type == BlueTile)
-      return [NSImage imageNamed:@"Blue_Scared"];
-    else if (self.type == GoldTile)
-      return [NSImage imageNamed:@"Gold_Scared"];
   }
   else {
     if (self.type == BlueTile)

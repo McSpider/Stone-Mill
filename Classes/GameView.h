@@ -18,14 +18,17 @@
 	BOOL dragging;
   BOOL mouseDown;
   
-  NSPoint viewCenter;
-  float boardOpacity;
-  
+  NSPoint viewCenter;  
   IBOutlet GameController *game;
+  
+  CALayer *boardLayer;
+  CALayer *messageLayer;
 }
 
 @property (nonatomic, readonly) NSPoint viewCenter;
-@property float boardOpacity;
+@property (nonatomic, retain) CALayer *boardLayer;
+@property (nonatomic, retain) CALayer *messageLayer;
 
+- (void)fadeInLayer:(CALayer *)aLayer;
 
 @end

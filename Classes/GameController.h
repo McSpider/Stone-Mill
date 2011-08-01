@@ -35,6 +35,7 @@ typedef enum {
   IBOutlet NSButton *pauseButton;
   IBOutlet NSButton *ghostCheck;
   IBOutlet NSButton *jumpCheck;
+  IBOutlet NSButton *playersCheck;
   
   int gameState;
   int playingState;
@@ -42,6 +43,7 @@ typedef enum {
 
   NSTimeInterval timeLimit;
   NSTimeInterval playingTime;
+  float moveRate;
     
   GamePlayer *bluePlayer;
   GamePlayer *goldPlayer;
@@ -84,7 +86,7 @@ typedef enum {
 - (NSDictionary *)tilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos;
 
-- (NSDictionary *)closableMillsForPlayer:(GamePlayer *)thePlayer;
+- (NSArray *)closableMillsForPlayer:(GamePlayer *)thePlayer;
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
@@ -95,7 +97,7 @@ typedef enum {
 - (void)selectNextPlayer;
 
 - (BOOL)playerCanMove:(GamePlayer *)thePlayer;
-- (void)movePlayer:(GamePlayer *)thePlayer;
+- (void)moveForPlayer:(GamePlayer *)thePlayer;
 - (void)removeOldGhosts;
 
 

@@ -16,11 +16,9 @@
 		AE2B777B13C376B20003CAEA /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = AE2B777A13C376B20003CAEA /* Background.png */; };
 		AE46CD4013D6318C002EB60F /* Blue_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3913D6318C002EB60F /* Blue_Active.png */; };
 		AE46CD4113D6318C002EB60F /* Blue_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3A13D6318C002EB60F /* Blue_Inactive.png */; };
-		AE46CD4213D6318C002EB60F /* Blue_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3B13D6318C002EB60F /* Blue_Scared.png */; };
 		AE46CD4313D6318C002EB60F /* Ghost_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3C13D6318C002EB60F /* Ghost_Inactive.png */; };
 		AE46CD4413D6318C002EB60F /* Gold_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3D13D6318C002EB60F /* Gold_Active.png */; };
 		AE46CD4513D6318C002EB60F /* Gold_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3E13D6318C002EB60F /* Gold_Inactive.png */; };
-		AE46CD4613D6318C002EB60F /* Gold_Scared.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD3F13D6318C002EB60F /* Gold_Scared.png */; };
 		AE46CD5213DA148B002EB60F /* Game_Blue_Wins.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD4F13DA148B002EB60F /* Game_Blue_Wins.png */; };
 		AE46CD5313DA148B002EB60F /* Game_Draw.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD5013DA148B002EB60F /* Game_Draw.png */; };
 		AE46CD5413DA148B002EB60F /* Game_Gold_Wins.png in Resources */ = {isa = PBXBuildFile; fileRef = AE46CD5113DA148B002EB60F /* Game_Gold_Wins.png */; };
@@ -61,11 +59,9 @@
 		AE2B777A13C376B20003CAEA /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
 		AE46CD3913D6318C002EB60F /* Blue_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Active.png; sourceTree = "<group>"; };
 		AE46CD3A13D6318C002EB60F /* Blue_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Inactive.png; sourceTree = "<group>"; };
-		AE46CD3B13D6318C002EB60F /* Blue_Scared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Scared.png; sourceTree = "<group>"; };
 		AE46CD3C13D6318C002EB60F /* Ghost_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ghost_Inactive.png; sourceTree = "<group>"; };
 		AE46CD3D13D6318C002EB60F /* Gold_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Active.png; sourceTree = "<group>"; };
 		AE46CD3E13D6318C002EB60F /* Gold_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Inactive.png; sourceTree = "<group>"; };
-		AE46CD3F13D6318C002EB60F /* Gold_Scared.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gold_Scared.png; sourceTree = "<group>"; };
 		AE46CD4F13DA148B002EB60F /* Game_Blue_Wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Blue_Wins.png; sourceTree = "<group>"; };
 		AE46CD5013DA148B002EB60F /* Game_Draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Draw.png; sourceTree = "<group>"; };
 		AE46CD5113DA148B002EB60F /* Game_Gold_Wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Game_Gold_Wins.png; sourceTree = "<group>"; };
@@ -216,11 +212,9 @@
 			children = (
 				AE46CD3913D6318C002EB60F /* Blue_Active.png */,
 				AE46CD3A13D6318C002EB60F /* Blue_Inactive.png */,
-				AE46CD3B13D6318C002EB60F /* Blue_Scared.png */,
 				AE46CD3C13D6318C002EB60F /* Ghost_Inactive.png */,
 				AE46CD3D13D6318C002EB60F /* Gold_Active.png */,
 				AE46CD3E13D6318C002EB60F /* Gold_Inactive.png */,
-				AE46CD3F13D6318C002EB60F /* Gold_Scared.png */,
 			);
 			path = Stones;
 			sourceTree = "<group>";
@@ -345,11 +339,9 @@
 				AEFA970313D3A251000A9C2F /* Möbius_CoordMap.plist in Resources */,
 				AE46CD4013D6318C002EB60F /* Blue_Active.png in Resources */,
 				AE46CD4113D6318C002EB60F /* Blue_Inactive.png in Resources */,
-				AE46CD4213D6318C002EB60F /* Blue_Scared.png in Resources */,
 				AE46CD4313D6318C002EB60F /* Ghost_Inactive.png in Resources */,
 				AE46CD4413D6318C002EB60F /* Gold_Active.png in Resources */,
 				AE46CD4513D6318C002EB60F /* Gold_Inactive.png in Resources */,
-				AE46CD4613D6318C002EB60F /* Gold_Scared.png in Resources */,
 				AE46CD5213DA148B002EB60F /* Game_Blue_Wins.png in Resources */,
 				AE46CD5313DA148B002EB60F /* Game_Draw.png in Resources */,
 				AE46CD5413DA148B002EB60F /* Game_Gold_Wins.png in Resources */,

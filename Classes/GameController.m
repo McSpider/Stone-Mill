@@ -30,6 +30,7 @@
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
   boardPrefix = [[NSString alloc] initWithString:@"Möbius"];
+  moveRate = 0.1;
   
   errorSound = [[NSSound soundNamed:@"Error"] retain];
   removeSound = [[NSSound soundNamed:@"Remove"] retain];
@@ -46,8 +47,9 @@
   NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
   [selectorPopup addItemsWithTitles:boardNames];
   self.boardPrefix = [boardNames objectAtIndex:[selectorPopup indexOfSelectedItem]];
-  
-  [gameView setBoardOpacity:1.0];
+  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
+  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
+    
   self.timeLabelString = @"00:00";
   self.movesLabelString = @"Moves 0";
 }
@@ -107,6 +109,15 @@
   NSString *fileName = [NSString stringWithFormat:@"%@_CoordMap",boardPrefix];
   return [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"]];
 }
+
+- (NSArray *)allActiveTiles
+{
+  NSMutableArray *tileArray = [NSMutableArray arrayWithArray:[goldPlayer activeTiles]];
+  [tileArray addObjectsFromArray:[bluePlayer activeTiles]];
+  [tileArray addObjectsFromArray:ghostTileArray];
+  return [NSArray arrayWithArray:tileArray];
+}
+
 
 - (GameTile *)tileAtPoint:(NSPoint)point
 {
@@ -181,44 +192,79 @@
   return [positions autorelease];
 }
 
-// Should return an angle relative to the zero axis
+// Should return an angle (in degrees) relative to the zero axis
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
 {
-  //return atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x);
-  
-  int returnValue = 0;
-  if (fromPos.x < toPos.x)
-    returnValue = 1; // Right
-  else if (fromPos.x > toPos.x)
-    returnValue = 4; // Left
-  
-  if (fromPos.y < toPos.y)
-    returnValue = 6; // Up
-  else if (fromPos.y > toPos.y)
-    returnValue = 8; // Down
-  return returnValue;
+  return atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x) * 180 / 3.14;
 }
 
 - (int)oppositeOffsetDirection:(int)offsetDir
 {
-  //return ((offsetDir + 180) % 360);
-  
-  if (offsetDir == 1)
-    return 4;
-  if (offsetDir == 4)
-    return 1;
-  if (offsetDir == 8)
-    return 6;
-  if (offsetDir == 6)
-    return 8;
-  return 0;
+  return ((offsetDir + 180) % 360);
 }
 
-- (NSDictionary *)closableMillsForPlayer:(GamePlayer *)thePlayer
+- (NSArray *)closableMillsForPlayer:(GamePlayer *)thePlayer
 {
+  NSMutableArray *possibleMills = [[NSMutableArray alloc] init];
   // Return all mills that can be closed by thePlayer, does not return blocked ones
   
-  return nil;
+  // Try to build a row of 2 stones
+  for (GameTile *aTile in thePlayer.activeTiles) {
+    
+    NSString * stonePos1 = nil;
+    NSString * stonePos2 = nil;
+    
+    // Try to build a row of 2 stones
+    NSDictionary *tilePositions1 = [self tilePositionsFromPoint:aTile.pos player:thePlayer];
+    for (NSString *thePos1 in tilePositions1) {
+      // Store direction we are moving
+      int direction1 = [self offsetDirectionFromPoint:aTile.pos toPoint:NSPointFromString(thePos1)];
+      NSLog(@"Stone %i to the original pos",direction1);
+      stonePos1 = thePos1;
+      
+      // We are moving a certain direction now keep going that way
+      NSDictionary *tilePositions2 = [self tilePositionsFromPoint:NSPointFromString(thePos1) player:thePlayer];
+      for (NSString *thePos2 in tilePositions2) {
+        int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
+        NSLog(@"%i",direction2);
+        if (direction2 != direction1)
+          continue;
+        NSLog(@"Stone %i to the second pos",direction2);
+        stonePos2 = thePos2;
+        break;
+      }
+      if (stonePos1 && stonePos2) {
+        // We found a possible mill
+        [possibleMills addObject:[NSArray arrayWithObjects:stonePos1, stonePos2, nil]];
+      }
+      else {
+        // Didn't find a full match, reset values
+        stonePos1 = nil;
+        stonePos2 = nil;
+      }
+    }
+  }
+  
+  NSMutableArray *closableMills = [[NSMutableArray alloc] init];
+  
+  // Check all possible mills for closeable ones
+  for (NSArray *aArray in possibleMills) {
+    NSPoint pos1 = NSPointFromString([aArray objectAtIndex:0]);
+    NSPoint pos2 = NSPointFromString([aArray objectAtIndex:1]);
+    int direction1 = [self offsetDirectionFromPoint:pos1 toPoint:pos2];
+    int direction2 = [self oppositeOffsetDirection:direction1];
+    
+    [self tilePositionsFromPoint:pos1 player:thePlayer];
+    
+  }
+  
+  // add positions to closableMills, if they are valid.
+
+
+  
+  
+  // Return results
+  return [closableMills autorelease];
 }
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
@@ -245,7 +291,7 @@
     return NO;
   
   if (aTile.type == [thePlayer tileType] || aTile.type == GhostTile) {
-    [errorSound play];
+    if ([thePlayer type] != RobotPlayer) [errorSound play];
     return NO;
   }
   
@@ -260,7 +306,7 @@
   }
   // Check if tile is in a mill, and return NO if it's
   if ([self isMill:aTile.pos player:aPlayer] && !allMills) {
-    [errorSound play];
+    if ([thePlayer type] != RobotPlayer) [errorSound play];
     return NO;
   }
   
@@ -273,11 +319,6 @@
   [removeSound play];
   
   [thePlayer setState:0];
-  if (playingPlayer.type == RobotPlayer) {
-    [self performSelector:@selector(playerFinishedMoving) withObject:nil afterDelay:0.2];
-    return YES;
-  }
-  
   [self playerFinishedMoving];
   return YES;
 }
@@ -319,15 +360,13 @@
     [closeSound play];
     [playingPlayer setState:1];
     [self removeOldGhosts];
+    
+    if (playingPlayer.type == RobotPlayer)
+      [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
     return;
   }
 
   [moveSound play];
-  if (playingPlayer.type == RobotPlayer) {
-    [self performSelector:@selector(playerFinishedMoving) withObject:nil afterDelay:0.2];
-    return;
-  }
-  
   [self playerFinishedMoving];
 }
 
@@ -377,7 +416,6 @@
     }
   }
 
-  NSLog(@"%i,%i,%i",(stone1?1:0),(stone2?1:0),(stone3?1:0));
   return (stone1 && (stone2 || stone3));
 }
 
@@ -409,7 +447,7 @@
     [tile release];
   }
   if (playingPlayer.type == RobotPlayer)
-    [self performSelector:@selector(movePlayer:) withObject:playingPlayer afterDelay:0.2]; //[self movePlayer:playingPlayer];
+    [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
   [gameView setNeedsDisplay:YES];
 }
 
@@ -450,8 +488,11 @@
   return canMove;
 }
 
-- (void)movePlayer:(GamePlayer *)thePlayer
+- (void)moveForPlayer:(GamePlayer *)thePlayer
 {
+  if (gameState == GamePaused)
+    return;
+  
   if (thePlayer.state == 0) {
     // get all the tiles we can move
     if (![thePlayer isSetup]) {
@@ -483,7 +524,7 @@
       [moves release];
     }
   }
-  if (thePlayer.state == 1) {
+  else if (thePlayer.state == 1) {
     for (NSString *string in [self validTilePositions]) {
       if ([self removeTileAtPoint:NSPointFromString(string) player:thePlayer])
         break;
@@ -537,8 +578,24 @@
     [pauseButton setState:0];
     [ghostCheck setEnabled:NO];
     [jumpCheck setEnabled:NO];
+    [playersCheck setEnabled:NO];
     
     playingPlayer = bluePlayer;
+    
+    // Set the player types
+    if ([playersCheck state] == NSOffState) {
+      [bluePlayer setType:RobotPlayer];
+      [goldPlayer setType:RobotPlayer];
+    }
+    else if ([playersCheck state] == NSMixedState) {
+      [bluePlayer setType:HumanPlayer];
+      [goldPlayer setType:RobotPlayer];
+    }
+    else {
+      [bluePlayer setType:HumanPlayer];
+      [goldPlayer setType:HumanPlayer];
+    }
+    
     [self setGameState:GameRunning];
     
     // Add stone quarry
@@ -555,15 +612,19 @@
                                                     selector:@selector(updateTimer)
                                                     userInfo:nil
                                                       repeats:TRUE];
+    // If the starting player is a robot move
+    if (playingPlayer.type == RobotPlayer)
+      [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     [self setGameState:GameIdle];
-    [gameButton setTitle:@"Start Game"];
+    [gameButton setTitle:@"New Game"];
     [selectorPopup setEnabled:YES];
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
     [ghostCheck setEnabled:YES];
     [jumpCheck setEnabled:YES];
+    [playersCheck setEnabled:YES];
   }
 
   [gameView setNeedsDisplay:YES];
@@ -583,6 +644,10 @@
     }
     else if (gameState == GamePaused) {
       [self setGameState:GameRunning];
+      
+      // If the active player is a robot move
+      if (playingPlayer.type == RobotPlayer)
+        [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
     }
   }  
   [gameView setNeedsDisplay:YES];
@@ -592,6 +657,8 @@
 {
   NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
   self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
+  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
+  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
   [gameView setNeedsDisplay:YES];
 }
 

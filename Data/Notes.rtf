@@ -4,22 +4,32 @@
 \paperw12240\paperh15840\vieww9000\viewh8400\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f0\b\fs24 \cf2 Bugs\
+\f0\b\fs24 \cf2 Bugs:\
 
 \b0 Game timer doesn't stop when the game is paused.\
 \
 
-\b Gameplay\
+\b Gameplay:\
 
 \b0 Classic Nine men's morris with a twist, once tiles can jump they leave behind a ghost stone that disappears after the next turn.\
 \
 
-\b Todo\
+\b Todo:\
 
-\b0 Figure out some logical order for the game logic, GameView.h/m should only handle drawing\
-Add a stupid game AI.\
-Learn how to use Core animation to animate invalid moves, etc.\
+\b0 Learn how to use Core animation to animate invalid moves, etc. Or use something else?\
 Improve the stupid game AI, so that it becomes a semi-smart one.\
+\
+
+\b Ideas:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\b0 \cf2 After every move the array closedMills should be updated, and appropriate symbols overlaid on those tiles.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 \
+\
+
+\b Notes:
+\b0 \
 \
 
 \b Easy AI
@@ -33,19 +43,19 @@ Improve the stupid game AI, so that it becomes a semi-smart one.\
 
 \b Normal AI 
 \b0 should be smarter\
-\
 
-\b Notes
+\b \
+Mill Detection
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f1 \cf2 X
+\f1 X
 \f0  Start - 
 \f1 O
 \f0  Second - 
 \f1 0
 \f0  Third\
-Ether horizontal or vertical rows are valid both should be evaluated.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+\cf2 Ether horizontal or vertical rows are valid both should be evaluated.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1 \cf0 \

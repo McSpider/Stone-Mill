@@ -12,7 +12,7 @@
 
 @implementation GameView
 @synthesize viewCenter;
-@synthesize boardOpacity;
+@synthesize boardLayer, messageLayer;
 
 
 - (id)initWithFrame:(NSRect)frame {
@@ -21,28 +21,61 @@
   }
   
   viewCenter = NSMakePoint(250,250);
-  boardOpacity = 0.0f;
   
+  CALayer *mainLayer = [CALayer layer];
+  mainLayer.bounds = NSRectToCGRect(self.bounds);
+	mainLayer.anchorPoint = CGPointZero;
+	mainLayer.position = CGPointZero;
+	
+  // Uncomment to enable CA layer drawing
+  //[self setLayer:mainLayer];
   [self setWantsLayer:YES];
+
+  boardLayer = [[CALayer alloc] init];
+  boardLayer.bounds = NSRectToCGRect(self.bounds);
+	boardLayer.anchorPoint = CGPointZero;
+	boardLayer.position = CGPointZero;
+	boardLayer.contents = [NSImage imageNamed:@"Board"];
+  [mainLayer addSublayer:boardLayer];
+  
+  CALayer *gridLayer = [CALayer layer];
+  gridLayer.bounds = NSRectToCGRect(self.bounds);
+	gridLayer.anchorPoint = CGPointZero;
+	gridLayer.position = CGPointZero;
+  [boardLayer addSublayer:gridLayer];
+  
+  messageLayer = [[CALayer alloc] init];
+  messageLayer.bounds = NSRectToCGRect(self.bounds);
+	messageLayer.anchorPoint = CGPointZero;
+	messageLayer.position = CGPointZero;
+  messageLayer.backgroundColor = CGColorCreateGenericGray(0.0, 0.4);
+  messageLayer.opacity = 0.0;
+  [mainLayer addSublayer:messageLayer];  
+  
   return self;
 }
 
 - (void)dealloc
 {
+  [messageLayer release];
+  [boardLayer release];
   [super dealloc];
 }
 
+
+#pragma mark -
+#pragma mark Drawing
 
 - (void)drawRect:(NSRect)dirtyRect
 {
   // Drawing code here.
 
   // Draw board background
-  [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:boardOpacity];
+  [[NSImage imageNamed:@"Board"] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
   
   // Draw board grid
   NSString *boardName = [NSString stringWithFormat:@"%@_Mill",game.boardPrefix];
-  [[NSImage imageNamed:boardName] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:boardOpacity];
+  [[NSImage imageNamed:boardName] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
   
   // Draw stone quarry - Only if the player hasn't placed all tiles yet
   if (![game.playingPlayer isSetup] && (game.gameState != GameIdle && game.gameState != GameOver)){
@@ -62,30 +95,18 @@
   // Draw Tiles
   NSArray *activeTiles = [game.bluePlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
+    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   activeTiles = [game.goldPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
+    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   activeTiles = [game ghostTileArray];
   for (GameTile *tile in activeTiles) {
-    if (!tile.active) {
-      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-  }
-  
-  // Draw Selected/Dragged Tile
-  if (activeTile) {
-    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HALF_TILE_SIZE, activeTile.pos.y-HALF_TILE_SIZE);
-    [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   
   // Draw Messages
@@ -109,6 +130,30 @@
   }
 }
 
+- (void)fadeInLayer:(CALayer *)aLayer
+{
+  CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+  anim.duration = 0.8f;
+  anim.fromValue = [NSNumber numberWithFloat:0];
+  anim.toValue = [NSNumber numberWithFloat:1];
+  anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+  anim.delegate = self;
+  [aLayer addAnimation:anim forKey:@"animateOpacity"];
+  [aLayer setOpacity:1.0];
+}
+
+
+#pragma mark -
+#pragma mark Animation delegate messages
+
+- (void)animationDidStop:(CABasicAnimation *)theAnimation finished:(BOOL)flag
+{
+
+}
+
+
+#pragma mark -
+#pragma mark Mouse delegate messages
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
@@ -135,7 +180,7 @@
     validDropPositions = [[game validTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
     
     // Don't drag ghost tiles or other computer tiles
-    if ([activeTile type] != [game.playingPlayer tileType] && [game.playingPlayer type] != RobotPlayer) {
+    if ([activeTile type] != [game.playingPlayer tileType] || [game.playingPlayer type] == RobotPlayer) {
       mouseDown = NO;
       [activeTile setActive:NO];
       [activeTile release];
