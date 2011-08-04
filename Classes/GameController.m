@@ -160,7 +160,7 @@
   BOOL fromStoneQuarry = NSEqualPoints(point, gameView.viewCenter);
   
   // Return an dictionary consisting of the tile positions that can be moved to from the specified position
-  if (fromStoneQuarry || [thePlayer tilesCanJump])
+  if (fromStoneQuarry || ([thePlayer tilesCanJump] && [jumpCheck state]))
     tilePositions = [self validTilePositions];
   else
     tilePositions = [[self validTilePositions] objectForKey:[NSString stringWithFormat:@"%i, %i",(int)point.x,(int)point.y]];
@@ -205,7 +205,7 @@
 
 - (NSArray *)closableMillsForPlayer:(GamePlayer *)thePlayer
 {
-  NSMutableArray *possibleMills = [[NSMutableArray alloc] init];
+  NSMutableArray *closableMills = [[NSMutableArray alloc] init];
   // Return all mills that can be closed by thePlayer, does not return blocked ones
   
   // Try to build a row of 2 stones
@@ -234,8 +234,25 @@
         break;
       }
       if (stonePos1 && stonePos2) {
-        // We found a possible mill
-        [possibleMills addObject:[NSArray arrayWithObjects:stonePos1, stonePos2, nil]];
+        // We found a possible mill, check if it is closable
+        NSString *stonePos3 = nil;
+        int direction1 = [self offsetDirectionFromPoint:NSPointFromString(stonePos1) toPoint:NSPointFromString(stonePos2)];
+        int direction2 = [self oppositeOffsetDirection:direction1];
+        
+        NSDictionary *dictionary1 = [self tilePositionsFromPoint:NSPointFromString(stonePos1) player:thePlayer];
+        for (NSString *aString in dictionary1) {
+        
+        }
+        
+        NSDictionary *dictionary2 = [self tilePositionsFromPoint:NSPointFromString(stonePos2) player:thePlayer];
+        for (NSString *aString in dictionary2) {
+          
+        }
+        
+        // add positions to closableMills, if they are valid.
+        if (stonePos3) {
+          [closableMills addObject:[NSArray arrayWithObjects:stonePos1, stonePos2, stonePos3, nil]];
+        }
       }
       else {
         // Didn't find a full match, reset values
@@ -244,23 +261,6 @@
       }
     }
   }
-  
-  NSMutableArray *closableMills = [[NSMutableArray alloc] init];
-  
-  // Check all possible mills for closeable ones
-  for (NSArray *aArray in possibleMills) {
-    NSPoint pos1 = NSPointFromString([aArray objectAtIndex:0]);
-    NSPoint pos2 = NSPointFromString([aArray objectAtIndex:1]);
-    int direction1 = [self offsetDirectionFromPoint:pos1 toPoint:pos2];
-    int direction2 = [self oppositeOffsetDirection:direction1];
-    
-    [self tilePositionsFromPoint:pos1 player:thePlayer];
-    
-  }
-  
-  // add positions to closableMills, if they are valid.
-
-
   
   
   // Return results
@@ -291,7 +291,7 @@
     return NO;
   
   if (aTile.type == [thePlayer tileType] || aTile.type == GhostTile) {
-    if ([thePlayer type] != RobotPlayer) [errorSound play];
+    if ([thePlayer type] != RobotPlayer) if (![muteButton state]) [errorSound play];
     return NO;
   }
   
@@ -306,7 +306,7 @@
   }
   // Check if tile is in a mill, and return NO if it's
   if ([self isMill:aTile.pos player:aPlayer] && !allMills) {
-    if ([thePlayer type] != RobotPlayer) [errorSound play];
+    if ([thePlayer type] != RobotPlayer) if (![muteButton state]) [errorSound play];
     return NO;
   }
   
@@ -316,7 +316,7 @@
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles removeObject:aTile];
   
-  [removeSound play];
+  if (![muteButton state]) [removeSound play];
   
   [thePlayer setState:0];
   [self playerFinishedMoving];
@@ -357,7 +357,7 @@
   // If we closed a mill we get to remove a enemy stone
   if ([self isMill:toPos player:playingPlayer]) {
     NSLog(@"Closed Mill");
-    [closeSound play];
+    if (![muteButton state]) [closeSound play];
     [playingPlayer setState:1];
     [self removeOldGhosts];
     
@@ -366,7 +366,7 @@
     return;
   }
 
-  [moveSound play];
+  if (![muteButton state]) [moveSound play];
   [self playerFinishedMoving];
 }
 

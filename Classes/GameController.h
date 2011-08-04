@@ -36,6 +36,7 @@ typedef enum {
   IBOutlet NSButton *ghostCheck;
   IBOutlet NSButton *jumpCheck;
   IBOutlet NSButton *playersCheck;
+  IBOutlet NSButton *muteButton;
   
   int gameState;
   int playingState;

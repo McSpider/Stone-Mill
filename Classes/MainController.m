@@ -22,5 +22,10 @@
   [game pauseGame:self];
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+	[NSApp terminate:nil];
+}
+
 
 @end
