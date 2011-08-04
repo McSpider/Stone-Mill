@@ -95,18 +95,30 @@
   // Draw Tiles
   NSArray *activeTiles = [game.bluePlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
   }
   activeTiles = [game.goldPlayer activeTiles];
   for (GameTile *tile in activeTiles) {
-    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
   }
   activeTiles = [game ghostTileArray];
   for (GameTile *tile in activeTiles) {
-    NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
-    [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    if (!tile.active) {
+      NSPoint tilePos = NSMakePoint(tile.pos.x-HALF_TILE_SIZE, tile.pos.y-HALF_TILE_SIZE);
+      [tile.image drawAtPoint:tilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+  }
+  
+  // Draw Selected/Dragged Stone - (draw it here so that its above all other stones when dragged)
+  if (activeTile) {
+    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HALF_TILE_SIZE, activeTile.pos.y-HALF_TILE_SIZE);
+    [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   
   // Draw Messages
