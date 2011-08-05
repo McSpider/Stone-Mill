@@ -126,19 +126,7 @@
     [[NSColor colorWithCalibratedWhite:0.0 alpha:0.4] set];
     NSRectFillUsingOperation([self bounds], NSCompositeSourceOver);
     
-    NSPoint msgPos = NSMakePoint(250-235/2, 501-31);
-    if ([game gameState] == GamePaused) {
-      [[NSImage imageNamed:@"Game_Paused"] drawAtPoint:msgPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    else if ([game gameState] == GameOver) {
-      if ([game playingState] == Blue_Wins)
-        [[NSImage imageNamed:@"Game_Blue_Wins"] drawAtPoint:msgPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-      else if ([game playingState] == Gold_Wins)
-        [[NSImage imageNamed:@"Game_Gold_Wins"] drawAtPoint:msgPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-      else if ([game playingState] == Game_Draw)
-        [[NSImage imageNamed:@"Game_Draw"] drawAtPoint:msgPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    [[NSImage imageNamed:@"Bottom_Tab"] drawAtPoint:NSMakePoint(250-235/2, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [[NSImage imageNamed:@"Arrow"] drawAtPoint:NSMakePoint(445, 379) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];    
   }
 }
 
