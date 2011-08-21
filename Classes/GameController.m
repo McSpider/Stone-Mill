@@ -261,7 +261,6 @@
         }
       }
       if (stoneOne && stoneTwo && keyStone) {
-        // Didn't find a full match, reset values
 				[closableMills addObject:[NSArray arrayWithObjects:stoneOne, stoneTwo, keyStone, nil]];
       } else {
         // Didn't find a full match, reset values
