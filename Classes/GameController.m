@@ -29,7 +29,7 @@
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
   ghostTileArray = [[NSMutableArray alloc] init];
-  boardPrefix = [[NSString alloc] initWithString:@"Möbius"];
+  boardPrefix = [[NSString alloc] initWithString:@"Mobius"];
   moveRate = 0.1;
   
   errorSound = [[NSSound soundNamed:@"Error"] retain];
@@ -153,7 +153,7 @@
   return nil;
 }
 
-- (NSDictionary *)validTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer
+- (NSDictionary *)allTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
@@ -175,7 +175,7 @@
   return [positions autorelease];
 }
 
-- (NSDictionary *)tilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
+- (NSDictionary *)playerTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
@@ -211,60 +211,71 @@
   // Try to build a row of 2 stones
   for (GameTile *aTile in thePlayer.activeTiles) {
     
-    NSString * stonePos1 = nil;
-    NSString * stonePos2 = nil;
+    NSString * stoneOne = nil;
+    NSString * stoneTwo = nil;
+    NSString * keyStone = nil; // The location that would/could close the mill
     
-    // Try to build a row of 2 stones
-    NSDictionary *tilePositions1 = [self tilePositionsFromPoint:aTile.pos player:thePlayer];
+    // Try to build a row of 3 stones
+    NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aTile.pos player:thePlayer];
     for (NSString *thePos1 in tilePositions1) {
       // Store direction we are moving
       int direction1 = [self offsetDirectionFromPoint:aTile.pos toPoint:NSPointFromString(thePos1)];
-      NSLog(@"Stone %i to the original pos",direction1);
-      stonePos1 = thePos1;
+      NSLog(@"First stone found");
+      stoneOne = thePos1;
       
       // We are moving a certain direction now keep going that way
-      NSDictionary *tilePositions2 = [self tilePositionsFromPoint:NSPointFromString(thePos1) player:thePlayer];
+      NSDictionary *tilePositions2 = [[self validTilePositions] objectForKey:thePos1];
       for (NSString *thePos2 in tilePositions2) {
         int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
-        NSLog(@"%i",direction2);
         if (direction2 != direction1)
           continue;
-        NSLog(@"Stone %i to the second pos",direction2);
-        stonePos2 = thePos2;
-        break;
+        
+        if ([self tileAtPoint:NSPointFromString(thePos2)]) {
+          // We have a tile, check if the 3rd position is empty
+					NSLog(@"1 - Second stone found");
+          stoneTwo = thePos2;
+					
+					NSDictionary *tilePositions3 = [[self validTilePositions] objectForKey:thePos2];
+					for (NSString *thePos3 in tilePositions3) {
+						int direction3 = [self offsetDirectionFromPoint:NSPointFromString(thePos2) toPoint:NSPointFromString(thePos3)];
+						if (direction3 != direction2)
+							continue;
+						
+						NSLog(@"1 - Key stone found");
+						keyStone = thePos3;
+					}
+        }
+        else {
+          // We don't have a tile, check if the 3rd position is one		
+					NSDictionary *tilePositions3 = [self playerTilePositionsFromPoint:NSPointFromString(thePos2) player:thePlayer];
+					for (NSString *thePos3 in tilePositions3) {
+						int direction3 = [self offsetDirectionFromPoint:NSPointFromString(thePos2) toPoint:NSPointFromString(thePos3)];
+						if (direction3 != direction2)
+							continue;
+						
+						NSLog(@"2 - Second stone found");
+						NSLog(@"2 - Key stone found");
+						stoneTwo = thePos3;
+						keyStone = thePos2;
+					}
+        }
       }
-      if (stonePos1 && stonePos2) {
-        // We found a possible mill, check if it is closable
-        NSString *stonePos3 = nil;
-        int direction1 = [self offsetDirectionFromPoint:NSPointFromString(stonePos1) toPoint:NSPointFromString(stonePos2)];
-        int direction2 = [self oppositeOffsetDirection:direction1];
-        
-        NSDictionary *dictionary1 = [self tilePositionsFromPoint:NSPointFromString(stonePos1) player:thePlayer];
-        for (NSString *aString in dictionary1) {
-        
-        }
-        
-        NSDictionary *dictionary2 = [self tilePositionsFromPoint:NSPointFromString(stonePos2) player:thePlayer];
-        for (NSString *aString in dictionary2) {
-          
-        }
-        
-        // add positions to closableMills, if they are valid.
-        if (stonePos3) {
-          [closableMills addObject:[NSArray arrayWithObjects:stonePos1, stonePos2, stonePos3, nil]];
-        }
-      }
-      else {
+      if (stoneOne && stoneTwo && keyStone) {
         // Didn't find a full match, reset values
-        stonePos1 = nil;
-        stonePos2 = nil;
-      }
+				[closableMills addObject:[NSArray arrayWithObjects:stoneOne, stoneTwo, keyStone, nil]];
+      } else {
+        // Didn't find a full match, reset values
+				stoneOne = nil;
+        stoneTwo = nil;
+        keyStone = nil;
+			}
     }
   }
   
   
   // Return results
   return [closableMills autorelease];
+	
 }
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
@@ -377,21 +388,20 @@
   BOOL stone3 = NO; // Third Stone, returns true if there's a stone adjacent and in the opposite direction as starting position 0 X O
   
   // Try to build a row of 3 stones which include our starting position
-  NSDictionary *tilePositions1 = [self tilePositionsFromPoint:aPoint player:thePlayer];
+  NSDictionary *tilePositions1 = [self playerTilePositionsFromPoint:aPoint player:thePlayer];
   for (NSString *thePos1 in tilePositions1) {
     // Store direction we are moving
     int direction1 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
-    NSLog(@"Stone %i to the original pos",direction1);
+    //NSLog(@"Stone %i to the original pos",direction1);
     stone1 = YES;
     
     // We are moving a certain direction now keep going that way
-    NSDictionary *tilePositions2 = [self tilePositionsFromPoint:NSPointFromString(thePos1) player:thePlayer];
+    NSDictionary *tilePositions2 = [self playerTilePositionsFromPoint:NSPointFromString(thePos1) player:thePlayer];
     for (NSString *thePos2 in tilePositions2) {
       int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
-      NSLog(@"%i",direction2);
       if (direction2 != direction1)
         continue;
-      NSLog(@"Stone %i to the second pos",direction2);
+      //NSLog(@"Stone %i to the second pos",direction2);
       stone2 = YES;
       break;
     }
@@ -400,7 +410,7 @@
       int direction2 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
       if (direction2 != [self oppositeOffsetDirection:direction1])
         continue;
-      NSLog(@"Stone opposite %i to the original pos",direction2);
+      //NSLog(@"Stone opposite %i to the original pos",direction2);
       stone3 = YES;
       break;
     }
@@ -471,13 +481,13 @@
 {
   BOOL canMove = NO;
   for (GameTile *aTile in thePlayer.activeTiles) {
-    if ([[self validTilePositionsFromPoint:aTile.pos player:thePlayer] count] > 0) {
+    if ([[self allTilePositionsFromPoint:aTile.pos player:thePlayer] count] > 0) {
       canMove = YES;
     }
   }
   // Check if the player could move from the quarry
   if (!thePlayer.isSetup && !canMove)
-    if ([[self validTilePositionsFromPoint:gameView.viewCenter player:thePlayer] count] > 0)
+    if ([[self allTilePositionsFromPoint:gameView.viewCenter player:thePlayer] count] > 0)
       canMove = YES;
   
   // Check if the player can jump and there are empty spots
@@ -493,10 +503,12 @@
   if (gameState == GamePaused)
     return;
   
+	NSLog(@"%@",[self closableMillsForPlayer:thePlayer]);
+	
   if (thePlayer.state == 0) {
     // get all the tiles we can move
     if (![thePlayer isSetup]) {
-      NSDictionary *validMoves = [self validTilePositionsFromPoint:gameView.viewCenter player:thePlayer];
+      NSDictionary *validMoves = [self allTilePositionsFromPoint:gameView.viewCenter player:thePlayer];
       GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
       if (aTile && validMoves != 0) {
         [aTile setOldPos:[aTile pos]];
@@ -507,7 +519,7 @@
     else {
       NSMutableArray *moves = [[NSMutableArray alloc] init];
       for (GameTile *aTile in thePlayer.activeTiles) {
-        NSDictionary *validMoves = [self validTilePositionsFromPoint:[aTile pos] player:thePlayer];
+        NSDictionary *validMoves = [self allTilePositionsFromPoint:[aTile pos] player:thePlayer];
         if (validMoves && [validMoves count] != 0) {
           [moves addObject:[NSArray arrayWithObjects:aTile, validMoves, nil]];          
         }

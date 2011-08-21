@@ -177,7 +177,7 @@
     [activeTile setOldPos:[activeTile pos]];
     [activeTile setActive:YES];
     
-    validDropPositions = [[game validTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
+    validDropPositions = [[game allTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
     
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] != [game.playingPlayer tileType] || [game.playingPlayer type] == RobotPlayer) {
