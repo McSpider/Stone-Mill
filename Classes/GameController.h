@@ -73,7 +73,7 @@ typedef enum {
 @property (nonatomic, retain) NSString * movesLabelString;
 @property (nonatomic, retain) NSString * statusLabelString;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
-@property int gameState, playingState;
+@property (nonatomic) int gameState, playingState;
 @property (nonatomic, retain) NSString * timeLabelString;
 @property (nonatomic, retain) NSTimer * gameTimer;
 @property (nonatomic, retain) NSDate * gameStart;
@@ -81,6 +81,7 @@ typedef enum {
 - (BOOL)isGameSetup;
 
 - (NSDictionary *)validTilePositions;
+- (NSArray *)activeTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
 - (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSDictionary *)allTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
