@@ -588,18 +588,6 @@
   }
 }
 
-- (void)addTemporaryStones
-{
-  /// Temporary active tiles
-  GameTile *tile = [[GameTile alloc] init];  
-  [tile setPos:NSMakePoint(310,310)];
-  [tile setType:GhostTile];
-  // Make this tile unremovable used to test
-  //[tile setAge:-2000];
-  [self.ghostTileArray addObject:tile];
-  [tile release];
-}
-
 
 #pragma mark -
 #pragma mark Actions
@@ -649,7 +637,6 @@
     [playingPlayer.activeTiles addObject:tile];
     [tile release];
     
-    [self addTemporaryStones];
     self.gameStart = [NSDate date];
     self.gameTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                       target:self
