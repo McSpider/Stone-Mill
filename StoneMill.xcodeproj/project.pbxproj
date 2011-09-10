@@ -28,6 +28,8 @@
 		AE824A141398525900A351F8 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0E1398525900A351F8 /* GameView.m */; };
 		AE824A151398525900A351F8 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A101398525900A351F8 /* MainController.m */; };
 		AE824A161398525900A351F8 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A121398525900A351F8 /* GameController.m */; };
+		AE9B95F51419B6F4007AE742 /* Twisted_Mill.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9B95F41419B6F4007AE742 /* Twisted_Mill.png */; };
+		AE9B95F71419B92A007AE742 /* Twisted_CoordMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE9B95F61419B92A007AE742 /* Twisted_CoordMap.plist */; };
 		AEA2AB16139DB953009919A0 /* Drop Zone.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA2AB15139DB953009919A0 /* Drop Zone.png */; };
 		AEA9926413EA481700C9CB82 /* Boards.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEA9926313EA481700C9CB82 /* Boards.plist */; };
 		AEA9926F13EA511E00C9CB82 /* Sound_Mute.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA9926D13EA511E00C9CB82 /* Sound_Mute.png */; };
@@ -76,6 +78,8 @@
 		AE824A111398525900A351F8 /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameController.h; path = Classes/GameController.h; sourceTree = "<group>"; };
 		AE824A121398525900A351F8 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameController.m; path = Classes/GameController.m; sourceTree = "<group>"; };
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AE9B95F41419B6F4007AE742 /* Twisted_Mill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Twisted_Mill.png; sourceTree = "<group>"; };
+		AE9B95F61419B92A007AE742 /* Twisted_CoordMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Twisted_CoordMap.plist; sourceTree = "<group>"; };
 		AEA2AB15139DB953009919A0 /* Drop Zone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Drop Zone.png"; sourceTree = "<group>"; };
 		AEA9926313EA481700C9CB82 /* Boards.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Boards.plist; sourceTree = "<group>"; };
 		AEA9926D13EA511E00C9CB82 /* Sound_Mute.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sound_Mute.png; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				AEA9926313EA481700C9CB82 /* Boards.plist */,
 				AE80F5C413B5392400D7D227 /* Regular_CoordMap.plist */,
 				AE7C9D401401B4A800E75BA7 /* Mobius_CoordMap.plist */,
+				AE9B95F61419B92A007AE742 /* Twisted_CoordMap.plist */,
 				AE2A330C139D8855009EE448 /* Notes.rtf */,
 			);
 			path = Data;
@@ -258,6 +263,7 @@
 			children = (
 				AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */,
 				AEFA970013D3A245000A9C2F /* Mobius_Mill.png */,
+				AE9B95F41419B6F4007AE742 /* Twisted_Mill.png */,
 			);
 			path = Boards;
 			sourceTree = "<group>";
@@ -337,6 +343,8 @@
 				AEA9927013EA511E00C9CB82 /* Sound.png in Resources */,
 				AEA992A013EB984200C9CB82 /* Arrow.png in Resources */,
 				AE7C9D411401B4A800E75BA7 /* Mobius_CoordMap.plist in Resources */,
+				AE9B95F51419B6F4007AE742 /* Twisted_Mill.png in Resources */,
+				AE9B95F71419B92A007AE742 /* Twisted_CoordMap.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

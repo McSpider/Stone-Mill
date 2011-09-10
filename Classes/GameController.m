@@ -19,6 +19,10 @@
 @synthesize gameState, playingState;
 @synthesize timeLabelString, gameTimer, gameStart;
 
+
+#pragma mark -
+#pragma mark Initialization
+
 - (id)init
 {
   if (![super init]) {
@@ -69,6 +73,9 @@
   [super dealloc];
 }
 
+
+#pragma mark -
+#pragma mark Functions
 
 - (BOOL)isGameSetup
 {
@@ -402,7 +409,6 @@
   for (NSString *thePos1 in tilePositions1) {
     // Store direction we are moving
     int direction1 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
-    //NSLog(@"Stone %i to the original pos",direction1);
     stone1 = YES;
     
     // We are moving a certain direction now keep going that way
@@ -411,7 +417,6 @@
       int direction2 = [self offsetDirectionFromPoint:NSPointFromString(thePos1) toPoint:NSPointFromString(thePos2)];
       if (direction2 != direction1)
         continue;
-      //NSLog(@"Stone %i to the second pos",direction2);
       stone2 = YES;
       break;
     }
@@ -420,7 +425,6 @@
       int direction2 = [self offsetDirectionFromPoint:aPoint toPoint:NSPointFromString(thePos1)];
       if (direction2 != [self oppositeOffsetDirection:direction1])
         continue;
-      //NSLog(@"Stone opposite %i to the original pos",direction2);
       stone3 = YES;
       break;
     }
@@ -521,6 +525,7 @@
     // get all the tiles we can move
     if (![thePlayer isSetup]) {
 			if ([closableMills count] != 0) {
+				// Close a random closable mill
 				GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
 				if (aTile) {
 					[aTile setOldPos:[aTile pos]];
@@ -529,6 +534,7 @@
 				}
 			}
 			else {
+				// Move a random stone
 				NSDictionary *validMoves = [self allTilePositionsFromPoint:gameView.viewCenter player:thePlayer];
 				GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
 				if (aTile && validMoves != 0) {
@@ -540,6 +546,7 @@
     }
     else {
 			if ([closableMills count] != 0) {
+				// Close a random closable mill
 				NSArray *moveData = [closableMills objectAtIndex:(arc4random() % [closableMills count])];
 				GameTile *aTile = [self tileAtPoint:NSPointFromString([moveData objectAtIndex:1])];
 				NSPoint moveTo = NSPointFromString([moveData objectAtIndex:0]);
@@ -548,6 +555,7 @@
 				[self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
 			}
 			else {
+				// Move a random stone
 	      NSMutableArray *moves = [[NSMutableArray alloc] init];
 				for (GameTile *aTile in thePlayer.activeTiles) {
 					NSDictionary *validMoves = [self allTilePositionsFromPoint:[aTile pos] player:thePlayer];
@@ -569,10 +577,14 @@
     }
   }
   else if (thePlayer.state == 1) {
-    for (NSString *string in [self validTilePositions]) {
-      if ([self removeTileAtPoint:NSPointFromString(string) player:thePlayer])
-        break;
-    }
+		// Remove a random stone
+		GamePlayer *aPlayer = ((thePlayer == bluePlayer)?goldPlayer:bluePlayer);
+		BOOL tileRemoved = NO;
+		while (tileRemoved != YES) {
+			GameTile *aTile = [aPlayer.activeTiles objectAtIndex:(arc4random() % [aPlayer.activeTiles count])];
+			if ([self removeTileAtPoint:aTile.pos player:thePlayer])
+				tileRemoved = YES;
+		}
   }
   [gameView setNeedsDisplay:YES];
 }
@@ -586,6 +598,14 @@
     if ([theTile age] >= 1)
       [ghostTileArray removeObjectAtIndex:index];
   }
+}
+
+// Input a percentage probablilty outputs YES or NO
+- (BOOL)randomProbability:(int)input
+{
+	if (((arc4random() % 99) + 1) <= input)
+		return YES;
+	return NO;
 }
 
 
