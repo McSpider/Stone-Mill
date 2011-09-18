@@ -11,6 +11,7 @@
 
 @implementation GamePlayer
 @synthesize type,color;
+@synthesize smartness;
 @synthesize placedTileCount;
 @synthesize moves;
 @synthesize activeTiles;
@@ -24,6 +25,7 @@
   }
   
   type = ZeroPlayer;
+  smartness = 100;
   placedTileCount = 0;
   moves = 0;
   state = 0;
@@ -39,6 +41,7 @@
   
   type = aPlayerType;
   color = aColor;
+  smartness = 100;
   placedTileCount = 0;
   moves = 0;
   state = 0;

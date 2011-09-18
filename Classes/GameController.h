@@ -74,6 +74,7 @@ typedef enum {
 @property (nonatomic, retain) NSString * statusLabelString;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
 @property (nonatomic) int gameState, playingState;
+@property (nonatomic) float moveRate;
 @property (nonatomic, retain) NSString * timeLabelString;
 @property (nonatomic, retain) NSTimer * gameTimer;
 @property (nonatomic, retain) NSDate * gameStart;
@@ -101,6 +102,8 @@ typedef enum {
 - (BOOL)playerCanMove:(GamePlayer *)thePlayer;
 - (void)moveForPlayer:(GamePlayer *)thePlayer;
 - (void)removeOldGhosts;
+
+- (BOOL)randomProbability:(int)input;
 
 
 - (IBAction)newGame:(id)sender;

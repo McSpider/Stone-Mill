@@ -84,7 +84,7 @@
   }
   
   // Draw valid location indicators
-  if (dragging || mouseDown && activeTile) {
+  if ((dragging || mouseDown) && activeTile) {
     for (NSString *point in validDropPositions) {
       NSPoint zonePos = NSPointFromString(point);
       zonePos = NSMakePoint(zonePos.x-15/2, zonePos.y-15/2);

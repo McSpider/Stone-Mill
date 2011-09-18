@@ -27,6 +27,7 @@ typedef enum {
 @interface GamePlayer : NSObject {
   int type;
   int color;
+  int smartness;
   int placedTileCount;
   int moves;
   
@@ -34,6 +35,7 @@ typedef enum {
   NSMutableArray *activeTiles;
 }
 @property int type, color;
+@property int smartness;
 @property int placedTileCount;
 @property int moves;
 @property int state;
