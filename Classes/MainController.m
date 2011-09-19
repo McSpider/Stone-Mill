@@ -14,8 +14,7 @@
 
 - (void)awakeFromNib
 {
-	[mainWindow center];
-	[settingsWindow center];
+  [mainWindow center];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -25,25 +24,9 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	if ([notification object] == mainWindow) {
-		[NSApp terminate:nil];
-	}
-}
-
-
--(IBAction)changeAIspeed:(id)sender
-{
-	[game setMoveRate:1 - ([sender doubleValue] / 100)];
-}
-
--(IBAction)changeBlueAISmartness:(id)sender
-{
-	[game.bluePlayer setSmartness:[sender intValue]];
-}
-
--(IBAction)changeGoldAISmartness:(id)sender
-{
-	[game.goldPlayer setSmartness:[sender intValue]];
+  if ([notification object] == mainWindow) {
+    [NSApp terminate:nil];
+  }
 }
 
 @end
