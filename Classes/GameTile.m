@@ -31,6 +31,11 @@
   return self;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@ %p> pos: %f %f age: %i", NSStringFromClass([self class]), self, self.pos.x, self.pos.y, self.age];
+}
+
 - (void)dealloc
 {
   [super dealloc];

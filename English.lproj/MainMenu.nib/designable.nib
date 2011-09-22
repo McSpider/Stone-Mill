@@ -1232,9 +1232,6 @@
 			<object class="NSUserDefaultsController" id="1061357644">
 				<bool key="NSAppliesImmediately">YES</bool>
 			</object>
-			<object class="NSUserDefaultsController" id="965816601">
-				<bool key="NSSharedInstance">YES</bool>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -2649,11 +2646,6 @@
 						<reference key="object" ref="1061357644"/>
 						<reference key="parent" ref="0"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">666</int>
-						<reference key="object" ref="965816601"/>
-						<reference key="parent" ref="0"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2789,7 +2781,6 @@
 					<string>597.IBPluginDependency</string>
 					<string>598.IBPluginDependency</string>
 					<string>629.IBPluginDependency</string>
-					<string>666.IBPluginDependency</string>
 					<string>72.IBPluginDependency</string>
 					<string>73.IBPluginDependency</string>
 					<string>74.IBPluginDependency</string>
@@ -2999,7 +2990,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -3176,12 +3166,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>game</string>
 							<string>mainWindow</string>
-							<string>settingsWindow</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>GameController</string>
-							<string>NSWindow</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
@@ -3191,7 +3179,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>game</string>
 							<string>mainWindow</string>
-							<string>settingsWindow</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3201,10 +3188,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainWindow</string>
-								<string key="candidateClassName">NSWindow</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">settingsWindow</string>
 								<string key="candidateClassName">NSWindow</string>
 							</object>
 						</object>
