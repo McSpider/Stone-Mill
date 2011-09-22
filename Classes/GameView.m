@@ -78,7 +78,7 @@
   [[NSImage imageNamed:boardName] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
   
   // Draw stone quarry - Only if the player hasn't placed all tiles yet
-  if (![game.playingPlayer isSetup] && (game.gameState != GameIdle && game.gameState != GameOver)){
+  if (![game isGameSetup] && (game.gameState != GameIdle && game.gameState != GameOver)){
     NSPoint center = NSMakePoint(250-57/2,250-57/2);
     [[NSImage imageNamed:@"Quarry"] drawAtPoint:center fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }

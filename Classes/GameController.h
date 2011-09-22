@@ -93,6 +93,7 @@ typedef enum {
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
+- (BOOL)canRemoveGameTile:(GameTile *)aTile player:(GamePlayer *)thePlayer;
 
 - (void)playerMovedFrom:(NSPoint)fromPos to:(NSPoint)toPos;
 - (BOOL)isMill:(NSPoint)aPoint player:(GamePlayer *)thePlayer;
