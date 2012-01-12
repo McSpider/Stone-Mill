@@ -33,6 +33,10 @@
   
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
+  
+  //[bluePlayer setSmartness:80];
+  //[goldPlayer setSmartness:80];
+  
   ghostTileArray = [[NSMutableArray alloc] init];
   boardPrefix = [[NSString alloc] initWithString:@"Mobius"];
   moveRate = 0.1;
@@ -220,9 +224,9 @@
   
   // Try to build a row of 2 stones and one blank
   for (GameTile *aTile in thePlayer.activeTiles) {
-    NSString * stoneOne = [NSString stringWithFormat:@"%i, %i",(int)aTile.pos.x,(int)aTile.pos.y];
-    NSString * stoneTwo = nil;
-    NSString * keyPosition = nil; // The location that would/could close the mill
+    NSString *stoneOne = [NSString  stringWithFormat:@"%i, %i",(int)aTile.pos.x,(int)aTile.pos.y];
+    NSString *stoneTwo = nil;
+    NSString *keyPosition = nil; // The location that would/could close the mill
         
     NSDictionary *tilePositions2 = [[self validTilePositions] objectForKey:stoneOne];
     for (NSString *thePos2 in tilePositions2) {
@@ -259,22 +263,19 @@
           keyPosition = thePos2;
         }
       }
-      if (stoneOne != nil && stoneTwo != nil && keyPosition != nil) {
-        [closableMills1 addObject:[NSArray arrayWithObjects:stoneOne, stoneTwo, keyPosition, nil]];
-      } else {
+      if (!stoneOne || !stoneTwo || !keyPosition) {
         // Didn't find a full match, reset values
-        stoneOne = nil;
         stoneTwo = nil;
         keyPosition = nil;
+      } else {
+        [closableMills1 addObject:[NSArray arrayWithObjects:stoneOne, stoneTwo, keyPosition, nil]];
       }
     }
+    // Reset stoneOne
+    stoneOne = nil;
   }
-  
-  NSMutableArray *closableMills2 = [[NSMutableArray alloc] init];
-  // Remove all duplicates (And shift filtered mills into closableMills2)
-  for (NSArray *aArray in closableMills1) {
-    // TODO
-  }
+    
+  // Remove all duplicates (And shift filtered mills into closableMills2) TODO
   
   NSMutableArray *closableMills = [[NSMutableArray alloc] init];
   // Reparse array to return Stone and Position
@@ -294,7 +295,6 @@
   
   // Return results
   [closableMills1 release];
-  [closableMills2 release];
   return [closableMills autorelease];	
 }
 
@@ -535,7 +535,6 @@
   if (thePlayer.state == 0) {
     // get all the mills we can close
     NSArray *closableMills = [[self closableMillsForPlayer:playingPlayer] copy];
-    //NSLog(@"Closable Mills:\n%@",closableMills);
     
     // get all the tiles we can move
     if (![thePlayer isSetup]) {
@@ -546,6 +545,7 @@
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[closableMills objectAtIndex:(arc4random() % [closableMills count])] objectAtIndex:1])];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          NSLog(@"Random Close");
         }
       }
       else if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
@@ -555,7 +555,7 @@
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[blockableMills objectAtIndex:(arc4random() % [blockableMills count])] objectAtIndex:1])];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
-          NSLog(@"Mill Blocked");
+          NSLog(@"Random Block");
         }
       }
       else {
@@ -566,6 +566,7 @@
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          NSLog(@"Random Move");
         }
       }
     }
@@ -578,24 +579,26 @@
         [aTile setOldPos:[aTile pos]];
         [aTile setPos:moveTo];
         [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+        NSLog(@"Random Close");
       }
-//      else if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
-//        // Block a random blockable mill (if possible)
-//        NSMutableArray *possibleMoves = [[NSMutableArray alloc] init];
-//        for (NSArray *aArray in blockableMills) {
-//          [possibleMoves addObject:[self playerTilePositionsFromPoint:NSPointFromString([aArray objectAtIndex:0]) player:thePlayer]];
-//        }
-//        // TODO
-//
-//        // Block a random blockable mill
-//        NSArray *moveData = [possibleMoves objectAtIndex:(arc4random() % [possibleMoves count])];
-//        GameTile *aTile = [self tileAtPoint:NSPointFromString([moveData objectAtIndex:0])];
-//        NSPoint moveTo = NSPointFromString([moveData objectAtIndex:1]);
-//        [aTile setOldPos:[aTile pos]];
-//        [aTile setPos:moveTo];
-//        [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
-//      }
+      else if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
+        // Block a random blockable mill (if possible) TODO
+        NSArray *millData = [blockableMills objectAtIndex:(arc4random() % [blockableMills count])];
+        NSPoint moveTo = NSPointFromString([millData objectAtIndex:0]);
+        NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] copy];
+        
+        if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo])
+          goto moverandom; // Yes! an evil goto! (srsly, this needs to go) TODO
+        
+        GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
+        [aTile setOldPos:[aTile pos]];
+        [aTile setPos:moveTo];
+        [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+        NSLog(@"Random Block");
+      }
       else {
+      moverandom:
+        ;
         // Move a random stone
         NSMutableArray *moves = [[NSMutableArray alloc] init];
         for (GameTile *aTile in thePlayer.activeTiles) {
@@ -612,6 +615,7 @@
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          NSLog(@"Random Move");
         }
         [moves release];
       }
@@ -632,7 +636,7 @@
       }
       
       if ([tileData count] == 0) {
-        goto random; // Yes! an evil goto! (srsly, this needs to go) TODO
+        goto removerandom; // Ooo another one! TODO
       }
       
       GameTile *aTile = [tileData objectAtIndex:(arc4random() % [tileData count])];
@@ -642,7 +646,7 @@
       [tileData release];
     }
     else {
-    random:
+    removerandom:
       ;
       // Remove a random stone
       NSMutableArray *tileData = [[NSMutableArray alloc] init];
