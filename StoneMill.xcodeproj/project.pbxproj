@@ -36,6 +36,7 @@
 		AEA9927013EA511E00C9CB82 /* Sound.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA9926E13EA511E00C9CB82 /* Sound.png */; };
 		AEA992A013EB984200C9CB82 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AEA9929F13EB984200C9CB82 /* Arrow.png */; };
 		AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC6D4F13985A0E00698915 /* KBLabel.m */; };
+		AED5F8A3150580BD00FA5DEA /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = AED5F8A2150580BD00FA5DEA /* Readme.markdown */; };
 		AEFA96F713D22493000A9C2F /* Closed.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96F513D22493000A9C2F /* Closed.wav */; };
 		AEFA96F813D22493000A9C2F /* Error.wav in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96F613D22493000A9C2F /* Error.wav */; };
 		AEFA96FB13D388D1000A9C2F /* Regular_Mill.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */; };
@@ -87,6 +88,7 @@
 		AEA9929F13EB984200C9CB82 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		AEAC6D4E13985A0E00698915 /* KBLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBLabel.h; sourceTree = "<group>"; };
 		AEAC6D4F13985A0E00698915 /* KBLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBLabel.m; sourceTree = "<group>"; };
+		AED5F8A2150580BD00FA5DEA /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
 		AEFA96F513D22493000A9C2F /* Closed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Closed.wav; sourceTree = "<group>"; };
 		AEFA96F613D22493000A9C2F /* Error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Error.wav; sourceTree = "<group>"; };
 		AEFA96FA13D388D1000A9C2F /* Regular_Mill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Regular_Mill.png; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		29B97314FDCFA39411CA2CEA /* Mills */ = {
 			isa = PBXGroup;
 			children = (
+				AED5F8A2150580BD00FA5DEA /* Readme.markdown */,
 				AE824A55139853D900A351F8 /* .gitignore */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -345,6 +348,7 @@
 				AE7C9D411401B4A800E75BA7 /* Mobius_CoordMap.plist in Resources */,
 				AE9B95F51419B6F4007AE742 /* Twisted_Mill.png in Resources */,
 				AE9B95F71419B92A007AE742 /* Twisted_CoordMap.plist in Resources */,
+				AED5F8A3150580BD00FA5DEA /* Readme.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

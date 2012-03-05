@@ -61,23 +61,26 @@ typedef enum {
   NSMutableArray *ghostTileArray;
   IBOutlet GameView *gameView;
   
-  NSDate * gameStart;
-  NSString * timeLabelString;
-  NSTimer * gameTimer;
+  NSDate *gameStartTime;
+  NSDate *gameStart;
+  NSString *timeLabelString;
+  NSTimer *gameTimer;
+  NSMutableArray *timeArray;
 }
 
 @property (nonatomic, readonly) GamePlayer *bluePlayer;
 @property (nonatomic, readonly) GamePlayer *goldPlayer;
 @property (nonatomic, assign) GamePlayer *playingPlayer;
-@property (nonatomic, retain) NSString * boardPrefix;
-@property (nonatomic, retain) NSString * movesLabelString;
-@property (nonatomic, retain) NSString * statusLabelString;
+@property (nonatomic, retain) NSString *boardPrefix;
+@property (nonatomic, retain) NSString *movesLabelString;
+@property (nonatomic, retain) NSString *statusLabelString;
 @property (nonatomic, retain) NSMutableArray *ghostTileArray;
 @property (nonatomic) int gameState, playingState;
 @property (nonatomic) float moveRate;
-@property (nonatomic, retain) NSString * timeLabelString;
-@property (nonatomic, retain) NSTimer * gameTimer;
-@property (nonatomic, retain) NSDate * gameStart;
+@property (nonatomic, retain) NSString *timeLabelString;
+@property (nonatomic, retain) NSTimer *gameTimer;
+@property (nonatomic, retain) NSDate *gameStartTime;
+@property (nonatomic, retain) NSDate *gameStart;
 
 - (BOOL)isGameSetup;
 

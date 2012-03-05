@@ -18,7 +18,7 @@
 @synthesize statusLabelString, movesLabelString;
 @synthesize gameState, playingState;
 @synthesize moveRate;
-@synthesize timeLabelString, gameTimer, gameStart;
+@synthesize timeLabelString, gameTimer, gameStartTime, gameStart;
 
 
 #pragma mark -
@@ -46,6 +46,8 @@
   moveSound = [[NSSound soundNamed:@"Click"] retain];
   closeSound = [[NSSound soundNamed:@"Closed"] retain];
   
+  timeArray = [[NSMutableArray alloc] init];
+
   return self;
 }
 
@@ -55,16 +57,21 @@
   [selectorPopup removeAllItems];
   NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
   [selectorPopup addItemsWithTitles:boardNames];
+  [selectorPopup selectItemAtIndex:0];
   self.boardPrefix = [boardNames objectAtIndex:[selectorPopup indexOfSelectedItem]];
+
+  // Core Animation Layer
   CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
   gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
-    
+  
   self.timeLabelString = @"00:00";
   self.movesLabelString = @"Total Moves 0";
 }
 
 - (void)dealloc
 {
+  [timeArray release];
+  
   [errorSound release];
   [removeSound release];
   [moveSound release];
@@ -279,9 +286,19 @@
   
   NSMutableArray *closableMills = [[NSMutableArray alloc] init];
   // Reparse array to return Stone and Position
+  // Remove any mill that can't be closed
   for (NSArray *halfMill in closableMills1) {
     NSString *position = [halfMill objectAtIndex:2];
-    NSDictionary *stones = [self playerTilePositionsFromPoint:NSPointFromString(position) player:thePlayer];
+    NSDictionary *stones;
+    if ([thePlayer isSetup]) {
+      stones = [self playerTilePositionsFromPoint:NSPointFromString(position) player:thePlayer];
+    }
+    else {
+      GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+      NSString *posString = [NSString stringWithFormat:@"%i, %i",aTile.pos.x,aTile.pos.y];
+      stones = [NSDictionary dictionaryWithObject:posString forKey:posString];
+    }
+    
     for (NSString *stone in stones) {
       if (NSEqualPoints(NSPointFromString(stone), NSPointFromString([halfMill objectAtIndex:0])) ||
           NSEqualPoints(NSPointFromString(stone), NSPointFromString([halfMill objectAtIndex:1]))) {
@@ -370,13 +387,13 @@
     
   // Increment the age of all stones
   for (GameTile *theTile in ghostTileArray) {
-    [theTile setAge:theTile.age + 1];
+    [theTile incrementAge];
   }
   for (GameTile *theTile in bluePlayer.activeTiles) {
-    [theTile setAge:theTile.age + 1];
+    [theTile incrementAge];
   }
   for (GameTile *theTile in goldPlayer.activeTiles) {
-    [theTile setAge:theTile.age + 1];
+    [theTile incrementAge];
   }
   
   // Add a ghost
@@ -585,15 +602,18 @@
         // Block a random blockable mill (if possible) TODO
         NSArray *millData = [blockableMills objectAtIndex:(arc4random() % [blockableMills count])];
         NSPoint moveTo = NSPointFromString([millData objectAtIndex:0]);
-        NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] copy];
+        NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] retain];
         
-        if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo])
+        if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo]) {
+          [moveData release];
           goto moverandom; // Yes! an evil goto! (srsly, this needs to go) TODO
+        }
         
         GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
         [aTile setOldPos:[aTile pos]];
         [aTile setPos:moveTo];
         [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+        [moveData release];
         NSLog(@"Random Block");
       }
       else {
@@ -736,7 +756,10 @@
     [playingPlayer.activeTiles addObject:tile];
     [tile release];
     
-    self.gameStart = [NSDate date];
+    self.gameStartTime = [NSDate date];
+    self.gameStart = gameStartTime;
+    [timeArray release];
+    timeArray = [[NSMutableArray alloc] init];
     self.gameTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                       target:self
                                                     selector:@selector(updateTimer)
@@ -763,17 +786,21 @@
 - (IBAction)pauseGame:(id)sender
 {  
   if (sender != pauseButton) {
-    if (gameState == GameRunning)
+    if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
+    }
     [pauseButton setState:1];
   }
   else {
     // Toggle game state
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
     else if (gameState == GamePaused) {
       [self setGameState:GameRunning];
+      self.gameStart = [NSDate date];
       
       // If the active player is a robot move
       if (playingPlayer.type == RobotPlayer)
@@ -795,13 +822,25 @@
 
 - (void)updateTimer
 {
+  if (gameState == GamePaused)
+    return;
+  
   NSAutoreleasePool * pool0 = [[NSAutoreleasePool alloc] init];
   // determine seconds between now and gameStart
-  NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.gameStart];
-  NSInteger minutes = ((NSInteger)((CGFloat)seconds/60.0f));
-  self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d",
-                          minutes,
-                          ((NSInteger)seconds) - (minutes*60)];
+  
+  NSTimeInterval gameTime = [[NSDate date] timeIntervalSinceDate:self.gameStart];
+  int i1;
+  for (i1 = 0; i1 < [timeArray count]; i1++) {
+    gameTime += [[timeArray objectAtIndex:i1] intValue];
+  }
+    
+  NSInteger minutes = ((NSInteger)((CGFloat)gameTime/60.0f));
+  self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d", minutes, ((NSInteger)gameTime) - (minutes*60)];
+  
+  
+//  NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.gameStart];
+//  NSInteger minutes = ((NSInteger)((CGFloat)seconds/60.0f));
+//  self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d", minutes, ((NSInteger)seconds) - (minutes*60)];
   [pool0 release];
 }
 
