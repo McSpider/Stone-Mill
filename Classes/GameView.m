@@ -117,7 +117,7 @@
   
   // Draw Selected/Dragged Stone - (draw it here so that its above all other stones when dragged)
   if (activeTile) {
-    NSPoint activeTilePos = NSMakePoint(activeTile.pos.x-HALF_TILE_SIZE, activeTile.pos.y-HALF_TILE_SIZE);
+    NSPoint activeTilePos = NSMakePoint(((int)activeTile.pos.x)-HALF_TILE_SIZE, ((int)activeTile.pos.y)-HALF_TILE_SIZE);
     [activeTile.image drawAtPoint:activeTilePos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   }
   

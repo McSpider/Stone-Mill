@@ -47,6 +47,11 @@
 		<string>250, 370</string>
 		<string>370, 310</string>
 	</array>
+	<key>370, 310</key>
+	<array>
+		<string>250, 310</string>
+		<string>370, 250</string>
+	</array>
 	<key>70, 250</key>
 	<array>
 		<string>70, 370</string>
