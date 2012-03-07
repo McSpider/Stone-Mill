@@ -87,7 +87,6 @@ typedef enum {
 - (NSDictionary *)validTilePositions;
 - (NSArray *)activeTilePositions;
 - (GameTile *)tileAtPoint:(NSPoint)point;
-- (GameTile *)tileNearestToPoint:(NSPoint)point;
 - (NSDictionary *)allTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (NSDictionary *)playerTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos;
@@ -105,6 +104,8 @@ typedef enum {
 
 - (BOOL)playerCanMove:(GamePlayer *)thePlayer;
 - (void)moveForPlayer:(GamePlayer *)thePlayer;
+- (void)moveRandomTileForPlayer:(GamePlayer *)thePlayer;
+- (void)removeRandomTileForPlayer:(GamePlayer *)thePlayer;
 - (void)removeOldGhosts;
 
 - (BOOL)randomProbability:(int)input;

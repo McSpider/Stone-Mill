@@ -165,13 +165,6 @@
   return nil;
 }
 
-- (GameTile *)tileNearestToPoint:(NSPoint)point
-{
-  //GameTile *tile = [[GameTile alloc] init];
-  //return tile;
-  return nil;
-}
-
 - (NSDictionary *)allTilePositionsFromPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   NSDictionary *tilePositions;
@@ -214,7 +207,9 @@
 // Should return an angle (in degrees) relative to the zero axis
 - (int)offsetDirectionFromPoint:(NSPoint)fromPos toPoint:(NSPoint)toPos
 {
-  return atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x) * 180 / 3.14;
+  // Convert radians to degrees: Rad * 180 / Pi
+  float Pi = 3.14159265;
+  return (int)round(atan2f(toPos.y-fromPos.y,toPos.x-fromPos.x) * 180 / Pi);
 }
 
 - (int)oppositeOffsetDirection:(int)offsetDir
@@ -231,12 +226,16 @@
   
   // Try to build a row of 2 stones and one blank
   for (GameTile *aTile in thePlayer.activeTiles) {
-    NSString *stoneOne = [NSString  stringWithFormat:@"%i, %i",(int)aTile.pos.x,(int)aTile.pos.y];
+    NSString *stoneOne = [NSString stringWithFormat:@"%i, %i",(int)aTile.pos.x,(int)aTile.pos.y];
     NSString *stoneTwo = nil;
     NSString *keyPosition = nil; // The location that would/could close the mill
-        
+    
     NSDictionary *tilePositions2 = [[self validTilePositions] objectForKey:stoneOne];
     for (NSString *thePos2 in tilePositions2) {
+      // Reset values, otherwise our code will screw up
+      stoneTwo = nil;
+      keyPosition = nil;
+
       // Store direction we are moving
       int direction1 = [self offsetDirectionFromPoint:aTile.pos toPoint:NSPointFromString(thePos2)];
 
@@ -253,6 +252,7 @@
               continue;
             
             if (![self tileAtPoint:NSPointFromString(thePos3)]) {
+              // Found a row: X X 0
               keyPosition = thePos3;
             }
           }
@@ -267,14 +267,11 @@
             continue;
           
           stoneTwo = thePos3;
+          // Found a row: X 0 X
           keyPosition = thePos2;
         }
       }
-      if (!stoneOne || !stoneTwo || !keyPosition) {
-        // Didn't find a full match, reset values
-        stoneTwo = nil;
-        keyPosition = nil;
-      } else {
+      if (stoneOne && stoneTwo && keyPosition) {
         [closableMills1 addObject:[NSArray arrayWithObjects:stoneOne, stoneTwo, keyPosition, nil]];
       }
     }
@@ -282,7 +279,7 @@
     stoneOne = nil;
   }
     
-  // Remove all duplicates (And shift filtered mills into closableMills2) TODO
+  // TODO Remove all duplicates
   
   NSMutableArray *closableMills = [[NSMutableArray alloc] init];
   // Reparse array to return Stone and Position
@@ -300,6 +297,7 @@
     }
     
     for (NSString *stone in stones) {
+      // Prevent a mill from closing itself
       if (NSEqualPoints(NSPointFromString(stone), NSPointFromString([halfMill objectAtIndex:0])) ||
           NSEqualPoints(NSPointFromString(stone), NSPointFromString([halfMill objectAtIndex:1]))) {
         continue;
@@ -605,8 +603,11 @@
         NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] retain];
         
         if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo]) {
+          [blockableMills release];
+          [closableMills release];
           [moveData release];
-          goto moverandom; // Yes! an evil goto! (srsly, this needs to go) TODO
+          [self moveRandomTileForPlayer:thePlayer];
+          return;
         }
         
         GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
@@ -617,27 +618,7 @@
         NSLog(@"Random Block");
       }
       else {
-      moverandom:
-        ;
-        // Move a random stone
-        NSMutableArray *moves = [[NSMutableArray alloc] init];
-        for (GameTile *aTile in thePlayer.activeTiles) {
-          NSDictionary *validMoves = [self allTilePositionsFromPoint:[aTile pos] player:thePlayer];
-          if (validMoves && [validMoves count] != 0) {
-            [moves addObject:[NSArray arrayWithObjects:aTile, validMoves, nil]];          
-          }
-        }
-        
-        if ([moves count] > 0){
-          NSArray *moveData = [moves objectAtIndex:(arc4random() % [moves count])];
-          GameTile *aTile = [moveData objectAtIndex:0];
-          NSDictionary *validMoves = [moveData objectAtIndex:1];
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
-          [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
-          NSLog(@"Random Move");
-        }
-        [moves release];
+        [self moveRandomTileForPlayer:thePlayer];
       }
     }
     [closableMills release];
@@ -646,45 +627,71 @@
     if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
       // Destroy the opponents closable mill (Pick a random one)
       NSMutableArray *tileData = [[NSMutableArray alloc] init];
-      for (NSArray *aArray in blockableMills) {
-        for (NSString *aString in [aArray objectAtIndex:2]) {
-          GameTile *aTile = [self tileAtPoint:NSPointFromString(aString)];
-          if (aTile && [self canRemoveGameTile:aTile player:thePlayer]) {
-            [tileData addObject:aTile];
-          }
+      for (NSArray *millData in blockableMills) {
+        NSString *posString = [[millData objectAtIndex:2] objectAtIndex:0];
+        GameTile *aTile = [self tileAtPoint:NSPointFromString(posString)];
+        if (aTile && [self canRemoveGameTile:aTile player:thePlayer]) {
+          [tileData addObject:aTile];
         }
-      }
-      
-      if ([tileData count] == 0) {
-        goto removerandom; // Ooo another one! TODO
-      }
-      
-      GameTile *aTile = [tileData objectAtIndex:(arc4random() % [tileData count])];
-      if (aTile) NSLog(@"%@",aTile);
-      else NSLog(@"No Tile?");
-      [self removeTileAtPoint:aTile.pos player:thePlayer];
-      [tileData release];
-    }
-    else {
-    removerandom:
-      ;
-      // Remove a random stone
-      NSMutableArray *tileData = [[NSMutableArray alloc] init];
-      for (GameTile *aTile in opponentPlayer.activeTiles) {
-        if ([self canRemoveGameTile:aTile player:thePlayer]) {
+        posString = [[millData objectAtIndex:2] objectAtIndex:1];
+        aTile = [self tileAtPoint:NSPointFromString(posString)];
+        if (aTile && [self canRemoveGameTile:aTile player:thePlayer]) {
           [tileData addObject:aTile];
         }
       }
       
       GameTile *aTile = [tileData objectAtIndex:(arc4random() % [tileData count])];
-      NSLog(@"%@",aTile);
       [self removeTileAtPoint:aTile.pos player:thePlayer];
       [tileData release];
+    }
+    else {
+      [self removeRandomTileForPlayer:thePlayer];
     }
   }
   [blockableMills release];
   
   [gameView setNeedsDisplay:YES];
+}
+
+- (void)moveRandomTileForPlayer:(GamePlayer *)thePlayer
+{
+  // Move a random stone
+  NSMutableArray *moves = [[NSMutableArray alloc] init];
+  for (GameTile *aTile in thePlayer.activeTiles) {
+    NSDictionary *validMoves = [self allTilePositionsFromPoint:[aTile pos] player:thePlayer];
+    if (validMoves && [validMoves count] != 0) {
+      [moves addObject:[NSArray arrayWithObjects:aTile, validMoves, nil]];          
+    }
+  }
+  
+  if ([moves count] > 0){
+    NSArray *moveData = [moves objectAtIndex:(arc4random() % [moves count])];
+    GameTile *aTile = [moveData objectAtIndex:0];
+    NSDictionary *validMoves = [moveData objectAtIndex:1];
+    [aTile setOldPos:[aTile pos]];
+    [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+    [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+    NSLog(@"Random Move");
+  }
+  [moves release];
+}
+
+- (void)removeRandomTileForPlayer:(GamePlayer *)thePlayer
+{
+  GamePlayer *opponentPlayer = ((thePlayer == bluePlayer)?goldPlayer:bluePlayer);
+
+  // Remove a random stone
+  NSMutableArray *tileData = [[NSMutableArray alloc] init];
+  for (GameTile *aTile in opponentPlayer.activeTiles) {
+    if ([self canRemoveGameTile:aTile player:thePlayer]) {
+      [tileData addObject:aTile];
+    }
+  }
+  
+  GameTile *aTile = [tileData objectAtIndex:(arc4random() % [tileData count])];
+  NSLog(@"%@",aTile);
+  [self removeTileAtPoint:aTile.pos player:thePlayer];
+  [tileData release];
 }
 
 - (void)removeOldGhosts
@@ -836,11 +843,7 @@
     
   NSInteger minutes = ((NSInteger)((CGFloat)gameTime/60.0f));
   self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d", minutes, ((NSInteger)gameTime) - (minutes*60)];
-  
-  
-//  NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.gameStart];
-//  NSInteger minutes = ((NSInteger)((CGFloat)seconds/60.0f));
-//  self.timeLabelString = [NSString stringWithFormat:@"%02d:%02d", minutes, ((NSInteger)seconds) - (minutes*60)];
+    
   [pool0 release];
 }
 
