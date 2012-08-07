@@ -288,7 +288,17 @@
     NSString *position = [halfMill objectAtIndex:2];
     NSDictionary *stones;
     if ([thePlayer isSetup]) {
-      stones = [self playerTilePositionsFromPoint:NSPointFromString(position) player:thePlayer];
+       if ([thePlayer tilesCanJump]) {
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+        for (GameTile *aTile in [thePlayer activeTiles]) {
+          NSString *posString = [NSString stringWithFormat:@"%i, %i",aTile.pos.x,aTile.pos.y];
+          [tmp setObject:posString forKey:posString];
+        }
+        stones = [tmp autorelease];
+      }
+      else {
+        stones = [self playerTilePositionsFromPoint:NSPointFromString(position) player:thePlayer];
+      }
     }
     else {
       GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
@@ -589,33 +599,53 @@
       if ([closableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
         // Close a random closable mill
         NSArray *moveData = [closableMills objectAtIndex:(arc4random() % [closableMills count])];
-        GameTile *aTile = [self tileAtPoint:NSPointFromString([moveData objectAtIndex:0])];
         NSPoint moveTo = NSPointFromString([moveData objectAtIndex:1]);
+
+        GameTile *aTile;
+        if ([thePlayer tilesCanJump])
+          aTile = [thePlayer.activeTiles objectAtIndex:(arc4random() % [thePlayer.activeTiles count])];
+        else
+          aTile = [self tileAtPoint:NSPointFromString([moveData objectAtIndex:0])];
+        
         [aTile setOldPos:[aTile pos]];
         [aTile setPos:moveTo];
         [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
         NSLog(@"Random Close");
       }
       else if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
-        // Block a random blockable mill (if possible) TODO
-        NSArray *millData = [blockableMills objectAtIndex:(arc4random() % [blockableMills count])];
-        NSPoint moveTo = NSPointFromString([millData objectAtIndex:0]);
-        NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] retain];
-        
-        if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo]) {
-          [blockableMills release];
-          [closableMills release];
-          [moveData release];
-          [self moveRandomTileForPlayer:thePlayer];
-          return;
+        // TODO
+        if ([thePlayer tilesCanJump]) {
+          // Block a random blockable mill (if possible)
+          NSArray *millData = [blockableMills objectAtIndex:(arc4random() % [blockableMills count])];
+          NSPoint moveTo = NSPointFromString([millData objectAtIndex:1]);
+          
+          GameTile *aTile = [thePlayer.activeTiles objectAtIndex:(arc4random() % [thePlayer.activeTiles count])];
+          [aTile setOldPos:[aTile pos]];
+          [aTile setPos:moveTo];
+          [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          NSLog(@"Random Block ^");
         }
-        
-        GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
-        [aTile setOldPos:[aTile pos]];
-        [aTile setPos:moveTo];
-        [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
-        [moveData release];
-        NSLog(@"Random Block");
+        else {
+          // Block a random blockable mill (if possible)
+          NSArray *millData = [blockableMills objectAtIndex:(arc4random() % [blockableMills count])];
+          NSPoint moveTo = NSPointFromString([millData objectAtIndex:1]);
+          NSDictionary *moveData = [[self playerTilePositionsFromPoint:moveTo player:thePlayer] retain];
+          
+          if (!moveData || [moveData count] == 0 || [self tileAtPoint:moveTo]) {
+            [blockableMills release];
+            [closableMills release];
+            [moveData release];
+            [self moveRandomTileForPlayer:thePlayer];
+            return;
+          }
+          
+          GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
+          [aTile setOldPos:[aTile pos]];
+          [aTile setPos:moveTo];
+          [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
+          [moveData release];
+          NSLog(@"Random Block");
+        }
       }
       else {
         [self moveRandomTileForPlayer:thePlayer];
