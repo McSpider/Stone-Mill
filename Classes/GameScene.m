@@ -1,0 +1,222 @@
+//
+//  GameScene.m
+//  StoneMill
+//
+//  Created by Ben K on 12/01/09.
+//  All code is provided under the MIT license.
+//
+
+#import "GameScene.h"
+#include <math.h>
+
+@implementation GameScene
+@synthesize layer;
+
++ (id)scene
+{
+	CCScene *scene = [CCScene node];
+	GameSceneLayer *layer = [GameSceneLayer node];
+	[scene addChild:layer];
+  
+	return scene;
+}
+
+- (id)init
+{
+	if ((self = [super init])) {
+		self.layer = [GameSceneLayer node];
+		[self addChild:layer];
+	}
+	return self;
+}
+
+@end
+
+
+@implementation GameSceneLayer
+
+@synthesize viewCenter, viewFrame;
+@synthesize boardLayout;
+@synthesize game;
+
+
+#pragma mark -
+#pragma mark Initialization & Cleanup
+
+- (id)init
+{  
+  if (![super init]) {
+    return nil;
+  }
+  
+  self.isKeyboardEnabled = YES;
+  self.isMouseEnabled = YES;
+  
+  viewCenter = NSMakePoint(250,250);
+  viewFrame = NSMakeRect(0, 0, 501, 501);
+  
+  // Draw something
+  CCSprite *woodBG = [CCSprite spriteWithFile:@"Background_S.png"];
+	woodBG.position = ccp(250.5, 250.5);
+	[self addChild:woodBG];
+  
+  
+  //Board
+  CCSprite *board = [CCSprite spriteWithFile:@"Board.png"];
+	board.position = ccp(250.5, 250.5);
+	[self addChild:board z:1];
+  
+  boardLayout = [[CCSprite alloc] initWithFile:@"Regular_Mill.png"];
+  boardLayout.position = ccp(250.5, 250.5);
+  [self addChild:boardLayout z:2];
+  
+  [self scheduleUpdateWithPriority:0];
+  
+  return self;
+}
+
+- (void)dealloc
+{
+  [boardLayout release];
+	[super dealloc];
+}
+
+
+- (void)update:(ccTime)deltaTime
+{
+
+}
+
+
+- (void)cleanupSprite:(CCSprite*)inSprite
+{
+  [self removeChild:inSprite cleanup:YES];
+}
+
+
+#pragma mark -
+#pragma mark Mouse delegate messages
+
+- (BOOL)ccMouseUp:(NSEvent *)theEvent
+{
+  //NSLog(@"Mouse Up");
+  CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
+  NSPoint pointInView = NSPointFromCGPoint(location);
+  
+  if (game.gameState == GameIdle || game.gameState == GamePaused)
+    return NO;
+  
+  mouseDown = NO;
+  
+  if ([game.playingPlayer state] == 1) {
+    if (![game removeTileAtPoint:pointInView player:game.playingPlayer])
+      NSLog(@"Can't remove selected tile!");//[self displayError];
+    return NO;
+  }
+  
+  if (!activeTile)
+    return NO;
+  
+  if (dragging) {
+    BOOL validDrop = NO;
+    for (NSString *point in validDropPositions) {
+      NSPoint pos = NSPointFromString(point);
+      NSRect detectionRect = NSMakeRect(pos.x-HALF_TILE_SIZE, pos.y-HALF_TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      if (NSPointInRect(pointInView, detectionRect)) {
+        // Drop the dragged tile
+        [activeTile setPos:pos];
+        [activeTile incrementAge];
+        [game playerMovedFrom:[activeTile oldPos] to:pos];
+        validDrop = YES;
+        break;
+      }
+    }
+    [validDropPositions release];
+    
+    // Put it back where it came from
+    if (!validDrop)
+      [activeTile setPos:[activeTile oldPos]];
+  }
+  
+  [activeTile setActive:NO];
+  [activeTile release];
+  activeTile = nil;
+  
+  dragging = NO;
+  
+  return YES;
+}
+
+- (BOOL)ccMouseDown:(NSEvent *)theEvent
+{
+  //NSLog(@"Mouse Down");
+  CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
+  NSPoint pointInView = NSPointFromCGPoint(location);
+  
+  if (game.gameState == GameIdle || game.gameState == GamePaused || game.gameState == GameOver)
+    return NO;
+  
+  bool validMove = [game validMove:pointInView player:game.playingPlayer];
+  if (!validMove)
+    return NO;
+  
+  if ([game.playingPlayer state] == 1)
+    return NO;
+  
+  mouseDown = YES;
+	dragging = NO;
+  
+  // Find the clicked tile
+	activeTile = [[game tileAtPoint:pointInView] retain];
+  if (activeTile) {
+    [activeTile setOldPos:[activeTile pos]];
+    [activeTile setActive:YES];
+    
+    validDropPositions = [[game allTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
+    
+    // Don't drag ghost tiles or other computer tiles
+    if ([activeTile type] != [game.playingPlayer tileType] || [game.playingPlayer type] == RobotPlayer) {
+      mouseDown = NO;
+      [activeTile setActive:NO];
+      [activeTile release];
+      activeTile = nil;
+    }
+  }
+  
+  return YES;
+}
+
+- (BOOL)ccMouseDragged:(NSEvent *)theEvent
+{
+  ///NSLog(@"Mouse Drag");
+  CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
+  NSPoint pointInView = NSPointFromCGPoint(location);
+    
+  if (game.gameState == GameIdle || game.gameState == GamePaused)
+    return NO;
+  
+  if (!activeTile)
+		return NO;
+	dragging = YES;
+  
+  // Don't drag over view bounds
+  if (pointInView.y > NSMaxY(viewFrame) - VIEW_PADDING)
+		pointInView.y = NSMaxY(viewFrame) - VIEW_PADDING;
+  if (pointInView.y < NSMinY(viewFrame) + VIEW_PADDING)
+		pointInView.y = NSMinY(viewFrame) + VIEW_PADDING;
+	if (pointInView.x < NSMinX(viewFrame) + VIEW_PADDING)
+		pointInView.x = NSMinX(viewFrame) + VIEW_PADDING;
+	if (pointInView.x > NSMaxX(viewFrame) - VIEW_PADDING)
+		pointInView.x = NSMaxX(viewFrame) - VIEW_PADDING;
+  
+  // Pixel perfection
+  pointInView = NSMakePoint((int)pointInView.x, (int)pointInView.y);
+  
+  // Start dragging the tile
+  [activeTile setPos:pointInView];
+  
+  return YES;
+}
+
+
+@end

@@ -16,12 +16,16 @@ typedef enum {
 
 
 @interface GameTile : NSObject {
+  uint uniqueID;
+  
   NSPoint pos;     // Tile position
   NSPoint oldPos;     // Tile position
   int type;       // Tile type
   int age;        // How old the tile is in turns
   BOOL active;    // Tile is being dragged or is selected
 }
+
+@property uint uniqueID;
 
 @property NSPoint pos;
 @property NSPoint oldPos;

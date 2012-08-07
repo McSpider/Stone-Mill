@@ -10,6 +10,7 @@
 
 
 @implementation GameTile
+@synthesize uniqueID;
 @synthesize pos;
 @synthesize oldPos;
 @synthesize type;
@@ -22,6 +23,7 @@
     return nil;
   }
   
+  uniqueID = 0;
   pos = NSZeroPoint;
   oldPos = NSZeroPoint;
   type = GhostTile;

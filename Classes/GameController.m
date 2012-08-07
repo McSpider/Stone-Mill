@@ -7,7 +7,7 @@
 //
 
 #import "GameController.h"
-#import "GameView.h"
+#import "GameScene.h"
 #include <stdlib.h>
 
 
@@ -20,6 +20,7 @@
 @synthesize moveRate;
 @synthesize timeLabelString, gameTimer, gameStartTime, gameStart;
 
+@synthesize gameScene;
 
 #pragma mark -
 #pragma mark Initialization
@@ -59,13 +60,39 @@
   [selectorPopup addItemsWithTitles:boardNames];
   [selectorPopup selectItemAtIndex:0];
   self.boardPrefix = [boardNames objectAtIndex:[selectorPopup indexOfSelectedItem]];
-
-  // Core Animation Layer
-  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
-  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
   
   self.timeLabelString = @"00:00";
   self.movesLabelString = @"Total Moves 0";
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+  // Insert code here to initialize your application
+  int zeroOpacity = 0;
+  [[glView openGLContext] setValues:&zeroOpacity forParameter:NSOpenGLCPSurfaceOpacity];
+  
+  CCDirector *director = [CCDirector sharedDirector];
+	[director setOpenGLView:glView];
+  [director setProjection:kCCDirectorProjection2D];
+  
+  gameScene = [[GameScene alloc] init];
+	[[CCDirector sharedDirector] runWithScene:gameScene];
+  [gameScene.layer setGame:self];
+  
+	// Enable "moving" mouse event. Default no.
+	[mainWindow setAcceptsMouseMovedEvents:NO];
+}
+
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+  [self pauseGame:self];
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+  if ([notification object] == mainWindow) {
+    [NSApp terminate:nil];
+  }
 }
 
 - (void)dealloc
@@ -82,6 +109,9 @@
   [bluePlayer release];
   [goldPlayer release];
   [ghostTileArray release];
+  
+  [gameScene release];
+  [[CCDirector sharedDirector] release];
   [super dealloc];
 }
 
@@ -169,7 +199,7 @@
 {
   NSDictionary *tilePositions;
   NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
-  BOOL fromStoneQuarry = NSEqualPoints(point, gameView.viewCenter);
+  BOOL fromStoneQuarry = NSEqualPoints(point, gameScene.layer.viewCenter);
   
   // Return an dictionary consisting of the tile positions that can be moved to from the specified position
   if (fromStoneQuarry || ([thePlayer tilesCanJump] && [jumpCheck state]))
@@ -301,7 +331,7 @@
       }
     }
     else {
-      GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+      GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
       NSString *posString = [NSString stringWithFormat:@"%i, %i",aTile.pos.x,aTile.pos.y];
       stones = [NSDictionary dictionaryWithObject:posString forKey:posString];
     }
@@ -340,6 +370,22 @@
   return NO;
 }
 
+- (void)addTile:(GameTile *)aTile forPlayer:(GamePlayer *)thePlayer
+{
+  if (!aTile)
+    return;
+  
+  aTile.type = thePlayer.tileType;
+  
+  // Add Tile
+  if (aTile.type == BlueTile)
+    [bluePlayer.activeTiles addObject:aTile];
+  else if (aTile.type == GoldTile)
+    [goldPlayer.activeTiles addObject:aTile];
+  
+  [gameScene.layer addChild:aTile];
+}
+
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer
 {
   GameTile *aTile = [self tileAtPoint:point];
@@ -356,6 +402,8 @@
     [bluePlayer.activeTiles removeObject:aTile];
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles removeObject:aTile];
+  
+  [gameScene.layer removeChild:aTile cleanup:NO];
   
   if (![muteButton state]) [removeSound play];
   
@@ -413,7 +461,7 @@
     [tile release];
   }
     
-  BOOL fromQuarry = NSEqualPoints(fromPos, gameView.viewCenter);
+  BOOL fromQuarry = NSEqualPoints(fromPos, gameScene.layer.viewCenter);
     
   if (![playingPlayer isSetup] && fromQuarry)
     playingPlayer.placedTileCount += 1;
@@ -498,17 +546,18 @@
     return;
   }
   
-  if (!playingPlayer.isSetup && ![self tileAtPoint:gameView.viewCenter]) {
+  if (!playingPlayer.isSetup && ![self tileAtPoint:gameScene.layer.viewCenter]) {
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
-    [tile setPos:gameView.viewCenter];
+    [tile setPos:gameScene.layer.viewCenter];
     [tile setType:[playingPlayer tileType]];
-    [playingPlayer.activeTiles addObject:tile];
+    //[playingPlayer.activeTiles addObject:tile];
+    [self addTile:tile forPlayer:playingPlayer];
     [tile release];
   }
   if (playingPlayer.type == RobotPlayer)
     [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
-  [gameView setNeedsDisplay:YES];
+  //[gameView setNeedsDisplay:YES];
 }
 
 - (void)selectNextPlayer
@@ -537,7 +586,7 @@
   }
   // Check if the player could move from the quarry
   if (!thePlayer.isSetup && !canMove)
-    if ([[self allTilePositionsFromPoint:gameView.viewCenter player:thePlayer] count] > 0)
+    if ([[self allTilePositionsFromPoint:gameScene.layer.viewCenter player:thePlayer] count] > 0)
       canMove = YES;
   
   // Check if the player can jump and there are empty spots
@@ -565,7 +614,7 @@
     if (![thePlayer isSetup]) {
       if ([closableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
         // Close a random closable mill
-        GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+        GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile) {
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[closableMills objectAtIndex:(arc4random() % [closableMills count])] objectAtIndex:1])];
@@ -575,7 +624,7 @@
       }
       else if ([blockableMills count] != 0 && [self randomProbability:thePlayer.smartness]) {
         // Block a random blockable mill
-        GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+        GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile) {
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[blockableMills objectAtIndex:(arc4random() % [blockableMills count])] objectAtIndex:1])];
@@ -585,8 +634,8 @@
       }
       else {
         // Move a random stone
-        NSDictionary *validMoves = [self allTilePositionsFromPoint:gameView.viewCenter player:thePlayer];
-        GameTile *aTile = [self tileAtPoint:gameView.viewCenter];
+        NSDictionary *validMoves = [self allTilePositionsFromPoint:gameScene.layer.viewCenter player:thePlayer];
+        GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile && validMoves != 0) {
           [aTile setOldPos:[aTile pos]];
           [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
@@ -680,7 +729,7 @@
   }
   [blockableMills release];
   
-  [gameView setNeedsDisplay:YES];
+  //[gameView setNeedsDisplay:YES];
 }
 
 - (void)moveRandomTileForPlayer:(GamePlayer *)thePlayer
@@ -788,9 +837,10 @@
     
     // Add stone quarry
     GameTile *tile = [[GameTile alloc] init];  
-    [tile setPos:gameView.viewCenter];
-    [tile setType:BlueTile];
-    [playingPlayer.activeTiles addObject:tile];
+    [tile setPos:gameScene.layer.viewCenter];
+    [tile setType:playingPlayer.tileType];
+    //[playingPlayer.activeTiles addObject:tile];
+    [self addTile:tile forPlayer:playingPlayer];
     [tile release];
     
     self.gameStartTime = [NSDate date];
@@ -817,7 +867,7 @@
     [playersCheck setEnabled:YES];
   }
 
-  [gameView setNeedsDisplay:YES];
+  //[gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)pauseGame:(id)sender
@@ -825,6 +875,7 @@
   if (sender != pauseButton) {
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
     [pauseButton setState:1];
@@ -833,10 +884,12 @@
     // Toggle game state
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
     else if (gameState == GamePaused) {
       [self setGameState:GameRunning];
+      [[CCDirector sharedDirector] resume];
       self.gameStart = [NSDate date];
       
       // If the active player is a robot move
@@ -844,16 +897,16 @@
         [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
     }
   }  
-  [gameView setNeedsDisplay:YES];
+  //[gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)changeBoard:(id)sender
 {
-  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
-  self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
-  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
-  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
-  [gameView setNeedsDisplay:YES];
+//  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
+//  self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
+//  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
+//  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
+  //[gameView setNeedsDisplay:YES];
 }
 
 

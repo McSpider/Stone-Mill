@@ -27,9 +27,13 @@ typedef enum {
 } PlayingState;
 
 
-@class GameView;
+@class GameScene;
+@class GameSceneLayer;
 
 @interface GameController : NSObject {
+  IBOutlet NSWindow *mainWindow;
+  IBOutlet MacGLView *glView;
+
   IBOutlet NSPopUpButton *selectorPopup;
   IBOutlet NSButton *gameButton;
   IBOutlet NSButton *pauseButton;
@@ -59,7 +63,7 @@ typedef enum {
   NSSound *closeSound;
   
   NSMutableArray *ghostTileArray;
-  IBOutlet GameView *gameView;
+  GameScene *gameScene;
   
   NSDate *gameStartTime;
   NSDate *gameStart;
@@ -82,6 +86,8 @@ typedef enum {
 @property (nonatomic, retain) NSDate *gameStartTime;
 @property (nonatomic, retain) NSDate *gameStart;
 
+@property (nonatomic, assign) GameScene *gameScene;
+
 - (BOOL)isGameSetup;
 
 - (NSDictionary *)validTilePositions;
@@ -94,6 +100,7 @@ typedef enum {
 - (NSArray *)closableMillsForPlayer:(GamePlayer *)thePlayer;
 
 - (BOOL)validMove:(NSPoint)point player:(GamePlayer *)thePlayer;
+- (void)addTile:(GameTile *)aTile forPlayer:(GamePlayer *)thePlayer;
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer;
 - (BOOL)canRemoveGameTile:(GameTile *)aTile player:(GamePlayer *)thePlayer;
 
