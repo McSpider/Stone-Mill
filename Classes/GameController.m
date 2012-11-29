@@ -45,6 +45,10 @@
   removeSound = [[NSSound soundNamed:@"Remove"] retain];
   moveSound = [[NSSound soundNamed:@"Click"] retain];
   closeSound = [[NSSound soundNamed:@"Closed"] retain];
+  [errorSound setVolume:0.5];
+  [removeSound setVolume:0.5];
+  [moveSound setVolume:0.5];
+  [closeSound setVolume:0.5];
   
   timeArray = [[NSMutableArray alloc] init];
 
