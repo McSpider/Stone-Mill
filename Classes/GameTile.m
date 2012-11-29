@@ -10,7 +10,7 @@
 
 
 @implementation GameTile
-@synthesize uniqueID;
+@synthesize renderObject;
 @synthesize pos;
 @synthesize oldPos;
 @synthesize type;
@@ -23,12 +23,13 @@
     return nil;
   }
   
-  uniqueID = 0;
   pos = NSZeroPoint;
   oldPos = NSZeroPoint;
   type = GhostTile;
   age = 0;
   active = NO;
+  
+  renderObject = [[[CCSprite alloc] initWithFile:@"Ghost_Inactive.png"] retain];
   
   return self;
 }
@@ -67,6 +68,12 @@
 - (void)incrementAge
 {
   self.age += 1;
+}
+
+- (void)setPos:(NSPoint)aPos
+{
+  pos = aPos;
+  [renderObject setPosition:NSMakePoint(aPos.x+0.5, aPos.y+0.5)];
 }
 
 

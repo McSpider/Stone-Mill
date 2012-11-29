@@ -58,17 +58,17 @@
   // Draw something
   CCSprite *woodBG = [CCSprite spriteWithFile:@"Background_S.png"];
 	woodBG.position = ccp(250.5, 250.5);
-	[self addChild:woodBG];
+	[self addChild:woodBG z:-3];
   
   
   //Board
   CCSprite *board = [CCSprite spriteWithFile:@"Board.png"];
 	board.position = ccp(250.5, 250.5);
-	[self addChild:board z:1];
+	[self addChild:board z:-2];
   
   boardLayout = [[CCSprite alloc] initWithFile:@"Regular_Mill.png"];
   boardLayout.position = ccp(250.5, 250.5);
-  [self addChild:boardLayout z:2];
+  [self addChild:boardLayout z:-1];
   
   [self scheduleUpdateWithPriority:0];
   

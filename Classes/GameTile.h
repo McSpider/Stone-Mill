@@ -16,7 +16,7 @@ typedef enum {
 
 
 @interface GameTile : NSObject {
-  uint uniqueID;
+  CCSprite *renderObject;
   
   NSPoint pos;     // Tile position
   NSPoint oldPos;     // Tile position
@@ -25,9 +25,9 @@ typedef enum {
   BOOL active;    // Tile is being dragged or is selected
 }
 
-@property uint uniqueID;
+@property (nonatomic, retain) CCSprite *renderObject;
 
-@property NSPoint pos;
+@property (readonly) NSPoint pos;
 @property NSPoint oldPos;
 @property int type;
 @property int age;
@@ -35,5 +35,8 @@ typedef enum {
 
 - (NSImage *)image;
 - (void)incrementAge;
+
+- (void)setPos:(NSPoint)aPos;
+
 
 @end

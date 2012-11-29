@@ -383,7 +383,7 @@
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles addObject:aTile];
   
-  [gameScene.layer addChild:aTile];
+  [gameScene.layer addChild:aTile.renderObject];
 }
 
 - (BOOL)removeTileAtPoint:(NSPoint)point player:(GamePlayer *)thePlayer
@@ -403,7 +403,7 @@
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles removeObject:aTile];
   
-  [gameScene.layer removeChild:aTile cleanup:NO];
+  [gameScene.layer removeChild:aTile.renderObject cleanup:NO];
   
   if (![muteButton state]) [removeSound play];
   
