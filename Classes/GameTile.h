@@ -29,14 +29,20 @@ typedef enum {
 
 @property (readonly) NSPoint pos;
 @property NSPoint oldPos;
-@property int type;
+//@property int type;
 @property int age;
-@property BOOL active;
+//@property BOOL active;
 
 - (NSImage *)image;
 - (void)incrementAge;
 
 - (void)setPos:(NSPoint)aPos;
 
+
+- (void)setType:(int)aType;
+- (int)type;
+
+- (void)setActive:(BOOL)isActive;
+- (BOOL)active;
 
 @end

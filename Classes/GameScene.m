@@ -88,7 +88,7 @@
 }
 
 
-- (void)cleanupSprite:(CCSprite*)inSprite
+- (void)cleanupSprite:(CCSprite* )inSprite
 {
   [self removeChild:inSprite cleanup:YES];
 }

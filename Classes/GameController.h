@@ -114,6 +114,8 @@ typedef enum {
 - (void)moveRandomTileForPlayer:(GamePlayer *)thePlayer;
 - (void)removeRandomTileForPlayer:(GamePlayer *)thePlayer;
 - (void)removeOldGhosts;
+- (void)resetPlayer:(GamePlayer *)thePlayer;
+- (void)resetGhostTiles;
 
 - (BOOL)randomProbability:(int)input;
 

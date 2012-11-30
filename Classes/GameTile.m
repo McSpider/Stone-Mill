@@ -13,9 +13,9 @@
 @synthesize renderObject;
 @synthesize pos;
 @synthesize oldPos;
-@synthesize type;
+//@synthesize type;
 @synthesize age;
-@synthesize active;
+//@synthesize active;
 
 - (id)init
 {
@@ -29,7 +29,8 @@
   age = 0;
   active = NO;
   
-  renderObject = [[[CCSprite alloc] initWithFile:@"Ghost_Inactive.png"] retain];
+  CCTexture2D *ghost = [[CCTextureCache sharedTextureCache] addImage:@"Ghost_Inactive.png"];
+  renderObject = [[[CCSprite alloc] initWithTexture:ghost] retain];
   
   return self;
 }
@@ -45,24 +46,52 @@
 }
 
 
-- (NSImage *)image
+- (void)updateSprite
 {
-  if (active) {
-    if (self.type == BlueTile)
-      return [NSImage imageNamed:@"Blue_Active"];
-    else if (self.type == GoldTile)
-      return [NSImage imageNamed:@"Gold_Active"];
-  }
-  else {
-    if (self.type == BlueTile)
-      return [NSImage imageNamed:@"Blue_Inactive"];
-    else if (self.type == GoldTile)
-      return [NSImage imageNamed:@"Gold_Inactive"];
-  }
+  CCTexture2D *blue = [[CCTextureCache sharedTextureCache] addImage:@"Blue_Inactive.png"];
+  CCTexture2D *blue_a = [[CCTextureCache sharedTextureCache] addImage:@"Blue_Active.png"];
+  CCTexture2D *gold = [[CCTextureCache sharedTextureCache] addImage:@"Gold_Inactive.png"];
+  CCTexture2D *gold_a = [[CCTextureCache sharedTextureCache] addImage:@"Gold_Active.png"];
+  CCTexture2D *ghost = [[CCTextureCache sharedTextureCache] addImage:@"Ghost_Inactive.png"];
   
-  if (self.type == GhostTile)
-    return [NSImage imageNamed:@"Ghost_Inactive"];
-  return [NSImage imageNamed:@"Unknown"];
+  CCTexture2D *texture;
+  
+  if (type == BlueTile && active)
+    texture = blue_a;
+  else if (type == BlueTile && !active)
+    texture = blue;
+  else if (type == GoldTile && active)
+    texture = gold_a;
+  else if (type == GoldTile && !active)
+    texture = gold;
+  else if (type == GhostTile)
+    texture = ghost;
+  
+  if (texture)
+    [renderObject setTexture:texture];
+}
+
+
+- (void)setType:(int)aType
+{
+  type = aType;
+  [self updateSprite];
+}
+
+- (int)type
+{
+  return type;
+}
+
+- (void)setActive:(BOOL)isActive
+{
+  active = isActive;
+  [self updateSprite];
+}
+
+- (BOOL)active
+{
+  return active;
 }
 
 - (void)incrementAge
@@ -73,6 +102,9 @@
 - (void)setPos:(NSPoint)aPos
 {
   pos = aPos;
+  //id action = [CCMoveTo actionWithDuration:0.1 position:CGPointMake(aPos.x+0.5, aPos.y+0.5)];
+  //id seqence = [CCSequence actions:action, nil];
+  //[renderObject runAction:seqence];
   [renderObject setPosition:NSMakePoint(aPos.x+0.5, aPos.y+0.5)];
 }
 

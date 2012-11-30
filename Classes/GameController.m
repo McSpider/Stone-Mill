@@ -407,7 +407,9 @@
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles removeObject:aTile];
   
-  [gameScene.layer removeChild:aTile.renderObject cleanup:NO];
+  id action = [CCFadeOut actionWithDuration:0.2];
+  id seqence = [CCSequence actions:action, [CCCallFunc actionWithTarget:gameScene.layer selector:@selector(cleanupSprite:)], nil];
+  [aTile.renderObject runAction:seqence];
   
   if (![muteButton state]) [removeSound play];
   
@@ -462,6 +464,7 @@
     [tile setPos:fromPos];
     [tile setType:GhostTile];
     [self.ghostTileArray addObject:tile];
+    [gameScene.layer addChild:tile.renderObject];
     [tile release];
   }
     
@@ -783,9 +786,34 @@
   int index = 0;
   for (index = ghostTileArray.count - 1; index >= 0; index--)  {
     GameTile *theTile = [ghostTileArray objectAtIndex:index];
-    if ([theTile age] >= 1)
+    if ([theTile age] >= 1) {
+      
+      id action = [CCFadeOut actionWithDuration:0.2];
+      id seqence = [CCSequence actions:action, [CCCallFunc actionWithTarget:gameScene.layer selector:@selector(cleanupSprite:)], nil];
+      [theTile.renderObject runAction:seqence];      
       [ghostTileArray removeObjectAtIndex:index];
+    }
   }
+}
+
+- (void)resetPlayer:(GamePlayer *)thePlayer
+{
+  thePlayer.placedTileCount = 0;
+  thePlayer.moves = 0;
+  thePlayer.state = 0;
+  
+  for (GameTile *aTile in thePlayer.activeTiles) {
+    [gameScene.layer removeChild:aTile.renderObject cleanup:NO];
+  }    
+  [thePlayer.activeTiles removeAllObjects];
+}
+
+- (void)resetGhostTiles
+{
+  for (GameTile *aTile in ghostTileArray) {
+    [gameScene.layer removeChild:aTile.renderObject cleanup:NO];
+  }    
+  [ghostTileArray removeAllObjects];
 }
 
 // Input a percentage probablilty outputs YES or NO
@@ -803,9 +831,9 @@
 
 - (IBAction)newGame:(id)sender
 {
-  [goldPlayer reset];
-  [bluePlayer reset];
-  [ghostTileArray removeAllObjects];
+  [self resetPlayer:goldPlayer];
+  [self resetPlayer:bluePlayer];
+  [self resetGhostTiles];
   [self.gameTimer invalidate];
   self.gameTimer = nil;
   self.timeLabelString = @"00:00";
@@ -905,12 +933,14 @@
 }
 
 - (IBAction)changeBoard:(id)sender
-{
-//  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
-//  self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
-//  CALayer *gridLayer = [[gameView.boardLayer sublayers] objectAtIndex:0];
-//  gridLayer.contents = [NSImage imageNamed:[NSString stringWithFormat:@"%@_Mill",self.boardPrefix]];
-  //[gameView setNeedsDisplay:YES];
+{  
+  NSArray *boardNames = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Boards" ofType:@"plist"]];
+  self.boardPrefix = [boardNames objectAtIndex:[sender indexOfSelectedItem]];
+  
+  NSString *boardSpriteName = [NSString stringWithFormat:@"%@_Mill.png",self.boardPrefix];
+  CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:boardSpriteName];  
+  if (texture)
+    [gameScene.layer.boardLayout setTexture:texture];
 }
 
 

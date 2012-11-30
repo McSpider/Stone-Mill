@@ -52,7 +52,5 @@ typedef enum {
 - (int)tileType;
 - (NSString*)playerName;
 
-- (void)reset;
-
 
 @end

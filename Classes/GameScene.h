@@ -30,6 +30,8 @@
 
 @property (nonatomic, assign) GameController *game;
 
+- (void)cleanupSprite:(CCSprite* )inSprite;
+
 @end
 
 
