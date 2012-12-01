@@ -36,7 +36,7 @@
 @implementation GameSceneLayer
 
 @synthesize viewCenter, viewFrame;
-@synthesize boardLayout, stoneQuarry;
+@synthesize boardLayout, stoneQuarry, messageIndicator;
 @synthesize game;
 
 
@@ -74,6 +74,12 @@
   stoneQuarry.position = ccp(250.5, 250.5);
   stoneQuarry.opacity = 0;
   [self addChild:stoneQuarry z:-1];
+    
+  messageIndicator = [[CCSprite alloc] initWithFile:@"Arrow.png"];
+  messageIndicator.position = ccp(468, 390.5);
+  messageIndicator.opacity = 0;
+  [self addChild:messageIndicator z:256];
+
   
   [self scheduleUpdateWithPriority:0];
   
@@ -84,6 +90,7 @@
 {
   [boardLayout release];
   [stoneQuarry release];
+  [messageIndicator release];
 	[super dealloc];
 }
 

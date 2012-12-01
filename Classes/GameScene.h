@@ -23,11 +23,12 @@
   
   CCSprite *boardLayout;
   CCSprite *stoneQuarry;
+  CCSprite *messageIndicator;
 }
 
 @property (nonatomic, readonly) NSPoint viewCenter;
 @property (nonatomic, readonly) NSRect viewFrame;
-@property (nonatomic, retain) CCSprite *boardLayout, *stoneQuarry;
+@property (nonatomic, retain) CCSprite *boardLayout, *stoneQuarry, *messageIndicator;
 
 @property (nonatomic, assign) GameController *game;
 

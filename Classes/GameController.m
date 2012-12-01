@@ -550,6 +550,7 @@
     else if ([playingPlayer color] == GoldPlayer)
       playingState = Blue_Wins;
     [self setGameState:GameOver];
+    [gameScene.layer.messageIndicator setOpacity:255];
     return;
   }
   
@@ -891,6 +892,7 @@
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     [self setGameState:GameIdle];
+    [gameScene.layer.messageIndicator setOpacity:0];
     [gameButton setTitle:@"New Game"];
     [selectorPopup setEnabled:YES];
     [pauseButton setEnabled:NO];
@@ -908,6 +910,7 @@
   if (sender != pauseButton) {
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [gameScene.layer.messageIndicator setOpacity:255];
       [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
@@ -917,15 +920,17 @@
     // Toggle game state
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
+      [gameScene.layer.messageIndicator setOpacity:255];
       [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
     else if (gameState == GamePaused) {
       [self setGameState:GameRunning];
+      [gameScene.layer.messageIndicator setOpacity:0];
       [[CCDirector sharedDirector] resume];
       self.gameStart = [NSDate date];
       
-      // If the active player is a robot move
+      // If the active player is a robot, move
       if (playingPlayer.type == RobotPlayer)
         [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
     }
