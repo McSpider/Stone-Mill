@@ -99,14 +99,24 @@
   self.age += 1;
 }
 
+- (void)moveToPos:(NSPoint)aPos animate:(BOOL)animate
+{
+  [self setOldPos:self.pos];
+  
+  if (animate) {
+    float distance = ccpDistance(self.renderObject.position, CGPointMake(aPos.x+0.5, aPos.y+0.5));
+    
+    id action = [CCMoveTo actionWithDuration:distance/800 position:CGPointMake(aPos.x+0.5, aPos.y+0.5)];
+    id seqence = [CCSequence actions:action, nil];
+    [renderObject runAction:seqence];
+  }
+  [self setPos:aPos];
+}
+
 - (void)setPos:(NSPoint)aPos
 {
   pos = aPos;
-  //id action = [CCMoveTo actionWithDuration:0.1 position:CGPointMake(aPos.x+0.5, aPos.y+0.5)];
-  //id seqence = [CCSequence actions:action, nil];
-  //[renderObject runAction:seqence];
   [renderObject setPosition:NSMakePoint(aPos.x+0.5, aPos.y+0.5)];
 }
-
 
 @end

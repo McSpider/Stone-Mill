@@ -36,7 +36,7 @@
 @implementation GameSceneLayer
 
 @synthesize viewCenter, viewFrame;
-@synthesize boardLayout;
+@synthesize boardLayout, stoneQuarry;
 @synthesize game;
 
 
@@ -70,6 +70,11 @@
   boardLayout.position = ccp(250.5, 250.5);
   [self addChild:boardLayout z:-1];
   
+  stoneQuarry = [[CCSprite alloc] initWithFile:@"Quarry.png"];
+  stoneQuarry.position = ccp(250.5, 250.5);
+  stoneQuarry.opacity = 0;
+  [self addChild:stoneQuarry z:-1];
+  
   [self scheduleUpdateWithPriority:0];
   
   return self;
@@ -78,6 +83,7 @@
 - (void)dealloc
 {
   [boardLayout release];
+  [stoneQuarry release];
 	[super dealloc];
 }
 
@@ -131,11 +137,13 @@
         break;
       }
     }
+    [boardLayout removeAllChildrenWithCleanup:YES];
     [validDropPositions release];
     
     // Put it back where it came from
     if (!validDrop)
-      [activeTile setPos:[activeTile oldPos]];
+      [activeTile moveToPos:[activeTile oldPos] animate:YES];
+      //[activeTile setPos:[activeTile oldPos]];
   }
   
   [activeTile setActive:NO];
@@ -145,6 +153,17 @@
   dragging = NO;
   
   return YES;
+}
+
+- (void)showValidDropPositions
+{
+  // Draw valid location indicators
+  for (NSString *point in validDropPositions) {
+    NSPoint zonePos = NSPointFromString(point);
+    CCSprite *drop = [CCSprite spriteWithFile:@"Drop Zone.png"];
+    drop.position = ccp(zonePos.x+0.5, zonePos.y+0.5);
+    [boardLayout addChild:drop z:1];
+  }
 }
 
 - (BOOL)ccMouseDown:(NSEvent *)theEvent
@@ -173,6 +192,7 @@
     [activeTile setActive:YES];
     
     validDropPositions = [[game allTilePositionsFromPoint:[activeTile oldPos] player:game.playingPlayer] retain];
+    [self showValidDropPositions];
     
     // Don't drag ghost tiles or other computer tiles
     if ([activeTile type] != [game.playingPlayer tileType] || [game.playingPlayer type] == RobotPlayer) {

@@ -25,7 +25,6 @@
 		AE8246BA139834CA00A351F8 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE8246B8139834CA00A351F8 /* Board.png */; };
 		AE8247C713983E0600A351F8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8247C613983E0600A351F8 /* QuartzCore.framework */; };
 		AE824A131398525900A351F8 /* GameTile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0C1398525900A351F8 /* GameTile.m */; };
-		AE824A141398525900A351F8 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A0E1398525900A351F8 /* GameView.m */; };
 		AE824A161398525900A351F8 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE824A121398525900A351F8 /* GameController.m */; };
 		AE97C28E15D1863300F591D0 /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = AE97C1E715D1863300F591D0 /* CCAction.m */; };
 		AE97C28F15D1863300F591D0 /* CCActionCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = AE97C1E915D1863300F591D0 /* CCActionCamera.m */; };
@@ -151,8 +150,6 @@
 		AE8247C613983E0600A351F8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		AE824A0B1398525900A351F8 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTile.h; path = Classes/GameTile.h; sourceTree = "<group>"; };
 		AE824A0C1398525900A351F8 /* GameTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTile.m; path = Classes/GameTile.m; sourceTree = "<group>"; };
-		AE824A0D1398525900A351F8 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameView.h; path = Classes/GameView.h; sourceTree = "<group>"; };
-		AE824A0E1398525900A351F8 /* GameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameView.m; path = Classes/GameView.m; sourceTree = "<group>"; };
 		AE824A111398525900A351F8 /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameController.h; path = Classes/GameController.h; sourceTree = "<group>"; };
 		AE824A121398525900A351F8 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameController.m; path = Classes/GameController.m; sourceTree = "<group>"; };
 		AE824A55139853D900A351F8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -361,8 +358,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AE824A0D1398525900A351F8 /* GameView.h */,
-				AE824A0E1398525900A351F8 /* GameView.m */,
 				AE97C2E915D1870800F591D0 /* GameScene.h */,
 				AE97C2EA15D1870800F591D0 /* GameScene.m */,
 				AE824A111398525900A351F8 /* GameController.h */,
@@ -825,7 +820,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				AE824A131398525900A351F8 /* GameTile.m in Sources */,
-				AE824A141398525900A351F8 /* GameView.m in Sources */,
 				AE824A161398525900A351F8 /* GameController.m in Sources */,
 				AEAC6D5013985A0E00698915 /* KBLabel.m in Sources */,
 				AE5D7898139C4DB3001C9FE7 /* GamePlayer.m in Sources */,

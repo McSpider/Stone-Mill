@@ -27,9 +27,10 @@
 
 - (id)init
 {
-  if (![super init]) {
+  if (!(self = [super init])) {
     return nil;
   }
+  
   [self setGameState:GameIdle];
   
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
@@ -40,7 +41,7 @@
   
   ghostTileArray = [[NSMutableArray alloc] init];
   boardPrefix = [[NSString alloc] initWithString:@"Mobius"];
-  moveRate = 0.1;
+  moveRate = 0.12;
   
   errorSound = [[NSSound soundNamed:@"Error"] retain];
   removeSound = [[NSSound soundNamed:@"Remove"] retain];
@@ -401,15 +402,16 @@
     return NO;
   }
   
+  id action = [CCFadeOut actionWithDuration:0.2];
+  id seqence = [CCSequence actions:action, [CCCallFunc actionWithTarget:gameScene.layer selector:@selector(cleanupSprite:)], nil];
+  [aTile.renderObject runAction:seqence];
+  
   // Remove Tile
   if (aTile.type == BlueTile)
     [bluePlayer.activeTiles removeObject:aTile];
   else if (aTile.type == GoldTile)
     [goldPlayer.activeTiles removeObject:aTile];
   
-  id action = [CCFadeOut actionWithDuration:0.2];
-  id seqence = [CCSequence actions:action, [CCCallFunc actionWithTarget:gameScene.layer selector:@selector(cleanupSprite:)], nil];
-  [aTile.renderObject runAction:seqence];
   
   if (![muteButton state]) [removeSound play];
   
@@ -537,9 +539,7 @@
 - (void)playerFinishedMoving
 {	
   [self selectNextPlayer];
-  
-  [self removeOldGhosts];
-  
+      
   if (![self playerCanMove:playingPlayer] || [playingPlayer hasLost]) {
     [pauseButton setEnabled:NO];
     [pauseButton setTransparent:YES];
@@ -553,7 +553,14 @@
     return;
   }
   
+  [self removeOldGhosts];
+  
+  // Hide stoneQuarry indicator
+  if (playingPlayer.isSetup)
+    [gameScene.layer.stoneQuarry setOpacity:0];
+
   if (!playingPlayer.isSetup && ![self tileAtPoint:gameScene.layer.viewCenter]) {
+    [gameScene.layer.stoneQuarry setOpacity:255];
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
     [tile setPos:gameScene.layer.viewCenter];
@@ -623,8 +630,7 @@
         // Close a random closable mill
         GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile) {
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:NSPointFromString([[closableMills objectAtIndex:(arc4random() % [closableMills count])] objectAtIndex:1])];
+          [aTile moveToPos:NSPointFromString([[closableMills objectAtIndex:(arc4random() % [closableMills count])] objectAtIndex:1]) animate:YES];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
           NSLog(@"Random Close");
         }
@@ -633,8 +639,7 @@
         // Block a random blockable mill
         GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile) {
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:NSPointFromString([[blockableMills objectAtIndex:(arc4random() % [blockableMills count])] objectAtIndex:1])];
+          [aTile moveToPos:NSPointFromString([[blockableMills objectAtIndex:(arc4random() % [blockableMills count])] objectAtIndex:1]) animate:YES];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
           NSLog(@"Random Block");
         }
@@ -644,8 +649,7 @@
         NSDictionary *validMoves = [self allTilePositionsFromPoint:gameScene.layer.viewCenter player:thePlayer];
         GameTile *aTile = [self tileAtPoint:gameScene.layer.viewCenter];
         if (aTile && validMoves != 0) {
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+          [aTile moveToPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])]) animate:YES];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
           NSLog(@"Random Move");
         }
@@ -663,8 +667,7 @@
         else
           aTile = [self tileAtPoint:NSPointFromString([moveData objectAtIndex:0])];
         
-        [aTile setOldPos:[aTile pos]];
-        [aTile setPos:moveTo];
+        [aTile moveToPos:moveTo animate:YES];
         [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
         NSLog(@"Random Close");
       }
@@ -676,8 +679,7 @@
           NSPoint moveTo = NSPointFromString([millData objectAtIndex:1]);
           
           GameTile *aTile = [thePlayer.activeTiles objectAtIndex:(arc4random() % [thePlayer.activeTiles count])];
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:moveTo];
+          [aTile moveToPos:moveTo animate:YES];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
           NSLog(@"Random Block ^");
         }
@@ -696,8 +698,7 @@
           }
           
           GameTile *aTile = [self tileAtPoint:NSPointFromString([[moveData allKeys] objectAtIndex:(arc4random() % [moveData count])])];
-          [aTile setOldPos:[aTile pos]];
-          [aTile setPos:moveTo];
+          [aTile moveToPos:moveTo animate:YES];
           [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
           [moveData release];
           NSLog(@"Random Block");
@@ -754,8 +755,7 @@
     NSArray *moveData = [moves objectAtIndex:(arc4random() % [moves count])];
     GameTile *aTile = [moveData objectAtIndex:0];
     NSDictionary *validMoves = [moveData objectAtIndex:1];
-    [aTile setOldPos:[aTile pos]];
-    [aTile setPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])])];
+    [aTile moveToPos:NSPointFromString([[validMoves allValues] objectAtIndex:(arc4random() % [validMoves count])]) animate:YES];
     [self playerMovedFrom:[aTile oldPos] to:[aTile pos]];
     NSLog(@"Random Move");
   }
@@ -868,6 +868,7 @@
     [self setGameState:GameRunning];
     
     // Add stone quarry
+    [gameScene.layer.stoneQuarry setOpacity:255];
     GameTile *tile = [[GameTile alloc] init];  
     [tile setPos:gameScene.layer.viewCenter];
     [tile setType:playingPlayer.tileType];

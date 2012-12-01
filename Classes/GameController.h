@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "GamePlayer.h"
 
-#define TOTAL_POSITIONS (24)
 #define TILE_SIZE (29)
 #define HALF_TILE_SIZE (14)
 

@@ -27,17 +27,16 @@ typedef enum {
 
 @property (nonatomic, retain) CCSprite *renderObject;
 
-@property (readonly) NSPoint pos;
+@property (nonatomic) NSPoint pos;
 @property NSPoint oldPos;
 //@property int type;
 @property int age;
 //@property BOOL active;
 
-- (NSImage *)image;
 - (void)incrementAge;
 
+- (void)moveToPos:(NSPoint)aPos animate:(BOOL)animate;
 - (void)setPos:(NSPoint)aPos;
-
 
 - (void)setType:(int)aType;
 - (int)type;
