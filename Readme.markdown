@@ -2,7 +2,7 @@
 
 ### A Nine Men's Morris Game for Mac OS X
 
-![Stone Mill Screenshot](http://mcspider.oc.tc/files/Stone%20Mill.png)
+![Stone Mill Screenshot](http://mcspider.github.com/screenshots/StoneMill_Cocos2D.png)
   
 Classic Nine men's morris with a optional twist, once tiles can jump they leave behind a ghost stone that disappears after the next turn.
   
@@ -10,7 +10,7 @@ Classic Nine men's morris with a optional twist, once tiles can jump they leave 
   
 - Create a semi-smart AI to play against.
 - Have multiple playable boards.
-- Use a NSView and Core Animation to draw the game.
+- Use Cocos2D to draw everything.
   
   
 ### Credits
