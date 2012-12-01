@@ -36,7 +36,7 @@
 @implementation GameSceneLayer
 
 @synthesize viewCenter, viewFrame;
-@synthesize boardLayout, stoneQuarry, messageIndicator;
+@synthesize boardLayout, stoneQuarry, messageOverlay;
 @synthesize game;
 
 
@@ -75,10 +75,18 @@
   stoneQuarry.opacity = 0;
   [self addChild:stoneQuarry z:-1];
     
-  messageIndicator = [[CCSprite alloc] initWithFile:@"Arrow.png"];
-  messageIndicator.position = ccp(468, 390.5);
-  messageIndicator.opacity = 0;
-  [self addChild:messageIndicator z:256];
+  
+  messageOverlay = [CCSprite spriteWithFile:@"Background_S.png"];
+	messageOverlay.position = ccp(250.5, 250.5);
+  [messageOverlay setColor:ccc3(0, 0, 0)];
+  [messageOverlay setOpacity:75];
+  [messageOverlay setVisible:NO];
+	[self addChild:messageOverlay z:256];
+  
+  CCSprite *arrow = [[CCSprite alloc] initWithFile:@"Arrow.png"];
+  arrow.position = ccp(468, 390.5);
+  arrow.opacity = 255;
+  [messageOverlay addChild:arrow z:256];
 
   
   [self scheduleUpdateWithPriority:0];
@@ -90,7 +98,7 @@
 {
   [boardLayout release];
   [stoneQuarry release];
-  [messageIndicator release];
+  [messageOverlay release];
 	[super dealloc];
 }
 

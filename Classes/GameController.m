@@ -550,7 +550,7 @@
     else if ([playingPlayer color] == GoldPlayer)
       playingState = Blue_Wins;
     [self setGameState:GameOver];
-    [gameScene.layer.messageIndicator setOpacity:255];
+    [gameScene.layer.messageOverlay setVisible:YES];
     return;
   }
   
@@ -558,10 +558,10 @@
   
   // Hide stoneQuarry indicator
   if (playingPlayer.isSetup)
-    [gameScene.layer.stoneQuarry setOpacity:0];
+    [gameScene.layer.stoneQuarry setVisible:NO];
 
   if (!playingPlayer.isSetup && ![self tileAtPoint:gameScene.layer.viewCenter]) {
-    [gameScene.layer.stoneQuarry setOpacity:255];
+    [gameScene.layer.stoneQuarry setVisible:YES];
     // Replace stone quarry stone
     GameTile *tile = [[GameTile alloc] init];
     [tile setPos:gameScene.layer.viewCenter];
@@ -868,7 +868,7 @@
     [self setGameState:GameRunning];
     
     // Add stone quarry
-    [gameScene.layer.stoneQuarry setOpacity:255];
+    [gameScene.layer.stoneQuarry setVisible:YES];
     GameTile *tile = [[GameTile alloc] init];  
     [tile setPos:gameScene.layer.viewCenter];
     [tile setType:playingPlayer.tileType];
@@ -890,7 +890,7 @@
   }
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     [self setGameState:GameIdle];
-    [gameScene.layer.messageIndicator setOpacity:0];
+    [gameScene.layer.messageOverlay setVisible:NO];
     [gameButton setTitle:@"New Game"];
     [selectorPopup setEnabled:YES];
     [pauseButton setEnabled:NO];
@@ -906,7 +906,7 @@
   if (sender != pauseButton) {
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
-      [gameScene.layer.messageIndicator setOpacity:255];
+      [gameScene.layer.messageOverlay setVisible:YES];
       [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
@@ -916,13 +916,13 @@
     // Toggle game state
     if (gameState == GameRunning) {
       [self setGameState:GamePaused];
-      [gameScene.layer.messageIndicator setOpacity:255];
+      [gameScene.layer.messageOverlay setVisible:YES];
       [[CCDirector sharedDirector] pause];
       [timeArray addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.gameStart]]];
     }
     else if (gameState == GamePaused) {
       [self setGameState:GameRunning];
-      [gameScene.layer.messageIndicator setOpacity:0];
+      [gameScene.layer.messageOverlay setVisible:NO];
       [[CCDirector sharedDirector] resume];
       self.gameStart = [NSDate date];
       
