@@ -41,6 +41,9 @@ typedef enum {
   IBOutlet NSButton *playersCheck;
   IBOutlet NSButton *muteButton;
   
+  IBOutlet NSSlider *blueSmartnessSlider;
+  IBOutlet NSSlider *goldSmartnessSlider;
+  
   int gameState;
   int playingState;
   NSString *boardPrefix;
@@ -122,5 +125,6 @@ typedef enum {
 - (IBAction)newGame:(id)sender;
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)changeBoard:(id)sender;
+- (IBAction)setPlayerSmartness:(id)sender;
 
 @end

@@ -72,6 +72,7 @@
   
   stoneQuarry = [[CCSprite alloc] initWithFile:@"Quarry.png"];
   stoneQuarry.position = ccp(250.5, 250.5);
+  [stoneQuarry setVisible:NO];
   [self addChild:stoneQuarry z:-1];
     
   

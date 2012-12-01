@@ -35,10 +35,7 @@
   
   bluePlayer = [[GamePlayer alloc] initWithType:HumanPlayer andColor:BluePlayer];
   goldPlayer = [[GamePlayer alloc] initWithType:RobotPlayer andColor:GoldPlayer];
-  
-  //[bluePlayer setSmartness:80];
-  //[goldPlayer setSmartness:80];
-  
+    
   ghostTileArray = [[NSMutableArray alloc] init];
   boardPrefix = [[NSString alloc] initWithString:@"Mobius"];
   moveRate = 0.12;
@@ -848,6 +845,8 @@
     [ghostCheck setEnabled:NO];
     [jumpCheck setEnabled:NO];
     [playersCheck setEnabled:NO];
+    [blueSmartnessSlider setEnabled:NO];
+    [goldSmartnessSlider setEnabled:NO];
     
     playingPlayer = bluePlayer;
     
@@ -891,6 +890,7 @@
   else if (gameState == GameRunning || gameState == GamePaused || gameState == GameOver) {
     [self setGameState:GameIdle];
     [gameScene.layer.messageOverlay setVisible:NO];
+    [gameScene.layer.stoneQuarry setVisible:NO];
     [gameButton setTitle:@"New Game"];
     [selectorPopup setEnabled:YES];
     [pauseButton setEnabled:NO];
@@ -898,6 +898,8 @@
     [ghostCheck setEnabled:YES];
     [jumpCheck setEnabled:YES];
     [playersCheck setEnabled:YES];
+    [blueSmartnessSlider setEnabled:YES];
+    [goldSmartnessSlider setEnabled:YES];
   }
 }
 
@@ -942,6 +944,14 @@
   CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:boardSpriteName];  
   if (texture)
     [gameScene.layer.boardLayout setTexture:texture];
+}
+
+- (IBAction)setPlayerSmartness:(id)sender
+{
+  if (sender == blueSmartnessSlider)
+    [bluePlayer setSmartness:[blueSmartnessSlider intValue]];
+  if (sender == goldSmartnessSlider)
+    [goldPlayer setSmartness:[goldSmartnessSlider intValue]];
 }
 
 
