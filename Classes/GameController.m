@@ -738,7 +738,6 @@
   }
   [blockableMills release];
   
-  //[gameView setNeedsDisplay:YES];
 }
 
 - (void)moveRandomTileForPlayer:(GamePlayer *)thePlayer
@@ -873,7 +872,6 @@
     GameTile *tile = [[GameTile alloc] init];  
     [tile setPos:gameScene.layer.viewCenter];
     [tile setType:playingPlayer.tileType];
-    //[playingPlayer.activeTiles addObject:tile];
     [self addTile:tile forPlayer:playingPlayer];
     [tile release];
     
@@ -901,8 +899,6 @@
     [jumpCheck setEnabled:YES];
     [playersCheck setEnabled:YES];
   }
-
-  //[gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)pauseGame:(id)sender
@@ -935,7 +931,6 @@
         [self performSelector:@selector(moveForPlayer:) withObject:playingPlayer afterDelay:moveRate];
     }
   }  
-  //[gameView setNeedsDisplay:YES];
 }
 
 - (IBAction)changeBoard:(id)sender

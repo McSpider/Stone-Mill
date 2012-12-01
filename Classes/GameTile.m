@@ -13,9 +13,7 @@
 @synthesize renderObject;
 @synthesize pos;
 @synthesize oldPos;
-//@synthesize type;
 @synthesize age;
-//@synthesize active;
 
 - (id)init
 {

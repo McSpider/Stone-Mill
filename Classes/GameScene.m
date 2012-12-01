@@ -112,7 +112,6 @@
 
 - (BOOL)ccMouseUp:(NSEvent *)theEvent
 {
-  //NSLog(@"Mouse Up");
   CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
   NSPoint pointInView = NSPointFromCGPoint(location);
   
@@ -150,7 +149,6 @@
     // Put it back where it came from
     if (!validDrop)
       [activeTile moveToPos:[activeTile oldPos] animate:YES];
-      //[activeTile setPos:[activeTile oldPos]];
   }
   
   [activeTile setActive:NO];
@@ -175,7 +173,6 @@
 
 - (BOOL)ccMouseDown:(NSEvent *)theEvent
 {
-  //NSLog(@"Mouse Down");
   CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
   NSPoint pointInView = NSPointFromCGPoint(location);
   
@@ -215,7 +212,6 @@
 
 - (BOOL)ccMouseDragged:(NSEvent *)theEvent
 {
-  ///NSLog(@"Mouse Drag");
   CGPoint location = [[CCDirector sharedDirector] convertEventToGL: theEvent];
   NSPoint pointInView = NSPointFromCGPoint(location);
     

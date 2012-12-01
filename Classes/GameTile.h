@@ -29,9 +29,7 @@ typedef enum {
 
 @property (nonatomic) NSPoint pos;
 @property NSPoint oldPos;
-//@property int type;
 @property int age;
-//@property BOOL active;
 
 - (void)incrementAge;
 
