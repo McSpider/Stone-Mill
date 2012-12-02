@@ -28,7 +28,7 @@
   active = NO;
   
   CCTexture2D *ghost = [[CCTextureCache sharedTextureCache] addImage:@"Ghost_Inactive.png"];
-  renderObject = [[[CCSprite alloc] initWithTexture:ghost] retain];
+  renderObject = [[CCSprite alloc] initWithTexture:ghost];
   
   return self;
 }
@@ -40,6 +40,7 @@
 
 - (void)dealloc
 {
+  [renderObject release];
   [super dealloc];
 }
 
@@ -52,7 +53,7 @@
   CCTexture2D *gold_a = [[CCTextureCache sharedTextureCache] addImage:@"Gold_Active.png"];
   CCTexture2D *ghost = [[CCTextureCache sharedTextureCache] addImage:@"Ghost_Inactive.png"];
   
-  CCTexture2D *texture;
+  CCTexture2D *texture = nil;
   
   if (type == BlueTile && active)
     texture = blue_a;
@@ -114,7 +115,7 @@
 - (void)setPos:(NSPoint)aPos
 {
   pos = aPos;
-  [renderObject setPosition:NSMakePoint(aPos.x+0.5, aPos.y+0.5)];
+  [renderObject setPosition:CGPointMake(aPos.x+0.5, aPos.y+0.5)];
 }
 
 @end

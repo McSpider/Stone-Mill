@@ -83,7 +83,7 @@
   [messageOverlay setVisible:NO];
 	[self addChild:messageOverlay z:256];
   
-  CCSprite *arrow = [[CCSprite alloc] initWithFile:@"Arrow.png"];
+  CCSprite *arrow = [CCSprite spriteWithFile:@"Arrow.png"];
   arrow.position = ccp(468, 390.5);
   arrow.opacity = 255;
   [messageOverlay addChild:arrow z:256];
